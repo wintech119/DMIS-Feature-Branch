@@ -155,10 +155,10 @@
                 </h3>
                 <div class="chart-container" style="height: 350px;">
                     {% if category_chart_data.labels %}
-                    <canvas id="categoryChart"></canvas>
+                    <canvas id="categoryChart" role="img" aria-label="Pie chart showing movement totals for the selected item"></canvas>
                     {% else %}
                     <div class="chart-no-data">
-                        <i class="bi bi-pie-chart"></i>
+                        <i class="bi bi-pie-chart" aria-hidden="true"></i>
                         <p>No category data available</p>
                     </div>
                     {% endif %}
@@ -328,6 +328,7 @@
     {% if detail_rows %}
     <div class="table-responsive-wrapper">
         <table class="relief-requests-table" role="table" aria-label="Item movement by warehouse">
+            <caption class="visually-hidden">Summary of received, issued, and in-store quantities by warehouse or location</caption>
             <thead>
                 <tr>
                     <th scope="col">Warehouse / Location</th>
