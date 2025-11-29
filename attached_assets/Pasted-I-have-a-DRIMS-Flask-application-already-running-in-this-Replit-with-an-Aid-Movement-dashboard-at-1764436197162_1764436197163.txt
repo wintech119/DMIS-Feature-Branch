@@ -1,0 +1,148 @@
+I have a DRIMS Flask application already running in this Replit, with an “Aid Movement” dashboard at:
+
+/dashboard/aid-movement
+
+and a sub-dashboard for item-level filtering (Aid Movement – Item view).
+
+⚠️ Very important:
+
+Do not break or change any existing:
+
+security fixes (CSP, headers, auth, role checks),
+
+routing/blueprints,
+
+UI templates,
+
+database schema,
+
+core DRIMS workflows.
+
+The dashboards must keep the existing look-and-feel and navigation.
+
+What I want you to do
+
+Backend: use the transaction table as the data source
+
+There is a table:
+
+CREATE TABLE public.transaction (
+    id           SERIAL PRIMARY KEY,
+    item_id      INTEGER REFERENCES public.item(item_id),
+    ttype        VARCHAR(8) NOT NULL,   -- 'R' for Received, 'I' for Issued
+    qty          NUMERIC(12,2) NOT NULL,
+    warehouse_id INTEGER REFERENCES public.warehouse(warehouse_id),
+    donor_id     INTEGER REFERENCES public.donor(donor_id),
+    event_id     INTEGER REFERENCES public.event(event_id),
+    expiry_date  DATE,
+    notes        TEXT,
+    created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by   VARCHAR(200)
+);
+
+
+Update the backend logic for:
+
+GET /dashboard/aid-movement
+
+(and the item-focused Aid Movement sub-dashboard route, if there is a separate route)
+
+so that they aggregate from public.transaction instead of any temporary/staging tables.
+
+Use these aggregation rules (do not change them)
+
+Treat:
+
+ttype = 'R' as Received
+
+ttype = 'I' as Issued
+
+For the main Aid Movement dashboard:
+
+Compute overall totals for the summary cards:
+
+SELECT
+  COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty END), 0) AS total_received,
+  COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty END), 0) AS total_issued,
+  COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty END), 0)
+    - COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty END), 0) AS total_in_store
+FROM public.transaction t
+-- later we can add optional filters (date range, warehouse, donor, event)
+;
+
+
+Build the chart dataset per item per warehouse:
+
+SELECT
+  i.item_code,
+  i.item_name,
+  w.warehouse_code,
+  w.warehouse_name,
+  COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty END), 0) AS received_qty,
+  COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty END), 0) AS issued_qty,
+  COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty END), 0)
+    - COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty END), 0) AS in_store_qty
+FROM public.transaction t
+JOIN public.item      i ON t.item_id = i.item_id
+JOIN public.warehouse w ON t.warehouse_id = w.warehouse_id
+-- optional WHERE filters:
+-- WHERE t.created_at::date BETWEEN %(start_date)s AND %(end_date)s
+--   AND (%(warehouse_id)s IS NULL OR t.warehouse_id = %(warehouse_id)s)
+GROUP BY i.item_code, i.item_name, w.warehouse_code, w.warehouse_name
+ORDER BY i.item_name, w.warehouse_name;
+
+
+Use parameterized queries with the existing DB helper (e.g. db.session.execute or whatever pattern the project uses). Do NOT concatenate raw SQL strings with user input.
+
+Item-focused Aid Movement sub-dashboard
+
+For the sub-dashboard that filters by a specific item:
+
+Keep the same route/path and template.
+
+Reuse the same public.transaction table and logic above, but add:
+
+WHERE t.item_id = %(item_id)s
+
+
+Continue to compute:
+
+total received,
+
+total issued,
+
+in store,
+
+and per-warehouse breakdown for that item.
+
+UI / templates
+
+Do not change the visual design, HTML IDs, or chart containers.
+
+Only adjust the data being fed into the existing charts:
+
+The summary numbers should now come from the new aggregates.
+
+The chart labels and series should reflect item_name and warehouse_name as before.
+
+Make sure any existing filters (date range, warehouse dropdown) continue to work, just now backed by the transaction table.
+
+Safety requirements
+
+Do not remove or weaken any role checks or auth decorators (e.g. @login_required, @roles_required etc.).
+
+Do not touch CSP headers, security middleware, or database schema.
+
+Keep all changes localized to:
+
+the Aid Movement dashboard view functions, and
+
+their associated templates / JS that build the chart datasets.
+
+When you’re done, I should be able to visit:
+
+/dashboard/aid-movement
+
+the item-focused Aid Movement dashboard
+
+and see charts and totals driven from the public.transaction table, reflecting all movements (including the newly imported MLSS data).

@@ -137,8 +137,8 @@
                             <label for="movement_type" class="form-label small fw-semibold">Movement Type</label>
                             <select class="form-select" id="movement_type" name="movement_type">
                                 <option value="">All Movements</option>
-                                <option value="IN" {% if filters.movement_type == 'IN' %}selected{% endif %}>Received (IN)</option>
-                                <option value="OUT" {% if filters.movement_type == 'OUT' %}selected{% endif %}>Issued (OUT)</option>
+                                <option value="R" {% if filters.movement_type == 'R' %}selected{% endif %}>Received</option>
+                                <option value="I" {% if filters.movement_type == 'I' %}selected{% endif %}>Issued</option>
                             </select>
                         </div>
                         <div class="col-6 col-sm-6 col-md-3 col-xl-2">
@@ -193,7 +193,7 @@
                         <span class="text-nowrap">{{ txn.created_at.strftime('%d %b %Y') if txn.created_at else '-' }}</span>
                     </td>
                     <td>
-                        {% if txn.ttype == 'IN' %}
+                        {% if txn.ttype == 'R' %}
                         <span class="badge badge-in">Received</span>
                         {% else %}
                         <span class="badge badge-out">Issued</span>
@@ -209,7 +209,7 @@
                         <span class="badge bg-secondary">{{ txn.category_desc or 'N/A' }}</span>
                     </td>
                     <td class="text-end">
-                        <strong class="{% if txn.ttype == 'IN' %}kpi-positive{% else %}kpi-negative{% endif %}">
+                        <strong class="{% if txn.ttype == 'R' %}kpi-positive{% else %}kpi-negative{% endif %}">
                             {{ "{:,.2f}".format(txn.qty|float) }}
                         </strong>
                     </td>

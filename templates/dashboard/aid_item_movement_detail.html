@@ -215,8 +215,8 @@
                             <label for="movement_type" class="form-label small fw-semibold">Movement Type</label>
                             <select class="form-select" id="movement_type" name="movement_type">
                                 <option value="">Received & Issued</option>
-                                <option value="IN" {% if filters.movement_type == 'IN' %}selected{% endif %}>Received Only</option>
-                                <option value="OUT" {% if filters.movement_type == 'OUT' %}selected{% endif %}>Issued Only</option>
+                                <option value="R" {% if filters.movement_type == 'R' %}selected{% endif %}>Received Only</option>
+                                <option value="I" {% if filters.movement_type == 'I' %}selected{% endif %}>Issued Only</option>
                             </select>
                         </div>
                         <div class="col-6 col-sm-4 col-md-2 col-lg-2">

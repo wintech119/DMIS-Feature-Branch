@@ -1014,8 +1014,8 @@ def aid_movement_dashboard():
     
     kpi_sql = text(f"""
         SELECT 
-            COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) as total_received,
-            COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) as total_issued
+            COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) as total_received,
+            COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as total_issued
         FROM transaction t
         LEFT JOIN item i ON t.item_id = i.item_id
         {where_clause}
@@ -1157,8 +1157,8 @@ def aid_item_movement_detail():
 
         if movement_type:
             movement_type_label = {
-                'IN': 'Received Only',
-                'OUT': 'Issued Only'
+                'R': 'Received Only',
+                'I': 'Issued Only'
             }.get(movement_type, 'Received & Issued')
         
         base_conditions = []
@@ -1191,8 +1191,8 @@ def aid_item_movement_detail():
         
         summary_sql = text(f"""
             SELECT 
-                COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) as total_received,
-                COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) as total_issued
+                COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) as total_received,
+                COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as total_issued
             FROM transaction t
             JOIN item i ON i.item_id = t.item_id
             {where_clause}
@@ -1208,10 +1208,10 @@ def aid_item_movement_detail():
                 w.warehouse_id,
                 w.warehouse_name,
                 w.warehouse_type,
-                COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) as total_received,
-                COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) as total_issued,
-                COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) 
-                - COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) as in_store
+                COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) as total_received,
+                COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as total_issued,
+                COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) 
+                - COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as in_store
             FROM transaction t
             JOIN item i ON i.item_id = t.item_id
             JOIN warehouse w ON w.warehouse_id = t.warehouse_id
@@ -1278,17 +1278,17 @@ def aid_item_movement_detail():
         SELECT 
             ic.category_id,
             ic.category_desc,
-            COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) as total_received,
-            COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) as total_issued,
-            COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) 
-            - COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) as in_store
+            COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) as total_received,
+            COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as total_issued,
+            COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) 
+            - COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as in_store
         FROM transaction t
         JOIN item i ON i.item_id = t.item_id
         JOIN itemcatg ic ON ic.category_id = i.category_id
         {chart_where_clause}
         GROUP BY ic.category_id, ic.category_desc
-        HAVING COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) > 0
-            OR COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) > 0
+        HAVING COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) > 0
+            OR COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) > 0
         ORDER BY total_received DESC
         LIMIT 10
     """)
@@ -1304,17 +1304,17 @@ def aid_item_movement_detail():
         SELECT 
             w.warehouse_id,
             w.warehouse_name,
-            COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) as total_received,
-            COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) as total_issued,
-            COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) 
-            - COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) as in_store
+            COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) as total_received,
+            COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as total_issued,
+            COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) 
+            - COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as in_store
         FROM transaction t
         JOIN item i ON i.item_id = t.item_id
         JOIN warehouse w ON w.warehouse_id = t.warehouse_id
         {chart_where_clause}
         GROUP BY w.warehouse_id, w.warehouse_name
-        HAVING COALESCE(SUM(CASE WHEN t.ttype = 'IN' THEN t.qty ELSE 0 END), 0) > 0
-            OR COALESCE(SUM(CASE WHEN t.ttype = 'OUT' THEN t.qty ELSE 0 END), 0) > 0
+        HAVING COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) > 0
+            OR COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) > 0
         ORDER BY total_received DESC
     """)
     
