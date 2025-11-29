@@ -1,0 +1,62 @@
+I have an existing DRIMS (Disaster Relief Inventory Management System) application running in this Replit.
+
+⚠️ Very important:
+Do not break or change any existing code, UI, workflow, logic, security fixes, or database schema in this project. The DRIMS web app must continue to work exactly as it does now.
+
+I am going to upload two files right after this message:
+
+A Python script: import_mlss_warehouse_staging.py
+
+An Excel workbook: MLSS Warehouse Operations - November 28, 2025.xlsx
+(or a similarly named MLSS warehouse file)
+
+What I want you to do:
+
+Create or overwrite a standalone file in the project root called:
+import_mlss_warehouse_staging.py
+
+When I paste the full contents of the script, put it into that file exactly as provided.
+
+Do not refactor or “improve” the script.
+
+Do not change its logic or database behaviour.
+
+It must remain a standalone CLI utility, not wired into the Flask app.
+
+Place the uploaded Excel file into a folder named data (e.g. ./data/MLSS Warehouse Operations - November 28, 2025.xlsx).
+
+If the script expects a different path, only adjust the file path string in the script or in example commands, not any other logic.
+
+Make sure the project has these dependencies (add to requirements.txt if missing, without removing anything already there):
+
+pandas
+
+openpyxl
+
+psycopg2-binary
+
+At the top of import_mlss_warehouse_staging.py, add a short usage comment showing how to run it from the Replit Shell, for example:
+
+# Example usages:
+#   python import_mlss_warehouse_staging.py "./data/MLSS Warehouse Operations - November 28, 2025.xlsx" --dry-run
+#   python import_mlss_warehouse_staging.py "./data/MLSS Warehouse Operations - November 28, 2025.xlsx" --sql-output mlss_import.sql
+#   python import_mlss_warehouse_staging.py "./data/MLSS Warehouse Operations - November 28, 2025.xlsx" --db-url "postgresql://user:pass@host:port/dbname" --create-by "MLSS_IMPORT"
+
+
+Do not:
+
+Modify any Flask routes, blueprints, templates, or static files.
+
+Change any CSP, headers, auth, or security settings.
+
+Alter any database schemas, migrations, or existing tables.
+
+After you set this up, I should be able to:
+
+Upload the Excel file into ./data/
+
+Run the script from the Shell with one of the example commands
+
+Populate public.hadr_aid_movement_staging without affecting the DRIMS application.
+
+I will now upload the Python script and Excel file.
