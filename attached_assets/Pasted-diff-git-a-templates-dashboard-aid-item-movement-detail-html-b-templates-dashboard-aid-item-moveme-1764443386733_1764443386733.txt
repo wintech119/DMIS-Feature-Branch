@@ -1,0 +1,113 @@
+diff --git a/templates/dashboard/aid_item_movement_detail.html b/templates/dashboard/aid_item_movement_detail.html
+index c226b2324b99ef950df5d0d4d0bc692d3b72aa9a..ff1438e128ca4725b7e3dd70542ff28e0a58b0e0 100644
+--- a/templates/dashboard/aid_item_movement_detail.html
++++ b/templates/dashboard/aid_item_movement_detail.html
+@@ -133,54 +133,54 @@
+             <span class="current">Item Distribution Dashboard</span>
+         </div>
+         <a href="{{ url_for('dashboard.aid_movement_dashboard') }}" class="btn-back">
+             <i class="bi bi-arrow-left"></i>
+             Back to Aid Movement Dashboard
+         </a>
+     </div>
+ 
+     <div class="page-header">
+         <div class="page-title">
+             <i class="bi bi-box-arrow-in-down-right page-title-icon"></i>
+             <h1 class="page-title-text">Item Distribution Dashboard</h1>
+         </div>
+         <p class="page-subtitle">Drill-down view of aid movement for a specific item across warehouses</p>
+     </div>
+ 
+     <div class="row mb-4">
+         <div class="col-12 col-lg-8 mx-auto">
+             <div class="chart-card">
+                 <h3 class="chart-card-title">
+                     <i class="bi bi-pie-chart"></i>
+                     Movement Breakdown{% if selected_category %} - {{ selected_category.category_desc }}{% endif %}
+                 </h3>
+                 <div class="chart-container" style="height: 350px;">
+                     {% if category_chart_data.labels %}
+-                    <canvas id="categoryChart"></canvas>
++                    <canvas id="categoryChart" role="img" aria-label="Pie chart showing movement totals for the selected item"></canvas>
+                     {% else %}
+                     <div class="chart-no-data">
+-                        <i class="bi bi-pie-chart"></i>
++                        <i class="bi bi-pie-chart" aria-hidden="true"></i>
+                         <p>No category data available</p>
+                     </div>
+                     {% endif %}
+                 </div>
+             </div>
+         </div>
+     </div>
+ 
+     <nav class="filter-tabs" role="navigation" aria-label="Filter options">
+         <button type="button" class="filter-tab active" data-bs-toggle="collapse" data-bs-target="#filterPanel" aria-expanded="true" aria-controls="filterPanel">
+             <i class="bi bi-funnel"></i> Filters
+         </button>
+     </nav>
+ 
+     <div class="collapse show" id="filterPanel">
+         <div class="card border-0 shadow-sm mb-4">
+             <div class="card-body">
+                 <form method="get" action="{{ url_for('dashboard.aid_item_movement_detail') }}" id="filterForm">
+                     <div class="row g-3 align-items-end">
+                         <div class="col-12 col-md-6 col-lg-3">
+                             <label for="category_id" class="form-label small fw-semibold">Category</label>
+                             <select class="form-select" id="category_id" name="category_id">
+                                 <option value="">All Categories</option>
+                                 {% for category in categories %}
+                                 <option value="{{ category.category_id }}" {% if filters.category_id == category.category_id|string %}selected{% endif %}>
+@@ -292,50 +292,51 @@
+     {% set summary_metrics = [
+         {
+             'icon': 'box-arrow-in-down',
+             'label': 'Total Received',
+             'value': "{:,.0f}".format(summary_totals.total_received),
+             'variant': 'success'
+         },
+         {
+             'icon': 'box-arrow-up-right',
+             'label': 'Total Issued',
+             'value': "{:,.0f}".format(summary_totals.total_issued),
+             'variant': 'danger'
+         },
+         {
+             'icon': 'box-seam',
+             'label': 'In Store',
+             'value': "{:,.0f}".format(summary_totals.in_store),
+             'variant': 'primary'
+         }
+     ] %}
+     {{ render_summary_cards(summary_metrics) }}
+ 
+     {% if detail_rows %}
+     <div class="table-responsive-wrapper">
+         <table class="relief-requests-table" role="table" aria-label="Item movement by warehouse">
++            <caption class="visually-hidden">Summary of received, issued, and in-store quantities by warehouse or location</caption>
+             <thead>
+                 <tr>
+                     <th scope="col">Warehouse / Location</th>
+                     <th scope="col">Type</th>
+                     <th scope="col" class="text-end">Total Received</th>
+                     <th scope="col" class="text-end">Total Issued</th>
+                     <th scope="col" class="text-end">In Store</th>
+                 </tr>
+             </thead>
+             <tbody>
+                 {% for row in detail_rows %}
+                 <tr>
+                     <td>
+                         <strong>{{ row.warehouse_name }}</strong>
+                         {% if row.warehouse_type %}
+                         <div class="table-sku">{{ row.warehouse_type }}</div>
+                         {% endif %}
+                     </td>
+                     <td>
+                         <span class="badge bg-secondary">{{ row.warehouse_type or 'Warehouse' }}</span>
+                     </td>
+                     <td class="text-end">
+                         <strong class="kpi-positive">{{ "{:,.2f}".format(row.total_received) }}</strong>
+                     </td>
+                     <td class="text-end">
