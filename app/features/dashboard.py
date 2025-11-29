@@ -982,6 +982,7 @@ def aid_movement_dashboard():
     date_from = request.args.get('date_from', '')
     date_to = request.args.get('date_to', '')
     movement_type = request.args.get('movement_type', '')
+    data_source = request.args.get('data_source', '')
     page = request.args.get('page', 1, type=int)
     per_page = 25
     
@@ -1009,6 +1010,11 @@ def aid_movement_dashboard():
     if movement_type:
         base_conditions.append("t.ttype = :movement_type")
         params['movement_type'] = movement_type
+    
+    if data_source == 'JDF':
+        base_conditions.append("t.created_by IN ('HADR_IMPORT', 'IMPORT')")
+    elif data_source == 'MLSS':
+        base_conditions.append("t.created_by = 'MLSS_IMPORT'")
     
     where_clause = "WHERE " + " AND ".join(base_conditions) if base_conditions else ""
     
@@ -1091,7 +1097,8 @@ def aid_movement_dashboard():
         'item_search': item_search,
         'date_from': date_from,
         'date_to': date_to,
-        'movement_type': movement_type
+        'movement_type': movement_type,
+        'data_source': data_source
     }
     
     context = {
@@ -1129,6 +1136,7 @@ def aid_item_movement_detail():
     movement_type = request.args.get('movement_type', '')
     start_date = request.args.get('start_date', '')
     end_date = request.args.get('end_date', '')
+    data_source = request.args.get('data_source', '')
     
     categories = ItemCategory.query.filter_by(status_code='A').order_by(ItemCategory.category_desc).all()
     items = Item.query.filter_by(status_code='A').order_by(Item.item_name).all()
@@ -1144,7 +1152,8 @@ def aid_item_movement_detail():
     selected_category = None
     selected_warehouse = None
     movement_type_label = None
-    has_filter = item_id or category_id
+    data_source_label = None
+    has_filter = item_id or category_id or warehouse_id or movement_type or start_date or end_date or data_source
     
     if has_filter:
         if item_id:
@@ -1160,6 +1169,12 @@ def aid_item_movement_detail():
                 'R': 'Received Only',
                 'I': 'Issued Only'
             }.get(movement_type, 'Received & Issued')
+        
+        if data_source:
+            data_source_label = {
+                'JDF': 'JDF',
+                'MLSS': 'MLSS'
+            }.get(data_source, 'All Sources')
         
         base_conditions = []
         params = {}
@@ -1186,6 +1201,11 @@ def aid_item_movement_detail():
         if end_date:
             base_conditions.append("t.created_at <= (:end_date)::date + interval '1 day'")
             params['end_date'] = end_date
+        
+        if data_source == 'JDF':
+            base_conditions.append("t.created_by IN ('HADR_IMPORT', 'IMPORT')")
+        elif data_source == 'MLSS':
+            base_conditions.append("t.created_by = 'MLSS_IMPORT'")
         
         where_clause = "WHERE " + " AND ".join(base_conditions) if base_conditions else ""
         
@@ -1239,7 +1259,8 @@ def aid_item_movement_detail():
         'warehouse_id': warehouse_id,
         'movement_type': movement_type,
         'start_date': start_date,
-        'end_date': end_date
+        'end_date': end_date,
+        'data_source': data_source
     }
     
     category_chart_data = {'labels': [], 'received': [], 'issued': [], 'in_store': []}
@@ -1271,6 +1292,11 @@ def aid_item_movement_detail():
     if item_id:
         chart_conditions.append("t.item_id = :item_id")
         chart_params['item_id'] = int(item_id)
+    
+    if data_source == 'JDF':
+        chart_conditions.append("t.created_by IN ('HADR_IMPORT', 'IMPORT')")
+    elif data_source == 'MLSS':
+        chart_conditions.append("t.created_by = 'MLSS_IMPORT'")
     
     chart_where_clause = "WHERE " + " AND ".join(chart_conditions) if chart_conditions else ""
     
@@ -1333,6 +1359,7 @@ def aid_item_movement_detail():
         'selected_category': selected_category,
         'selected_warehouse': selected_warehouse,
         'movement_type_label': movement_type_label,
+        'data_source_label': data_source_label,
         'has_filter': has_filter,
         'summary_totals': summary_totals,
         'detail_rows': detail_rows,

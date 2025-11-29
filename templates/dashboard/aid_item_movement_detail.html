@@ -219,6 +219,14 @@
                                 <option value="I" {% if filters.movement_type == 'I' %}selected{% endif %}>Issued Only</option>
                             </select>
                         </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                            <label for="data_source" class="form-label small fw-semibold">Data Source</label>
+                            <select class="form-select" id="data_source" name="data_source">
+                                <option value="">All Sources</option>
+                                <option value="JDF" {% if filters.data_source == 'JDF' %}selected{% endif %}>JDF</option>
+                                <option value="MLSS" {% if filters.data_source == 'MLSS' %}selected{% endif %}>MLSS</option>
+                            </select>
+                        </div>
                         <div class="col-6 col-sm-4 col-md-2 col-lg-2">
                             <label for="start_date" class="form-label small fw-semibold">Date From</label>
                             <div class="date-input-wrapper">
@@ -273,6 +281,12 @@
         <span class="selected-item-badge">
             <i class="bi bi-arrow-left-right"></i>
             Movement: <strong>{{ movement_type_label }}</strong>
+        </span>
+        {% endif %}
+        {% if data_source_label %}
+        <span class="selected-item-badge">
+            <i class="bi bi-database"></i>
+            Data Source: <strong>{{ data_source_label }}</strong>
         </span>
         {% endif %}
         {% if filters.start_date %}

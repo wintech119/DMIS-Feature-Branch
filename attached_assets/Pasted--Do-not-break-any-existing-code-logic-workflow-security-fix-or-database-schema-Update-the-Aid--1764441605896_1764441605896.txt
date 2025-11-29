@@ -1,0 +1,116 @@
+(Do not break any existing code, logic, workflow, security fix, or database schema)
+
+Update the Aid Movement Dashboard and Item Distribution Dashboard to include a new Data Source filter that allows users to view movement data based on its origin (JDF vs MLSS), using the existing created_by field in the transaction table.
+
+No schema changes must be made, and all existing logic must remain untouched.
+
+1. New Filter – Data Source
+
+Add a new filter control to both dashboards’ filter sections:
+
+Label: “Data Source”
+
+UI Component: Use the same dropdown/multiselect style used for existing filters.
+
+Options:
+
+All (default)
+
+JDF
+
+MLSS
+
+Default Behaviour
+
+When the dashboard first loads, default to All so existing behaviour remains unchanged.
+
+2. Data Source Mapping Logic (No Schema Changes)
+
+Use the existing created_by column in the transaction table to determine the data source:
+
+created_by value	Data Source
+HADR_IMPORT	JDF
+IMPORT	JDF
+MLSS_IMPORT	MLSS
+Filter Rules
+
+When the user selects:
+
+All
+
+Do not apply any filter on data source.
+
+JDF
+
+Apply:
+
+created_by IN ('HADR_IMPORT', 'IMPORT')
+
+MLSS
+
+Apply:
+
+created_by = 'MLSS_IMPORT'
+
+
+This filter must be added in addition to (AND logic) existing filters such as item, movement type, date range, warehouse, etc.
+
+3. Apply Filter Across Entire Dashboard
+
+The Data Source filter must consistently affect:
+
+Summary KPIs (received, issued, in-store)
+
+Movement charts
+
+Distribution charts
+
+Item-level tables
+
+Any aggregated or grouped views
+
+Whenever the filter is changed:
+
+Apply the correct WHERE clause
+
+Refresh all dashboard components
+
+Maintain stability of existing filters and workflow
+
+4. UX & Access Control
+
+The filter must use the same layout and visual style.
+
+Position it beside existing filters (Warehouse, Item, Date Range, etc.).
+
+No new permissions or routes must be added.
+
+Only roles already allowed to access the dashboards should see the new filter.
+
+5. Security, Performance & Safety Requirements
+
+Do not modify:
+
+Any database schema (tables, columns, keys, constraints)
+
+Any security controls (CSP, CSRF, RBAC, cookie settings)
+
+Any workflow logic for aid movement or item distribution
+
+Any navigation menu or routing
+
+Performance:
+
+Filtering must use efficient WHERE conditions based on the existing created_by field.
+
+6. Acceptance Criteria
+
+When All is selected, results match existing dashboard behaviour exactly.
+
+When JDF is selected, only rows where created_by IN ('HADR_IMPORT', 'IMPORT') appear.
+
+When MLSS is selected, only rows where created_by = 'MLSS_IMPORT' appear.
+
+All tables, KPIs, and charts refresh correctly without errors.
+
+No code, workflow, schema, or security regression occurs after implementation.

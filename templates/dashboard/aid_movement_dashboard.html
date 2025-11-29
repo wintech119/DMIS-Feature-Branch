@@ -141,6 +141,14 @@
                                 <option value="I" {% if filters.movement_type == 'I' %}selected{% endif %}>Issued</option>
                             </select>
                         </div>
+                        <div class="col-12 col-sm-6 col-md-3 col-xl-2">
+                            <label for="data_source" class="form-label small fw-semibold">Data Source</label>
+                            <select class="form-select" id="data_source" name="data_source">
+                                <option value="">All Sources</option>
+                                <option value="JDF" {% if filters.data_source == 'JDF' %}selected{% endif %}>JDF</option>
+                                <option value="MLSS" {% if filters.data_source == 'MLSS' %}selected{% endif %}>MLSS</option>
+                            </select>
+                        </div>
                         <div class="col-6 col-sm-6 col-md-3 col-xl-2">
                             <label for="date_from" class="form-label small fw-semibold">Date From</label>
                             <div class="date-input-wrapper">
@@ -244,7 +252,7 @@
             <ul class="pagination pagination-sm mb-0 flex-wrap justify-content-center">
                 {% if pagination.has_prev %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('dashboard.aid_movement_dashboard', page=pagination.prev_num, warehouse_id=filters.warehouse_id, item_search=filters.item_search, date_from=filters.date_from, date_to=filters.date_to, movement_type=filters.movement_type) }}">
+                    <a class="page-link" href="{{ url_for('dashboard.aid_movement_dashboard', page=pagination.prev_num, warehouse_id=filters.warehouse_id, item_search=filters.item_search, date_from=filters.date_from, date_to=filters.date_to, movement_type=filters.movement_type, data_source=filters.data_source) }}">
                         <i class="bi bi-chevron-left"></i><span class="d-none d-sm-inline"> Prev</span>
                     </a>
                 </li>
@@ -262,7 +270,7 @@
                         </li>
                         {% else %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ url_for('dashboard.aid_movement_dashboard', page=page_num, warehouse_id=filters.warehouse_id, item_search=filters.item_search, date_from=filters.date_from, date_to=filters.date_to, movement_type=filters.movement_type) }}">
+                            <a class="page-link" href="{{ url_for('dashboard.aid_movement_dashboard', page=page_num, warehouse_id=filters.warehouse_id, item_search=filters.item_search, date_from=filters.date_from, date_to=filters.date_to, movement_type=filters.movement_type, data_source=filters.data_source) }}">
                                 {{ page_num }}
                             </a>
                         </li>
@@ -276,7 +284,7 @@
                 
                 {% if pagination.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="{{ url_for('dashboard.aid_movement_dashboard', page=pagination.next_num, warehouse_id=filters.warehouse_id, item_search=filters.item_search, date_from=filters.date_from, date_to=filters.date_to, movement_type=filters.movement_type) }}">
+                    <a class="page-link" href="{{ url_for('dashboard.aid_movement_dashboard', page=pagination.next_num, warehouse_id=filters.warehouse_id, item_search=filters.item_search, date_from=filters.date_from, date_to=filters.date_to, movement_type=filters.movement_type, data_source=filters.data_source) }}">
                         <span class="d-none d-sm-inline">Next </span><i class="bi bi-chevron-right"></i>
                     </a>
                 </li>
