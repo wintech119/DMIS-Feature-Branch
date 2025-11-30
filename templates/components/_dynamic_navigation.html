@@ -51,19 +51,16 @@ Renders clean sidebar with MAIN, INVENTORY, OPERATIONS, MANAGEMENT sections
 {% for category_name in category_order %}
     {% set category_features = features_by_display_category[category_name] %}
     {% if category_features|length > 0 %}
-        <div class="sidebar-section-header" id="nav-section-{{ category_name|lower }}">{{ category_name }}</div>
-        <nav aria-labelledby="nav-section-{{ category_name|lower }}">
+        <div class="sidebar-section-header">{{ category_name }}</div>
+        
         {% for feature in category_features %}
-            {% set is_active = active_page == feature.id %}
             <a href="{{ url_for(feature.route) }}" 
-               class="sidebar-nav-item {% if is_active %}active{% endif %}"
-               title="{{ feature.description }}"
-               {% if is_active %}aria-current="page"{% endif %}>
-                <i class="bi {{ feature.icon }}" aria-hidden="true"></i>
+               class="sidebar-nav-item {% if active_page == feature.id %}active{% endif %}"
+               title="{{ feature.description }}">
+                <i class="bi {{ feature.icon }}"></i>
                 <span>{{ feature.name }}</span>
             </a>
         {% endfor %}
-        </nav>
     {% endif %}
 {% endfor %}
 
