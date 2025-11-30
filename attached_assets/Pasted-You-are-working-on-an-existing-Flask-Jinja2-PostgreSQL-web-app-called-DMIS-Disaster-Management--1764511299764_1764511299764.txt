@@ -1,0 +1,194 @@
+You are working on an existing Flask + Jinja2 + PostgreSQL web app called DMIS (Disaster Management Information System).
+
+⚠️ DO NOT break or change any of the following:
+
+Existing routes, URLs, blueprints, and view logic
+
+Any workflow or behaviour for donations, requests, inventory, dispatch, or users
+
+Any database schema, migrations, or SQL
+
+Any authentication, authorization, session, CSRF, CSP, headers, or security fixes
+
+Any existing navigation structure or role-based access rules
+
+Your task:
+Implement a consistent “active menu” highlight for the left-hand navigation, and align page titles with the menu labels where needed.
+
+Context (from the UI):
+
+The left menu includes, for example:
+
+Logistics Dashboard
+
+View Inventory
+
+Donations
+
+Donation Intake
+
+Create Request (On Behalf of Agency)
+
+Relief Fulfillment Packages
+
+Dispatch Received
+
+Manage Warehouses
+
+Item Categories
+
+The Donations list view currently shows a “Donations” page with stats (Entered / Verified / Processed / Total Donations) and a table of donations.
+
+Currently, when a user clicks a menu item (e.g., Donations), the corresponding menu entry is not highlighted as active, and menu labels are not always consistent with screen titles.
+
+Goals
+
+Add active menu highlighting for the left sidebar
+
+When the user is on a screen (for example, /donations list page), the corresponding menu item (Donations) in the left sidebar must:
+
+Have a clear active visual state (e.g., different background, border, or font-weight), consistent with the app’s existing design system.
+
+Remain active while the user navigates sub-actions of that screen (e.g., view details, edit donation) if they logically belong to that menu section.
+
+Use existing mechanisms first if they exist:
+
+If the app already passes an active_menu or current_page variable into templates, reuse and standardize it.
+
+If not, introduce a minimal and safe pattern such as:
+
+Using request.endpoint or the current path and mapping it to a menu key.
+
+Or passing an active_menu string from each view function into the base layout.
+
+The implementation should be done primarily in:
+
+The base layout template that defines the left sidebar (e.g., base.html, layout.html, or similar).
+
+Shared partials/partials like sidebar.html or nav_sidebar.html if they exist.
+
+Do not change any routes or endpoint names just to support this; instead, adapt the template logic around existing endpoints.
+
+Ensure accessibility for the active menu item
+
+Add appropriate ARIA attributes and semantic cues for the active state:
+
+Use aria-current="page" on the active <a> or <li> as appropriate.
+
+Make sure keyboard users can still tab to all menu links normally.
+
+Do not remove or weaken any existing accessibility features.
+
+Align page titles with menu labels (without breaking logic)
+
+For each main menu entry (e.g., Donations, Donation Intake, Relief Fulfillment Packages, Dispatch Received, View Inventory):
+
+Open the templates for the main screen/page rendered when that menu item is clicked.
+
+Make the on-page header <h1> (or main page title component) consistent with the menu label, for example:
+
+Menu: “Donations” → Page title: “Donations”
+
+Menu: “Donation Intake” → Page title: “Donation Intake”
+
+Only change the text label in the templates.
+
+Do not rename any Python functions, blueprints, route names, or URLs.
+
+Do not modify any JS selectors that rely on existing IDs or classes unless you also update those selectors consistently and safely.
+
+Keep any subheadings and contextual text intact unless they clearly conflict with the main title.
+
+Styling constraints
+
+Reuse existing CSS classes, variables, and design tokens where possible instead of creating a whole new style system.
+
+If new CSS is required:
+
+Add it to the existing main stylesheet(s) used by the sidebar (e.g., styles.css, sidebar.css, or similar).
+
+Names should be simple and non-breaking, e.g., .sidebar-menu-item--active or .nav-item-active.
+
+Ensure the new active state works in:
+
+The normal desktop layout.
+
+Any responsive/mobile version already implemented.
+
+Safety checks
+
+Run a search across templates and Python files to find:
+
+Existing patterns for marking active navigation.
+
+Any previous attempts (commented-out code, helper functions) that can be reused.
+
+After implementing:
+
+Verify navigation for these key sections still works exactly as before:
+
+Logistics Dashboard
+
+View Inventory
+
+Donations
+
+Donation Intake
+
+Create Request (On Behalf of Agency)
+
+Relief Fulfillment Packages
+
+Dispatch Received
+
+Confirm that all role-based restrictions (e.g., DG, Deputy DG, Director, PEOD, Logistics Manager, LO, agency users) still work as they did before.
+
+Confirm that no CSP, CSRF, session, or security headers are changed or removed.
+
+Examples (guidance, not hard requirements)
+
+In the sidebar template, you might end up with something like:
+
+<li class="sidebar-item {% if active_menu == 'donations' %}sidebar-item--active{% endif %}">
+  <a href="{{ url_for('donations.list') }}" aria-current="{% if active_menu == 'donations' %}page{% endif %}">
+    Donations
+  </a>
+</li>
+
+
+In the corresponding view function:
+
+@donations_bp.route("/donations")
+@login_required
+def list_donations():
+    # existing logic...
+    return render_template("donations/list.html", active_menu="donations", ...)
+
+
+Only introduce such patterns where they do not conflict with existing conventions. If a similar pattern already exists, extend it instead of creating a new one.
+
+Deliverables
+
+Updated templates for:
+
+The base layout / sidebar navigation.
+
+Each main donations/inventory/relief/donation intake page where the header title needs to be aligned with the menu label.
+
+Updated CSS (if required) to visually distinguish the active menu item.
+
+No changes to:
+
+Database schema or migration scripts.
+
+Route names, URLs, or security-related code.
+
+All existing tests should still pass. If tests exist for navigation or templates, update only what is necessary to reflect the new active-state behavior and consistent titles.
+
+Please now:
+
+Inspect the existing codebase.
+
+Implement these changes.
+
+Show the diffs for all modified files.
