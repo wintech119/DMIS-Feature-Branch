@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 3eFFKy3OogsXLFU0bh24CKqnGeef1MN4eUo78eCfoc1e4NUODelGmkJMaaZVDEr
+\restrict dx8Uw7YEu2Vqlng6b2nur0FkfX3Y52Vjudg2pQitW99BX4Fv0fjzpmJcJjsSfVy
 
 -- Dumped from database version 16.10 (0374078)
 -- Dumped by pg_dump version 16.10
@@ -6358,7 +6358,7 @@ SELECT pg_catalog.setval('public.agency_agency_id_seq', 2, true);
 -- Name: custodian_custodian_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.custodian_custodian_id_seq', 2, true);
+SELECT pg_catalog.setval('public.custodian_custodian_id_seq', 4, true);
 
 
 --
@@ -6393,7 +6393,7 @@ SELECT pg_catalog.setval('public.donation_donation_id_seq', 20, true);
 -- Name: donor_donor_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.donor_donor_id_seq', 1, true);
+SELECT pg_catalog.setval('public.donor_donor_id_seq', 2, true);
 
 
 --
@@ -6414,7 +6414,7 @@ SELECT pg_catalog.setval('public.hadr_aid_movement_staging_staging_id_seq', 1535
 -- Name: item_new_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.item_new_item_id_seq', 35, true);
+SELECT pg_catalog.setval('public.item_new_item_id_seq', 251, true);
 
 
 --
@@ -6512,7 +6512,7 @@ SELECT pg_catalog.setval('public.user_id_seq', 9, true);
 -- Name: warehouse_warehouse_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.warehouse_warehouse_id_seq', 2, true);
+SELECT pg_catalog.setval('public.warehouse_warehouse_id_seq', 5, true);
 
 
 --
@@ -8418,5 +8418,5 @@ ALTER TABLE ONLY public.xfreturn_item
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 3eFFKy3OogsXLFU0bh24CKqnGeef1MN4eUo78eCfoc1e4NUODelGmkJMaaZVDEr
+\unrestrict dx8Uw7YEu2Vqlng6b2nur0FkfX3Y52Vjudg2pQitW99BX4Fv0fjzpmJcJjsSfVy
 
