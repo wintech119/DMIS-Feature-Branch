@@ -63,8 +63,8 @@
             {% endif %}
         </a>
         <a href="{{ url_for('donations.list_donations', status='E') }}" 
-           class="filter-tab {% if current_filter == 'e' %}active{% endif %}"
-           aria-current="{% if current_filter == 'e' %}page{% endif %}">
+           class="filter-tab {% if current_filter == 'E' %}active{% endif %}"
+           aria-current="{% if current_filter == 'E' %}page{% endif %}">
             Entered
             {% if status_counts.get('E', 0) > 0 %}
             <span class="filter-tab-count" aria-label="{{ status_counts.get('E', 0) }} entered">{{ status_counts.get('E', 0) }}</span>
@@ -81,16 +81,16 @@
         </a>
         {% endif %}
         <a href="{{ url_for('donations.list_donations', status='V') }}" 
-           class="filter-tab {% if current_filter == 'v' %}active{% endif %}"
-           aria-current="{% if current_filter == 'v' %}page{% endif %}">
+           class="filter-tab {% if current_filter == 'V' %}active{% endif %}"
+           aria-current="{% if current_filter == 'V' %}page{% endif %}">
             Verified
             {% if status_counts.get('V', 0) > 0 %}
             <span class="filter-tab-count" aria-label="{{ status_counts.get('V', 0) }} verified">{{ status_counts.get('V', 0) }}</span>
             {% endif %}
         </a>
         <a href="{{ url_for('donations.list_donations', status='P') }}" 
-           class="filter-tab {% if current_filter == 'p' %}active{% endif %}"
-           aria-current="{% if current_filter == 'p' %}page{% endif %}">
+           class="filter-tab {% if current_filter == 'P' %}active{% endif %}"
+           aria-current="{% if current_filter == 'P' %}page{% endif %}">
             Processed
             {% if status_counts.get('P', 0) > 0 %}
             <span class="filter-tab-count" aria-label="{{ status_counts.get('P', 0) }} processed">{{ status_counts.get('P', 0) }}</span>
@@ -256,11 +256,11 @@
         <h3 class="empty-state-title">
             {% if search_query or donor_filter or event_filter %}
                 No donations found
-            {% elif current_filter == 'e' %}
+            {% elif current_filter == 'E' %}
                 No entered donations
-            {% elif current_filter == 'v' %}
+            {% elif current_filter == 'V' %}
                 No verified donations
-            {% elif current_filter == 'p' %}
+            {% elif current_filter == 'P' %}
                 No processed donations
             {% else %}
                 No donations yet
@@ -269,11 +269,11 @@
         <p class="empty-state-text">
             {% if search_query or donor_filter or event_filter %}
                 Try adjusting your search terms or <a href="{{ url_for('donations.list_donations', status=current_filter) }}">clear the filters</a>.
-            {% elif current_filter == 'e' %}
+            {% elif current_filter == 'E' %}
                 There are no entered donations at this time.
-            {% elif current_filter == 'v' %}
+            {% elif current_filter == 'V' %}
                 There are no verified donations at this time.
-            {% elif current_filter == 'p' %}
+            {% elif current_filter == 'P' %}
                 There are no processed donations at this time.
             {% else %}
                 Get started by accepting your first donation.
