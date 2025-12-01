@@ -85,6 +85,7 @@ from app.features.account_requests import account_requests_bp
 from app.features.eligibility import eligibility_bp
 from app.features.odpem_director import director_bp
 from app.features.profile import profile_bp
+from app.features.operations_dashboard import operations_dashboard_bp
 from app.core.status import get_status_label, get_status_badge_class
 from app.core.rbac import (
     has_role, has_all_roles, has_warehouse_access,
@@ -156,6 +157,7 @@ app.register_blueprint(account_requests_bp)
 app.register_blueprint(eligibility_bp)
 app.register_blueprint(director_bp)
 app.register_blueprint(profile_bp)
+app.register_blueprint(operations_dashboard_bp)
 
 @app.template_filter('status_badge')
 def status_badge_filter(status_code, entity_type):

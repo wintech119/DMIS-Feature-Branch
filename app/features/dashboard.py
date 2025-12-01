@@ -36,12 +36,13 @@ def index():
     if primary_role == 'SYSTEM_ADMINISTRATOR':
         return admin_dashboard()
     elif primary_role in ['ODPEM_DG', 'ODPEM_DDG', 'ODPEM_DIR_PEOD']:
-        # Route executive roles to Director Dashboard
+        # Route executive roles to Operations Dashboard
         from flask import redirect, url_for
-        return redirect(url_for('director.dashboard'))
-    elif primary_role in ['LOGISTICS_MANAGER', 'LOGISTICS_OFFICER']:
-        # Route logistics roles to general dashboard
-        return general_dashboard()
+        return redirect(url_for('operations_dashboard.index'))
+    elif primary_role == 'LOGISTICS_MANAGER':
+        return logistics_dashboard()
+    elif primary_role == 'LOGISTICS_OFFICER':
+        return lo_dashboard()
     elif primary_role in ['AGENCY_DISTRIBUTOR', 'AGENCY_SHELTER']:
         return agency_dashboard()
     elif primary_role == 'INVENTORY_CLERK':
@@ -49,6 +50,117 @@ def index():
     else:
         # Default dashboard for unrecognized roles
         return general_dashboard()
+
+
+@dashboard_bp.route('/logistics')
+@login_required
+def logistics_dashboard():
+    """
+    Logistics dashboard with modern UI matching Relief Package preparation.
+    For Logistics Officers and Logistics Managers.
+    """
+    # RBAC: Only LO and LM can access this dashboard
+    from app.core.rbac import is_logistics_officer, is_logistics_manager
+    if not (is_logistics_officer() or is_logistics_manager()):
+        flash('Access denied. Only Logistics Officers and Managers can view this dashboard.', 'danger')
+        abort(403)
+    
+    # Get dashboard data from service
+    dashboard_data = DashboardService.get_dashboard_data(current_user)
+    
+    # Get filter parameter
+    current_filter = request.args.get('filter', 'pending')
+    
+    # Determine if user is LM or LO (both see global data for approved/eligible requests)
+    is_lm = has_role('LOGISTICS_MANAGER')
+    is_lo = has_role('LOGISTICS_OFFICER') and not is_lm
+    
+    # Query fulfillment requests
+    from sqlalchemy.orm import joinedload
+    from sqlalchemy import or_
+    
+    base_query = ReliefRqst.query.options(
+        joinedload(ReliefRqst.agency),
+        joinedload(ReliefRqst.items),
+        joinedload(ReliefRqst.status),
+        joinedload(ReliefRqst.fulfillment_lock).joinedload(ReliefRequestFulfillmentLock.fulfiller)
+    )
+    
+    # All LOs and LMs see all approved/eligible requests (no ownership filtering)
+    
+    # Apply filters
+    if current_filter == 'pending':
+        requests = base_query.filter(
+            ReliefRqst.status_code == rr_service.STATUS_SUBMITTED,
+            ~ReliefRqst.fulfillment_lock.has()
+        ).order_by(desc(ReliefRqst.request_date)).all()
+    elif current_filter == 'in_progress':
+        requests = base_query.filter(
+            ReliefRqst.fulfillment_lock.has()
+        ).order_by(desc(ReliefRqst.request_date)).all()
+    elif current_filter == 'ready':
+        requests = base_query.filter(
+            ReliefRqst.status_code == rr_service.STATUS_PART_FILLED
+        ).order_by(desc(ReliefRqst.request_date)).all()
+    elif current_filter == 'completed':
+        requests = base_query.filter(
+            ReliefRqst.status_code == rr_service.STATUS_FILLED
+        ).order_by(desc(ReliefRqst.action_dtime)).all()
+    else:  # 'all'
+        requests = base_query.filter(
+            ReliefRqst.status_code.in_([
+                rr_service.STATUS_SUBMITTED,
+                rr_service.STATUS_PART_FILLED,
+                rr_service.STATUS_FILLED
+            ])
+        ).order_by(desc(ReliefRqst.request_date)).all()
+    
+    # Calculate counts for filter tabs
+    # Both LOs and LMs see global counts for all approved/eligible requests
+    counts = {
+        'pending': ReliefRqst.query.filter(
+            ReliefRqst.status_code == rr_service.STATUS_SUBMITTED,
+            ~ReliefRqst.fulfillment_lock.has()
+        ).count(),
+        'in_progress': ReliefRqst.query.filter(
+            ReliefRqst.fulfillment_lock.has()
+        ).count(),
+        'ready': ReliefRqst.query.filter(
+            ReliefRqst.status_code == rr_service.STATUS_PART_FILLED
+        ).count(),
+        'completed': ReliefRqst.query.filter(
+            ReliefRqst.status_code == rr_service.STATUS_FILLED
+        ).count(),
+    }
+    
+    counts['all'] = sum(counts.values())
+    
+    # Inventory metrics
+    low_stock_count = db.session.query(Item).join(Inventory).filter(
+        Item.status_code == 'A'
+    ).group_by(Item.item_id).having(
+        func.sum(Inventory.usable_qty) <= Item.reorder_qty
+    ).count()
+    
+    # Total inventory count (value calculation not available - no cost field in schema)
+    total_inventory_value = 0
+    
+    context = {
+        **dashboard_data,
+        'requests': requests,
+        'current_filter': current_filter,
+        'counts': counts,
+        'global_counts': counts,  # For LMs: global counts; For LOs: their own counts
+        'low_stock_count': low_stock_count,
+        'total_inventory_value': total_inventory_value,
+        'STATUS_SUBMITTED': rr_service.STATUS_SUBMITTED,
+        'STATUS_PART_FILLED': rr_service.STATUS_PART_FILLED,
+        'STATUS_FILLED': rr_service.STATUS_FILLED,
+        'is_lo': is_lo,
+        'is_lm': is_lm,
+    }
+    
+    return render_template('dashboard/logistics.html', **context)
 
 
 @dashboard_bp.route('/agency')
@@ -242,6 +354,217 @@ def general_dashboard():
     }
     
     return render_template('dashboard/general.html', **context)
+
+
+@dashboard_bp.route('/lo')
+@login_required
+def lo_dashboard():
+    """
+    Logistics Officer-specific dashboard with charts and activity metrics.
+    Shows only data related to the current LO's work.
+    """
+    from app.core.rbac import is_logistics_officer
+    if not is_logistics_officer():
+        from flask import flash, redirect, url_for, abort
+        abort(403)
+    
+    current_user_name = current_user.user_name
+    now = jamaica_now()
+    
+    # Date ranges
+    today = now.date()
+    seven_days_ago = now - timedelta(days=7)
+    thirty_days_ago = now - timedelta(days=30)
+    
+    # ========== KPI METRICS ==========
+    
+    # Total relief requests the LO has worked on (via packages they created/updated)
+    total_requests_worked = db.session.query(
+        func.count(func.distinct(ReliefPkg.reliefrqst_id))
+    ).filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        )
+    ).scalar() or 0
+    
+    # Relief requests prepared in last 7 days
+    # Count distinct requests where LO's last activity (create or update by them) was within the window
+    # Use CASE to select timestamp based on what the LO did:
+    #  - If LO updated: use update_dtime
+    #  - If LO created but didn't update: use create_dtime
+    #  - This ensures we only count packages the LO actually worked on in the time window
+    from sqlalchemy import case
+    
+    lo_activity_timestamp = case(
+        (and_(ReliefPkg.update_by_id == current_user_name, ReliefPkg.update_dtime.isnot(None)), ReliefPkg.update_dtime),
+        (ReliefPkg.create_by_id == current_user_name, ReliefPkg.create_dtime),
+        else_=None  # If LO didn't create or update, don't count
+    )
+    
+    requests_last_7_days = db.session.query(
+        func.count(func.distinct(ReliefPkg.reliefrqst_id))
+    ).filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        ),
+        lo_activity_timestamp.isnot(None),  # Ensure valid timestamp
+        lo_activity_timestamp >= seven_days_ago
+    ).scalar() or 0
+    
+    # Relief requests prepared in last 30 days (using same logic)
+    requests_last_30_days = db.session.query(
+        func.count(func.distinct(ReliefPkg.reliefrqst_id))
+    ).filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        ),
+        lo_activity_timestamp.isnot(None),  # Ensure valid timestamp
+        lo_activity_timestamp >= thirty_days_ago
+    ).scalar() or 0
+    
+    # Total packages created/updated by LO
+    total_packages = ReliefPkg.query.filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        )
+    ).count()
+    
+    # Total items allocated by LO (sum of all item quantities in packages LO worked on)
+    total_items_allocated = db.session.query(
+        func.coalesce(func.sum(ReliefPkgItem.item_qty), 0)
+    ).join(ReliefPkg).filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        )
+    ).scalar() or 0
+    
+    # ========== PACKAGE STATUS BREAKDOWN ==========
+    
+    # Count packages by status that LO worked on
+    package_statuses = db.session.query(
+        ReliefPkg.status_code,
+        func.count(ReliefPkg.reliefpkg_id).label('count')
+    ).filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        )
+    ).group_by(ReliefPkg.status_code).all()
+    
+    # Map status codes to labels (using actual package status codes)
+    status_labels_map = {
+        'P': 'Pending (Being Prepared)',
+        'D': 'Dispatched (Approved)',
+        'C': 'Closed (Received)',
+        'X': 'Cancelled'
+    }
+    
+    status_breakdown = {
+        'labels': [],
+        'data': [],
+        'total': 0
+    }
+    
+    for status_code, count in package_statuses:
+        status_breakdown['labels'].append(status_labels_map.get(status_code, status_code))
+        status_breakdown['data'].append(count)
+        status_breakdown['total'] += count
+    
+    # ========== ACTIVITY TIMELINE (Last 14 days) ==========
+    
+    fourteen_days_ago = now - timedelta(days=14)
+    
+    # Query packages created by day in last 14 days
+    daily_packages = db.session.query(
+        func.date(ReliefPkg.create_dtime).label('date'),
+        func.count(ReliefPkg.reliefpkg_id).label('count')
+    ).filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        ),
+        ReliefPkg.create_dtime >= fourteen_days_ago
+    ).group_by(func.date(ReliefPkg.create_dtime)).all()
+    
+    # Build complete timeline with zeros for missing days
+    timeline_data = defaultdict(int)
+    for pkg_date, count in daily_packages:
+        timeline_data[pkg_date.strftime('%Y-%m-%d')] = count
+    
+    # Fill in all 14 days
+    timeline_labels = []
+    timeline_values = []
+    for i in range(13, -1, -1):  # 14 days, newest first
+        day = (now - timedelta(days=i)).date()
+        day_str = day.strftime('%Y-%m-%d')
+        timeline_labels.append(day.strftime('%b %d'))
+        timeline_values.append(timeline_data.get(day_str, 0))
+    
+    # ========== TOP ITEMS ALLOCATED ==========
+    
+    # Query top items allocated by LO (properly join ReliefPkgItem -> Item -> ReliefPkg)
+    top_items = db.session.query(
+        Item.item_name,
+        func.sum(ReliefPkgItem.item_qty).label('total_qty')
+    ).select_from(ReliefPkgItem).join(
+        Item, ReliefPkgItem.item_id == Item.item_id
+    ).join(
+        ReliefPkg, ReliefPkgItem.reliefpkg_id == ReliefPkg.reliefpkg_id
+    ).filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        )
+    ).group_by(Item.item_name).order_by(desc('total_qty')).limit(10).all()
+    
+    top_items_data = {
+        'labels': [item[0] for item in top_items],
+        'data': [float(item[1]) for item in top_items]
+    }
+    
+    # ========== RECENT ACTIVITY ==========
+    
+    recent_packages = ReliefPkg.query.options(
+        db.joinedload(ReliefPkg.relief_request).joinedload(ReliefRqst.agency)
+    ).filter(
+        or_(
+            ReliefPkg.create_by_id == current_user_name,
+            ReliefPkg.update_by_id == current_user_name
+        )
+    ).order_by(desc(ReliefPkg.create_dtime)).limit(5).all()
+    
+    context = {
+        # KPIs
+        'total_requests_worked': total_requests_worked,
+        'total_packages': total_packages,
+        'total_items_allocated': int(total_items_allocated),
+        'requests_last_7_days': requests_last_7_days,
+        'requests_last_30_days': requests_last_30_days,
+        
+        # Charts data
+        'status_breakdown': status_breakdown,
+        'timeline_labels': timeline_labels,
+        'timeline_values': timeline_values,
+        'top_items': top_items_data,
+        
+        # Recent activity
+        'recent_packages': recent_packages,
+        
+        # Status labels for rendering
+        'status_labels_map': status_labels_map,
+        
+        # Service constants
+        'PKG_STATUS_PENDING': rr_service.PKG_STATUS_PENDING,
+        'PKG_STATUS_DISPATCHED': rr_service.PKG_STATUS_DISPATCHED,
+        'PKG_STATUS_COMPLETED': rr_service.PKG_STATUS_COMPLETED
+    }
+    
+    return render_template('dashboard/lo.html', **context)
 
 
 @dashboard_bp.route('/donations-analytics')
