@@ -30,12 +30,13 @@ class BatchCreationService:
             batch_date = date.today()
         
         date_str = batch_date.strftime('%Y%m%d')
-        prefix = f"{item_code}-{inventory_id:03d}-{date_str}"
+        prefix = str(item_code) + '-' + str(inventory_id).zfill(3) + '-' + date_str
+        search_prefix = prefix + '%'
         
         max_batch = db.session.query(
             func.max(ItemBatch.batch_no)
         ).filter(
-            ItemBatch.batch_no.like(f"{prefix}%")
+            ItemBatch.batch_no.like(search_prefix)
         ).scalar()
         
         if max_batch:

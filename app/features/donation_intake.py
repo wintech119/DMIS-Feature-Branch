@@ -73,10 +73,11 @@ def list_intakes():
         query = query.filter(DonationIntake.intake_date >= thirty_days_ago)
     
     if search_query:
+        search_pattern = '%' + search_query + '%'
         query = query.filter(
             or_(
-                Donation.donation_desc.ilike(f'%{search_query}%'),
-                Warehouse.warehouse_name.ilike(f'%{search_query}%')
+                Donation.donation_desc.ilike(search_pattern),
+                Warehouse.warehouse_name.ilike(search_pattern)
             )
         )
     
@@ -120,10 +121,11 @@ def verify_list():
     )
     
     if search_query:
+        search_pattern = '%' + search_query + '%'
         query = query.filter(
             or_(
-                Donation.donation_desc.ilike(f'%{search_query}%'),
-                Warehouse.warehouse_name.ilike(f'%{search_query}%')
+                Donation.donation_desc.ilike(search_pattern),
+                Warehouse.warehouse_name.ilike(search_pattern)
             )
         )
     

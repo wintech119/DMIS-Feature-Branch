@@ -83,10 +83,11 @@ def list_donations():
         query = query.filter_by(event_id=event_filter)
     
     if search_query:
+        search_pattern = '%' + search_query + '%'
         query = query.filter(
             db.or_(
-                Donation.donation_desc.ilike(f'%{search_query}%'),
-                Donation.comments_text.ilike(f'%{search_query}%')
+                Donation.donation_desc.ilike(search_pattern),
+                Donation.comments_text.ilike(search_pattern)
             )
         )
     
@@ -1232,10 +1233,11 @@ def verify_list():
         query = query.filter_by(event_id=event_filter)
     
     if search_query:
+        search_pattern = '%' + search_query + '%'
         query = query.filter(
             db.or_(
-                Donation.donation_desc.ilike(f'%{search_query}%'),
-                Donation.comments_text.ilike(f'%{search_query}%')
+                Donation.donation_desc.ilike(search_pattern),
+                Donation.comments_text.ilike(search_pattern)
             )
         )
     

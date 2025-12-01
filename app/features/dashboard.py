@@ -1018,31 +1018,31 @@ def aid_movement_dashboard():
     
     where_clause = "WHERE " + " AND ".join(base_conditions) if base_conditions else ""
     
-    kpi_sql = text(f"""
+    kpi_sql_str = """
         SELECT 
             COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) as total_received,
             COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as total_issued
         FROM transaction t
         LEFT JOIN item i ON t.item_id = i.item_id
-        {where_clause}
-    """)
+        """ + where_clause
+    kpi_sql = text(kpi_sql_str)
     
     kpi_result = db.session.execute(kpi_sql, params).fetchone()
     total_received = float(kpi_result.total_received)
     total_issued = float(kpi_result.total_issued)
     in_store = total_received - total_issued
     
-    count_sql = text(f"""
+    count_sql_str = """
         SELECT COUNT(*) as total
         FROM transaction t
         LEFT JOIN item i ON t.item_id = i.item_id
-        {where_clause}
-    """)
+        """ + where_clause
+    count_sql = text(count_sql_str)
     total_count = db.session.execute(count_sql, params).scalar() or 0
     total_pages = (total_count + per_page - 1) // per_page if total_count > 0 else 1
     
     offset = (page - 1) * per_page
-    transactions_sql = text(f"""
+    transactions_sql_str = """
         SELECT 
             t.id,
             t.ttype,
@@ -1060,10 +1060,11 @@ def aid_movement_dashboard():
         LEFT JOIN warehouse w ON t.warehouse_id = w.warehouse_id
         LEFT JOIN itemcatg c ON i.category_id = c.category_id
         LEFT JOIN unitofmeasure u ON i.default_uom_code = u.uom_code
-        {where_clause}
+        """ + where_clause + """
         ORDER BY t.created_at DESC
         LIMIT :limit OFFSET :offset
-    """)
+    """
+    transactions_sql = text(transactions_sql_str)
     
     query_params = {**params, 'limit': per_page, 'offset': offset}
     transactions = db.session.execute(transactions_sql, query_params).fetchall()
@@ -1209,21 +1210,21 @@ def aid_item_movement_detail():
         
         where_clause = "WHERE " + " AND ".join(base_conditions) if base_conditions else ""
         
-        summary_sql = text(f"""
+        summary_sql_str = """
             SELECT 
                 COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) as total_received,
                 COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) as total_issued
             FROM transaction t
             JOIN item i ON i.item_id = t.item_id
-            {where_clause}
-        """)
+            """ + where_clause
+        summary_sql = text(summary_sql_str)
         
         summary_result = db.session.execute(summary_sql, params).fetchone()
         summary_totals['total_received'] = float(summary_result.total_received)
         summary_totals['total_issued'] = float(summary_result.total_issued)
         summary_totals['in_store'] = summary_totals['total_received'] - summary_totals['total_issued']
         
-        detail_sql = text(f"""
+        detail_sql_str = """
             SELECT 
                 w.warehouse_id,
                 w.warehouse_name,
@@ -1235,10 +1236,11 @@ def aid_item_movement_detail():
             FROM transaction t
             JOIN item i ON i.item_id = t.item_id
             JOIN warehouse w ON w.warehouse_id = t.warehouse_id
-            {where_clause}
+            """ + where_clause + """
             GROUP BY w.warehouse_id, w.warehouse_name, w.warehouse_type
             ORDER BY w.warehouse_name
-        """)
+        """
+        detail_sql = text(detail_sql_str)
         
         detail_results = db.session.execute(detail_sql, params).fetchall()
         detail_rows = [
@@ -1300,7 +1302,7 @@ def aid_item_movement_detail():
     
     chart_where_clause = "WHERE " + " AND ".join(chart_conditions) if chart_conditions else ""
     
-    category_sql = text(f"""
+    category_sql_str = """
         SELECT 
             ic.category_id,
             ic.category_desc,
@@ -1311,13 +1313,14 @@ def aid_item_movement_detail():
         FROM transaction t
         JOIN item i ON i.item_id = t.item_id
         JOIN itemcatg ic ON ic.category_id = i.category_id
-        {chart_where_clause}
+        """ + chart_where_clause + """
         GROUP BY ic.category_id, ic.category_desc
         HAVING COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) > 0
             OR COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) > 0
         ORDER BY total_received DESC
         LIMIT 10
-    """)
+    """
+    category_sql = text(category_sql_str)
     
     category_results = db.session.execute(category_sql, chart_params).fetchall()
     for row in category_results:
@@ -1326,7 +1329,7 @@ def aid_item_movement_detail():
         category_chart_data['issued'].append(float(row.total_issued))
         category_chart_data['in_store'].append(float(row.in_store))
     
-    warehouse_sql = text(f"""
+    warehouse_sql_str = """
         SELECT 
             w.warehouse_id,
             w.warehouse_name,
@@ -1337,12 +1340,13 @@ def aid_item_movement_detail():
         FROM transaction t
         JOIN item i ON i.item_id = t.item_id
         JOIN warehouse w ON w.warehouse_id = t.warehouse_id
-        {chart_where_clause}
+        """ + chart_where_clause + """
         GROUP BY w.warehouse_id, w.warehouse_name
         HAVING COALESCE(SUM(CASE WHEN t.ttype = 'R' THEN t.qty ELSE 0 END), 0) > 0
             OR COALESCE(SUM(CASE WHEN t.ttype = 'I' THEN t.qty ELSE 0 END), 0) > 0
         ORDER BY total_received DESC
-    """)
+    """
+    warehouse_sql = text(warehouse_sql_str)
     
     warehouse_results = db.session.execute(warehouse_sql, chart_params).fetchall()
     for row in warehouse_results:
