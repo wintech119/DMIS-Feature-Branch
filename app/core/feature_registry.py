@@ -159,18 +159,6 @@ class FeatureRegistry:
             'dashboard_widget': 'director_overview',
             'priority': 25
         },
-        'operations_dashboard': {
-            'name': 'Operations Dashboard',
-            'description': 'Executive performance metrics for donations and relief fulfillment',
-            'roles': list(EXECUTIVE_ROLES),
-            'route': 'operations_dashboard.index',
-            'url': '/executive/operations',
-            'icon': 'bi-graph-up',
-            'category': 'analytics',
-            'dashboard_widget': None,
-            'navigation_group': 'dashboard',
-            'priority': 24
-        },
         'funds_donations_report': {
             'name': 'Funds Donations Report',
             'description': 'View all monetary donations received',
@@ -513,18 +501,6 @@ class FeatureRegistry:
         # =================================================================
         # DASHBOARD VIEWS (Role-specific landing pages)
         # =================================================================
-        'logistics_dashboard': {
-            'name': 'Logistics Dashboard',
-            'description': 'Logistics operations overview',
-            'roles': ['LOGISTICS_OFFICER', 'LOGISTICS_MANAGER'],
-            'route': 'dashboard.index',
-            'url': '/dashboard',
-            'icon': 'bi-speedometer2',
-            'category': 'dashboard',
-            'navigation_group': 'dashboard',
-            'is_dashboard': True,
-            'priority': 100
-        },
         'agency_dashboard': {
             'name': 'Agency Dashboard',
             'description': 'Agency relief request overview',
