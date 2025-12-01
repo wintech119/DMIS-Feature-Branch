@@ -1,0 +1,73 @@
+You are now focusing on fixing Open Redirect vulnerabilities reported by the Checkmarx scan in this DMIS Flask project.
+
+Constraints (same as before):
+
+Do NOT modify the PostgreSQL schema.
+
+Do NOT break existing workflows, URLs, or navigation.
+
+Do NOT weaken any security controls. Only strengthen or correctly configure.
+
+Step 1 – Find all redirect usages
+
+Search the project for all uses of:
+
+redirect( in Flask routes.
+
+Any variable called next, return_url, redirect_to, url taken from Request parameters or session.
+
+Identify all locations where user-controlled values (e.g. from request.args, request.form, session) are used to build redirect targets.
+
+Provide a list like:
+
+File + function/route name
+
+Current redirect code snippet
+
+Indicate if the redirect target can be influenced by the user.
+
+Step 2 – Implement safe redirect logic
+
+For each risky redirect:
+
+Only allow redirects to internal routes within DMIS.
+
+Implement a helper function like:
+
+from urllib.parse import urlparse, urljoin  
+from flask import request, url_for  
+
+def is_safe_url(target):  
+    host_url = urlparse(request.host_url)  
+    redirect_url = urlparse(urljoin(request.host_url, target))  
+    return redirect_url.scheme in ("http", "https") and host_url.netloc == redirect_url.netloc  
+
+
+Before redirecting to any user-supplied URL, verify is_safe_url(target) and:
+
+If safe → redirect as normal.
+
+If unsafe or missing → redirect to a known safe default, such as url_for("dashboard") or login.
+
+Replace vulnerable patterns like:
+
+next_url = request.args.get("next")  
+return redirect(next_url)  
+
+
+with something like:
+
+next_url = request.args.get("next")  
+if not next_url or not is_safe_url(next_url):  
+    next_url = url_for("dashboard")  
+return redirect(next_url)  
+
+Step 3 – Preserve behaviour
+
+Keep the “next” / “return_to” user experience where possible, but always enforce that redirects remain on the same host and inside DMIS.
+
+After implementing changes:
+
+Show the before/after code for each redirect you changed.
+
+Summarise which routes were fixed.

@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import func
 from app.db.models import db, Inventory, Item, Notification
 from app.services.notification_service import NotificationService
+from app.security.url_safety import validate_internal_url
 
 notifications_bp = Blueprint('notifications', __name__)
 
@@ -19,6 +20,12 @@ def notification_list():
     """Get notifications as JSON for offcanvas panel"""
     notifications = NotificationService.get_recent_notifications(current_user.user_id, limit=10)
     
+    def get_safe_link(link_url):
+        """Return validated internal URL or default to notifications index"""
+        if link_url and validate_internal_url(link_url):
+            return link_url
+        return url_for('notifications.index')
+    
     return jsonify({
         'notifications': [{
             'id': n.id,
@@ -26,7 +33,7 @@ def notification_list():
             'message': n.message,
             'type': n.type,
             'status': n.status,
-            'link_url': n.link_url or url_for('notifications.index'),
+            'link_url': get_safe_link(n.link_url),
             'created_at': n.created_at.strftime('%b %d, %Y at %I:%M %p') if n.created_at else 'Just now',
             'is_unread': n.status == 'unread'
         } for n in notifications]
@@ -89,8 +96,9 @@ def mark_read(notification_id):
     # Mark as read
     NotificationService.mark_as_read(notification_id, current_user.user_id)
     
-    # Redirect to the notification's link if it exists
-    if notification.link_url:
+    # Redirect to the notification's link if it exists and is safe
+    # Defense-in-depth: validate stored URLs before redirecting
+    if notification.link_url and validate_internal_url(notification.link_url):
         return redirect(notification.link_url)
     else:
         return redirect(url_for('notifications.index'))

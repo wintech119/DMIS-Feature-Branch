@@ -6,7 +6,6 @@ from flask import Flask, render_template, redirect, url_for, flash, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 from werkzeug.security import check_password_hash
-from urllib.parse import urlparse, urljoin
 import os
 
 from app.db import db, init_db
@@ -18,6 +17,7 @@ from app.security.header_sanitization import init_header_sanitization
 from app.security.error_handling import init_error_handling
 from app.security.query_string_protection import init_query_string_protection
 from app.security.csrf_validation import init_csrf_origin_validation
+from app.security.url_safety import is_safe_url, get_safe_redirect_url
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -35,24 +35,6 @@ init_csrf_origin_validation(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
-
-
-def is_safe_url(target):
-    """Validate that a redirect target stays within the same host."""
-    if not target:
-        return False
-
-    normalized_target = target.strip()
-    if not normalized_target:
-        return False
-
-    ref_url = urlparse(request.host_url)
-    test_url = urlparse(urljoin(request.host_url, normalized_target))
-    return (
-        test_url.scheme in ('http', 'https')
-        and ref_url.netloc == test_url.netloc
-        and not normalized_target.startswith('//')
-    )
 
 
 @login_manager.user_loader
