@@ -1,0 +1,94 @@
+The Checkmarx report for this project highlighted SQL Injection and Second Order SQL Injection as critical vulnerabilities.
+
+Goal: Systematically identify and fix all SQL injection risks in this codebase without changing the database schema or breaking existing flows.
+
+Files that are likely affected and must be reviewed carefully include (per scan report):
+
+app/features/donors.py
+
+app/features/donations.py
+
+app/features/donation_intake.py
+
+app/features/intake_aidmgmt.py
+
+app/features/reports.py
+
+app/features/transfers.py
+
+drims_app.py
+
+Step 1 – Find vulnerable SQL patterns
+
+Search the entire project for patterns like:
+
+Any cursor.execute(...) or ORM .execute(...) where user-controlled data is concatenated into the query string using:
+
+f-strings
+
+% interpolation
+
+.format()
+
++ concatenation
+
+Any dynamic WHERE, ORDER BY, LIMIT or table/column names built using request data (query params, form values, session values, etc.).
+
+List each risky occurrence as:
+
+File
+
+Function / route
+
+Existing code snippet
+
+Why it is vulnerable
+
+Step 2 – Fix all SQLi with parameterized queries
+
+For each vulnerable SQL query you found:
+
+Rewrite it using proper parameterization, e.g. with psycopg2 style placeholders or the ORM’s parameter API (no string concatenation).
+
+Ensure that values such as IDs, limits, offsets are converted to the correct type (int, etc.) before binding.
+
+Where dynamic table/column names are truly needed, use a whitelist of allowed values and reject or default anything else.
+
+Show the before → after diff for each fix, for example:
+
+Before (vulnerable):
+
+query = f"SELECT * FROM donors WHERE donor_id = {donor_id}"  
+cursor.execute(query)  
+
+
+After (fixed):
+
+query = "SELECT * FROM donors WHERE donor_id = %s"  
+cursor.execute(query, (donor_id,))  
+
+Step 3 – Second Order SQL Injection
+
+Also explicitly check for Second Order SQL Injection, where unvalidated user input is stored and later used inside queries without re-validation. For example:
+
+Values saved to the database and then interpolated into queries later.
+
+Values stored in session variables, then used in SQL.
+
+For any such cases:
+
+Ensure that when the value is later used in SQL, it is parameterized and validated against expected formats / whitelists (e.g. numeric ID, code from a defined set, etc.).
+
+Step 4 – Keep behaviour identical
+
+Do not change route URLs, templates, or response shapes.
+
+Only change how queries are built/executed, not what data is returned.
+
+When you are done, summarise:
+
+How many queries you changed per file.
+
+Any place where you had to apply a whitelist for dynamic SQL.
+
+Any cases you could not safely fix, and why.
