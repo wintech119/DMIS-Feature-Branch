@@ -30,6 +30,19 @@ def now() -> datetime:
     return jamaica_aware.replace(tzinfo=None)
 
 
+def today():
+    """Get current date in Jamaica timezone.
+    
+    Returns:
+        date: Current date in Jamaica timezone
+        
+    Note: This should be used instead of date.today() to ensure consistency
+    with PostgreSQL CURRENT_DATE when the server is in a different timezone.
+    """
+    from datetime import date
+    return now().date()
+
+
 def get_date_only(dt: Optional[datetime] = None) -> datetime:
     """Get start of day at midnight in Jamaica time.
     

@@ -1015,12 +1015,14 @@ def create_request_on_behalf():
         user_agency = None
         agencies = Agency.query.filter_by(status_code='A').order_by(Agency.agency_name).all()
     
+    from app.utils.timezone import today as jamaica_today
+    
     return render_template('packaging/create_request_on_behalf.html',
                          agencies=agencies,
                          user_agency=user_agency,
                          is_logistics=is_logistics,
                          events=events,
-                         today=date.today().isoformat())
+                         today=jamaica_today().isoformat())
 
 
 @packaging_bp.route('/pending-fulfillment')

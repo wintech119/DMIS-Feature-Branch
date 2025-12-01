@@ -120,9 +120,11 @@ def create_draft_request(agency_id: int, urgency_ind: str, eligible_event_id: Op
         if not event:
             raise ValueError(f"Eligible event with id {eligible_event_id} not found")
     
+    from app.utils.timezone import today as jamaica_today
+    
     relief_request = ReliefRqst()
     relief_request.agency_id = agency_id
-    relief_request.request_date = date.today()
+    relief_request.request_date = jamaica_today()
     relief_request.urgency_ind = urgency_ind
     relief_request.eligible_event_id = eligible_event_id
     relief_request.rqst_notes_text = rqst_notes_text
