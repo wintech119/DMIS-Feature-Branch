@@ -428,16 +428,16 @@ const restoredItems = [];
 {% if key.startswith('item_id_') %}
 {% set num = key.split('_')[-1] %}
 restoredItems.push({
-    num: '{{ num }}',
-    item_id: '{{ form_data.get("item_id_" ~ num, "") }}',
-    donation_type: '{{ form_data.get("donation_type_" ~ num, "GOODS") }}',
-    quantity: parseFloat('{{ form_data.get("quantity_" ~ num, "0") }}') || 0,
-    item_cost: parseFloat('{{ form_data.get("item_cost_" ~ num, "0") }}') || 0,
-    addon_cost: parseFloat('{{ form_data.get("addon_cost_" ~ num, "0") }}') || 0,
-    uom_code: '{{ form_data.get("uom_id_" ~ num, "") }}',
-    currency_code: '{{ form_data.get("currency_code_" ~ num, "") }}',
-    location_name: '{{ form_data.get("location_name_" ~ num, "DONATION RECEIVED") }}',
-    comments: '{{ form_data.get("item_comments_" ~ num, "") }}'
+    num: {{ num|tojson }},
+    item_id: {{ form_data.get("item_id_" ~ num, "")|tojson }},
+    donation_type: {{ form_data.get("donation_type_" ~ num, "GOODS")|tojson }},
+    quantity: parseFloat({{ form_data.get("quantity_" ~ num, "0")|tojson }}) || 0,
+    item_cost: parseFloat({{ form_data.get("item_cost_" ~ num, "0")|tojson }}) || 0,
+    addon_cost: parseFloat({{ form_data.get("addon_cost_" ~ num, "0")|tojson }}) || 0,
+    uom_code: {{ form_data.get("uom_id_" ~ num, "")|tojson }},
+    currency_code: {{ form_data.get("currency_code_" ~ num, "")|tojson }},
+    location_name: {{ form_data.get("location_name_" ~ num, "DONATION RECEIVED")|tojson }},
+    comments: {{ form_data.get("item_comments_" ~ num, "")|tojson }}
 });
 {% endif %}
 {% endfor %}

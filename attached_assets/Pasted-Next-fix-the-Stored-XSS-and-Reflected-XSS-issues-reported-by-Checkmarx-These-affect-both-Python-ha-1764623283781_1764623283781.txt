@@ -1,0 +1,68 @@
+Next, fix the Stored XSS and Reflected XSS issues reported by Checkmarx. These affect both Python handlers and Jinja templates.
+
+The report indicates:
+
+Stored XSS – 2 Critical
+
+Reflected XSS – 15 High
+And highlights templates like templates/reports/funds_donations.html and view code in reports.py, donations.py, donation_intake.py, and donors.py.
+
+Step 1 – Identify all XSS vectors
+
+In Python files (donors.py, donations.py, donation_intake.py, reports.py, etc.), find routes that:
+
+Read data from request.args, request.form, request.values, or session.
+
+Pass that data directly into templates or build HTML strings or JavaScript blocks.
+
+In templates (especially templates/reports/funds_donations.html), identify:
+
+Any variables printed with |safe.
+
+Any variables interpolated into <script>, inline JS, or HTML event handlers (onclick, etc.).
+
+List the exact locations where unescaped or unsafe rendering might allow XSS.
+
+Step 2 – Harden template escaping
+
+For each risky template usage:
+
+Ensure autoescape is enabled for Jinja2 globally.
+
+Replace unsafe prints like {{ some_var|safe }} with safe versions {{ some_var }} unless it is absolutely trusted, system-generated HTML.
+
+For any truly rich-text field that must support HTML (e.g., stored comments), sanitize the input on the server side using a Python HTML sanitization library (such as bleach) before storing or rendering.
+
+Where variables are used inside JavaScript, use safe JSON encoding (e.g. |tojson) instead of raw string interpolation.
+
+Show concrete before/after examples in code.
+
+Step 3 – Fix reflected XSS in handlers
+
+For each route that echoes request parameters back to the browser (e.g., search terms, filters, error messages):
+
+Ensure that values are not used to construct raw HTML or script blocks.
+
+Pass them into templates as normal variables and rely on Jinja escaping.
+
+For any need to render them in JS, encode with |tojson.
+
+Step 4 – Stored XSS via database content
+
+For any database-backed text fields that are displayed back to users (donor names, descriptions, comments, free text fields):
+
+Confirm that server-side sanitization or strict validation is applied before saving or before rendering.
+
+Implement sanitization where missing and update the relevant form handling code.
+
+Step 5 – Preserve UX and business logic
+
+Do not change field names, form structures, or general layout — only make them safer.
+
+When done, summarise:
+
+Which templates and routes were changed.
+
+Where you removed or reduced |safe.
+
+Where you added sanitization or encoding.

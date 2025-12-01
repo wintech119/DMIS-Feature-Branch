@@ -434,15 +434,15 @@ const restoredItems = [];
 {% if key.startswith('item_id_') %}
 {% set num = key.split('_')[-1] %}
 restoredItems.push({
-    num: '{{ num }}',
-    item_id: '{{ form_data.get("item_id_" ~ num, "") }}',
-    donation_type: '{{ form_data.get("donation_type_" ~ num, "GOODS") }}',
-    quantity: parseFloat('{{ form_data.get("quantity_" ~ num, "0") }}') || 0,
-    item_cost: parseFloat('{{ form_data.get("item_cost_" ~ num, "0") }}') || 0,
-    uom_code: '{{ form_data.get("uom_id_" ~ num, "") }}',
-    currency_code: '{{ form_data.get("currency_code_" ~ num, "") }}',
-    location_name: '{{ form_data.get("location_name_" ~ num, "DONATION RECEIVED") }}',
-    comments: '{{ form_data.get("item_comments_" ~ num, "") }}'
+    num: {{ num|tojson }},
+    item_id: {{ form_data.get("item_id_" ~ num, "")|tojson }},
+    donation_type: {{ form_data.get("donation_type_" ~ num, "GOODS")|tojson }},
+    quantity: parseFloat({{ form_data.get("quantity_" ~ num, "0")|tojson }}) || 0,
+    item_cost: parseFloat({{ form_data.get("item_cost_" ~ num, "0")|tojson }}) || 0,
+    uom_code: {{ form_data.get("uom_id_" ~ num, "")|tojson }},
+    currency_code: {{ form_data.get("currency_code_" ~ num, "")|tojson }},
+    location_name: {{ form_data.get("location_name_" ~ num, "DONATION RECEIVED")|tojson }},
+    comments: {{ form_data.get("item_comments_" ~ num, "")|tojson }}
 });
 {% endif %}
 {% endfor %}
@@ -547,16 +547,16 @@ const existingItems = [
 {% for item_data in items_with_categories %}
     {
         id: {{ loop.index }},
-        item_id: '{{ item_data.item.item_id }}',
-        item_name: '{{ item_data.item.item.item_name if item_data.item.item else "Unknown" }}',
-        donation_type: '{{ item_data.category_type }}',
+        item_id: {{ item_data.item.item_id|tojson }},
+        item_name: {{ (item_data.item.item.item_name if item_data.item.item else "Unknown")|tojson }},
+        donation_type: {{ item_data.category_type|tojson }},
         quantity: {{ item_data.item.item_qty }},
         item_cost: {{ item_data.item.item_cost }},
-        uom_code: '{{ item_data.item.uom_code or "" }}',
-        currency_code: '{{ item_data.item.currency_code or "" }}',
-        uom_desc: '{{ item_data.item.uom_code or item_data.item.currency_code or "" }}',
-        location_name: '{{ item_data.item.location_name or "DONATION RECEIVED" }}',
-        comments: '{{ item_data.item.comments_text or "" }}'
+        uom_code: {{ (item_data.item.uom_code or "")|tojson }},
+        currency_code: {{ (item_data.item.currency_code or "")|tojson }},
+        uom_desc: {{ (item_data.item.uom_code or item_data.item.currency_code or "")|tojson }},
+        location_name: {{ (item_data.item.location_name or "DONATION RECEIVED")|tojson }},
+        comments: {{ (item_data.item.comments_text or "")|tojson }}
     }{% if not loop.last %},{% endif %}
 {% endfor %}
 ];
