@@ -686,8 +686,8 @@ new Chart(topDestCtx, {
             tooltip: {
                 callbacks: {
                     label: function(context) {
-                        const items = {{ top_destinations_data.items | tojson }};
-                        const types = {{ top_destinations_data.types | tojson }};
+                        const items = {{ top_destinations_data['items'] | tojson }};
+                        const types = {{ top_destinations_data['types'] | tojson }};
                         return [
                             context.parsed.x + ' packages',
                             'Items: ' + items[context.dataIndex].toLocaleString(),
