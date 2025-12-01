@@ -3,6 +3,7 @@
 
 {% block extra_styles %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/relief-requests-ui.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" integrity="sha384-RkASv+6KfBMW9eknReJIJ6b3UnjKOKC5bOUaNgIY778NFbQ8MtWq9Lr/khUgqtTt" crossorigin="anonymous">
 {% endblock %}
 
 {% block title %}Create Relief Request (On Behalf of Agency){% endblock %}
@@ -75,7 +76,20 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="request_date" class="form-label">Request Date <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="request_date" name="request_date" value="{{ today }}" max="{{ today }}" required>
+                                <div class="input-group">
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="request_date" 
+                                           name="request_date" 
+                                           value="{{ today }}"
+                                           placeholder="YYYY-MM-DD"
+                                           required
+                                           readonly>
+                                    <span class="input-group-text" id="request-date-calendar-icon" style="cursor: pointer;">
+                                        <i class="bi bi-calendar3"></i>
+                                    </span>
+                                </div>
+                                <small class="text-muted">Click to select date (today or earlier)</small>
                             </div>
                         </div>
 
@@ -141,4 +155,28 @@
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script nonce="{{ csp_nonce() }}" src="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.js" integrity="sha384-5JqMv4L/Xa0hfvtF06qboNdhvuYXUku9ZrhZh3bSk8VXF0A/RuSLHpLsSV9Zqhl6" crossorigin="anonymous"></script>
+<script nonce="{{ csp_nonce() }}">
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Flatpickr for request_date (today or earlier)
+    const requestDatePicker = flatpickr("#request_date", {
+        dateFormat: "Y-m-d",
+        maxDate: "today",
+        defaultDate: "{{ today }}",
+        allowInput: false,
+        clickOpens: true
+    });
+    
+    // Make calendar icon clickable
+    const calendarIcon = document.getElementById('request-date-calendar-icon');
+    if (calendarIcon) {
+        calendarIcon.addEventListener('click', function() {
+            requestDatePicker.open();
+        });
+    }
+});
+</script>
 {% endblock %}
