@@ -267,8 +267,10 @@ def edit_event(event_id):
         return redirect(url_for('events.view_event', event_id=event_id))
     
     if request.method == 'POST':
+        from app.security.param_validation import safe_version_number
+        
         # Optimistic locking check
-        submitted_version = int(request.form.get('version_nbr', 0))
+        submitted_version = safe_version_number(request.form.get('version_nbr', 0))
         if submitted_version != event.version_nbr:
             flash('This record has been modified by another user. Please reload before updating.', 'warning')
             return redirect(url_for('events.view_event', event_id=event_id))

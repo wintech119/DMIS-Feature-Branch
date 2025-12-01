@@ -74,7 +74,15 @@ def list_requests():
         flash('Access denied. Administrator privileges required.', 'danger')
         return redirect(url_for('dashboard.index'))
     
-    status_filter = request.args.get('status', 'all')
+    from app.security.param_validation import validate_status_code
+    
+    # Validate status filter against allowed account request status codes
+    ALLOWED_REQUEST_STATUSES = {'all', 'S', 'R', 'A', 'D'}  # Submitted, Review, Approved, Denied
+    status_filter = validate_status_code(
+        request.args.get('status', 'all'),
+        ALLOWED_REQUEST_STATUSES,
+        default='all'
+    )
     
     query = AgencyAccountRequest.query
     

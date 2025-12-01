@@ -977,13 +977,25 @@ def aid_movement_dashboard():
     """
     from sqlalchemy import text
     
+    from app.security.param_validation import safe_page, safe_id, validate_filter_value
+    
     warehouse_id = request.args.get('warehouse_id', '')
     item_search = request.args.get('item_search', '')
     date_from = request.args.get('date_from', '')
     date_to = request.args.get('date_to', '')
-    movement_type = request.args.get('movement_type', '')
-    data_source = request.args.get('data_source', '')
-    page = request.args.get('page', 1, type=int)
+    # Validate movement_type against allowed values
+    movement_type = validate_filter_value(
+        request.args.get('movement_type', ''), 
+        {'r', 'i', ''},  # R=Received, I=Issued, ''=All
+        default=''
+    ).upper() if request.args.get('movement_type') else ''
+    # Validate data_source against allowed values
+    data_source = validate_filter_value(
+        request.args.get('data_source', ''),
+        {'jdf', 'mlss', ''},
+        default=''
+    ).upper() if request.args.get('data_source') else ''
+    page = safe_page(request.args.get('page', 1))
     per_page = 25
     
     warehouses = Warehouse.query.filter_by(status_code='A').order_by(Warehouse.warehouse_name).all()

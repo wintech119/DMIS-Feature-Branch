@@ -53,7 +53,15 @@ def list_intakes():
     Shows intake history with status-based filters.
     Entry Role (LOGISTICS_OFFICER) sees their drafts and submitted.
     """
-    filter_type = request.args.get('filter', 'all')
+    from app.security.param_validation import validate_filter_value
+    
+    # Validate filter against allowed values
+    ALLOWED_INTAKE_FILTERS = {'all', 'draft', 'submitted', 'verified', 'recent'}
+    filter_type = validate_filter_value(
+        request.args.get('filter', 'all'),
+        ALLOWED_INTAKE_FILTERS,
+        default='all'
+    )
     search_query = request.args.get('search', '').strip()
     
     query = db.session.query(DonationIntake).join(

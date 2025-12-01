@@ -23,8 +23,15 @@ def dashboard():
     Unified dashboard for ODPEM directors showing all relief requests
     with sections for pending eligibility review and pending fulfillment.
     """
-    # Get filter from query params
-    view_filter = request.args.get('filter', 'pending_review')
+    from app.security.param_validation import validate_filter_value
+    
+    # Get filter from query params with validation
+    ALLOWED_DIRECTOR_FILTERS = {'pending_review', 'pending_fulfillment', 'in_progress', 'completed', 'all'}
+    view_filter = validate_filter_value(
+        request.args.get('filter', 'pending_review'),
+        ALLOWED_DIRECTOR_FILTERS,
+        default='pending_review'
+    )
     
     # Calculate counts using independent queries (avoid cumulative filter issue)
     counts = {

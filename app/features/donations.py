@@ -66,9 +66,17 @@ def _get_donation_form_data():
 @feature_required('donation_management')
 def list_donations():
     """List all donations with filter and search capabilities"""
-    status_filter = request.args.get('status', 'all')
-    donor_filter = request.args.get('donor_id', type=int)
-    event_filter = request.args.get('event_id', type=int)
+    from app.security.param_validation import validate_status_code, safe_id
+    
+    # Validate status filter against allowed donation status codes
+    ALLOWED_DONATION_STATUSES = {'all', 'E', 'V', 'P'}
+    status_filter = validate_status_code(
+        request.args.get('status', 'all'), 
+        ALLOWED_DONATION_STATUSES, 
+        default='all'
+    )
+    donor_filter = safe_id(request.args.get('donor_id'), default=None)
+    event_filter = safe_id(request.args.get('event_id'), default=None)
     search_query = request.args.get('search', '').strip()
     
     query = Donation.query
@@ -611,7 +619,10 @@ def edit_donation(donation_id):
     
     if request.method == 'POST':
         try:
-            version_nbr = int(request.form.get('version_nbr', 0))
+            from decimal import Decimal
+            from app.security.param_validation import safe_version_number, safe_id, safe_amount
+            
+            version_nbr = safe_version_number(request.form.get('version_nbr', 0))
             
             if version_nbr != donation.version_nbr:
                 flash('This donation has been modified by another user. Please reload and try again.', 'danger')
@@ -657,38 +668,14 @@ def edit_donation(donation_id):
                 if received_date > date.today():
                     errors.append('Received date cannot be in the future')
             
-            # Validate cost fields
-            tot_item_cost_value = Decimal('0.00')
-            try:
-                tot_item_cost_value = Decimal(tot_item_cost_str) if tot_item_cost_str else Decimal('0.00')
-                if tot_item_cost_value <= 0:
-                    errors.append('Total Donation Value must be greater than 0')
-            except:
-                errors.append('Invalid Total Donation Value')
+            # Validate cost fields using safe_amount (handles InvalidOperation gracefully)
+            tot_item_cost_value = safe_amount(tot_item_cost_str, default='0.00', min_amount=Decimal('0'))
+            if tot_item_cost_value <= 0:
+                errors.append('Total Donation Value must be greater than 0')
             
-            storage_cost_value = Decimal('0.00')
-            try:
-                storage_cost_value = Decimal(storage_cost_str) if storage_cost_str else Decimal('0.00')
-                if storage_cost_value < 0:
-                    errors.append('Storage cost must be >= 0')
-            except:
-                errors.append('Invalid storage cost value')
-            
-            haulage_cost_value = Decimal('0.00')
-            try:
-                haulage_cost_value = Decimal(haulage_cost_str) if haulage_cost_str else Decimal('0.00')
-                if haulage_cost_value < 0:
-                    errors.append('Haulage cost must be >= 0')
-            except:
-                errors.append('Invalid haulage cost value')
-            
-            other_cost_value = Decimal('0.00')
-            try:
-                other_cost_value = Decimal(other_cost_str) if other_cost_str else Decimal('0.00')
-                if other_cost_value < 0:
-                    errors.append('Other cost must be >= 0')
-            except:
-                errors.append('Invalid other cost value')
+            storage_cost_value = safe_amount(storage_cost_str, default='0.00', min_amount=Decimal('0'))
+            haulage_cost_value = safe_amount(haulage_cost_str, default='0.00', min_amount=Decimal('0'))
+            other_cost_value = safe_amount(other_cost_str, default='0.00', min_amount=Decimal('0'))
             
             if other_cost_value > 0 and not other_cost_desc:
                 errors.append('Other cost description is required when other cost is greater than 0')
@@ -720,24 +707,17 @@ def edit_donation(donation_id):
                         if donation_type not in ('GOODS', 'FUNDS'):
                             errors.append(f'Invalid donation type for item #{item_num}. Must be GOODS or FUNDS.')
                         
+                        from app.security.param_validation import safe_quantity, safe_amount as safe_item_cost
+                        
                         quantity_value = None
                         if not quantity_str:
                             errors.append(f'Quantity is required for item #{item_num}')
                         else:
-                            try:
-                                quantity_value = Decimal(quantity_str)
-                                if quantity_value < 0:
-                                    errors.append(f'Quantity must be >= 0 for item #{item_num}')
-                            except:
-                                errors.append(f'Invalid quantity for item #{item_num}')
+                            quantity_value = safe_quantity(quantity_str, min_qty=Decimal('0'))
+                            if quantity_value < 0:
+                                errors.append(f'Quantity must be >= 0 for item #{item_num}')
                         
-                        item_cost_value = Decimal('0.00')
-                        try:
-                            item_cost_value = Decimal(item_cost_str)
-                            if item_cost_value < 0:
-                                errors.append(f'Item cost must be >= 0 for item #{item_num}')
-                        except:
-                            errors.append(f'Invalid item cost for item #{item_num}')
+                        item_cost_value = safe_item_cost(item_cost_str, min_amount=Decimal('0'))
                         
                         # Validate based on donation type: GOODS needs uom_code, FUNDS needs currency_code
                         if donation_type == 'GOODS':

@@ -253,7 +253,12 @@ def create_warehouse():
             warehouse.contact_name = request.form.get('contact_name').strip().upper()
             warehouse.phone_no = request.form.get('phone_no').strip()
             warehouse.email_text = request.form.get('email_text', '').strip() or None
-            warehouse.custodian_id = int(request.form.get('custodian_id'))
+            from app.security.param_validation import safe_id
+            custodian_id = safe_id(request.form.get('custodian_id'))
+            if custodian_id <= 0:
+                flash('Invalid custodian selected', 'danger')
+                return redirect(url_for('warehouses.create_warehouse'))
+            warehouse.custodian_id = custodian_id
             warehouse.status_code = request.form.get('status_code').strip()
             warehouse.reason_desc = request.form.get('reason_desc', '').strip() or None
             
@@ -339,6 +344,8 @@ def edit_warehouse(warehouse_id):
             )
         
         try:
+            from app.security.param_validation import safe_id
+            
             # Update warehouse
             warehouse.warehouse_name = request.form.get('warehouse_name').strip().upper()
             warehouse.warehouse_type = request.form.get('warehouse_type').strip()
@@ -348,7 +355,11 @@ def edit_warehouse(warehouse_id):
             warehouse.contact_name = request.form.get('contact_name').strip().upper()
             warehouse.phone_no = request.form.get('phone_no').strip()
             warehouse.email_text = request.form.get('email_text', '').strip() or None
-            warehouse.custodian_id = int(request.form.get('custodian_id'))
+            custodian_id = safe_id(request.form.get('custodian_id'))
+            if custodian_id <= 0:
+                flash('Invalid custodian selected', 'danger')
+                return redirect(url_for('warehouses.edit_warehouse', warehouse_id=warehouse_id))
+            warehouse.custodian_id = custodian_id
             warehouse.status_code = request.form.get('status_code').strip()
             warehouse.reason_desc = request.form.get('reason_desc', '').strip() or None
             

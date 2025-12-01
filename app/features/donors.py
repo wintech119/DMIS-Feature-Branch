@@ -216,6 +216,8 @@ def create():
             )
         
         try:
+            from app.security.param_validation import safe_id
+            
             # Create donor
             donor = Donor()
             donor.donor_code = (request.form.get('donor_code') or '').strip().upper()
@@ -223,7 +225,7 @@ def create():
             donor.org_type_desc = request.form.get('org_type_desc', '').strip() or None
             donor.address1_text = (request.form.get('address1_text') or '').strip()
             donor.address2_text = request.form.get('address2_text', '').strip() or None
-            donor.country_id = int(request.form.get('country_id') or 388)
+            donor.country_id = safe_id(request.form.get('country_id'), default=388)
             donor.phone_no = (request.form.get('phone_no') or '').strip()
             donor.email_text = request.form.get('email_text', '').strip().lower() or None
             
@@ -339,12 +341,14 @@ def edit(donor_id):
             )
         
         try:
+            from app.security.param_validation import safe_id
+            
             # Update donor (donor_code read-only, donor_name editable)
             donor.donor_name = (request.form.get('donor_name') or '').strip().upper()
             donor.org_type_desc = request.form.get('org_type_desc', '').strip() or None
             donor.address1_text = (request.form.get('address1_text') or '').strip()
             donor.address2_text = request.form.get('address2_text', '').strip() or None
-            donor.country_id = int(request.form.get('country_id') or 388)
+            donor.country_id = safe_id(request.form.get('country_id'), default=388)
             donor.phone_no = (request.form.get('phone_no') or '').strip()
             donor.email_text = request.form.get('email_text', '').strip().lower() or None
             

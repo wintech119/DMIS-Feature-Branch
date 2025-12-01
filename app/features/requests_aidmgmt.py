@@ -33,8 +33,13 @@ def list_requests():
     - Agency users see their own agency's requests
     - Logistics users see all requests
     """
+    from app.security.param_validation import validate_filter_value
+    
     # Support both 'filter' and 'status' params for backward compatibility
-    status_filter = request.args.get('filter') or request.args.get('status', 'submitted')
+    # Validate against allowed filter values
+    ALLOWED_FILTERS = {'submitted', 'draft', 'awaiting', 'processing', 'dispatched', 'completed', 'all'}
+    raw_filter = request.args.get('filter') or request.args.get('status', 'submitted')
+    status_filter = validate_filter_value(raw_filter, ALLOWED_FILTERS, default='submitted')
     
     # Check if user is in read-only mode (director-level executives)
     is_read_only = is_director_level()
@@ -357,9 +362,21 @@ def edit_items(request_id):
     
     if request.method == 'POST':
         try:
-            item_id = int(request.form.get('item_id'))
-            request_qty = Decimal(request.form.get('request_qty', '0'))
-            urgency_ind = request.form.get('urgency_ind', 'M')
+            from app.security.param_validation import safe_id, safe_quantity, validate_filter_value
+            
+            item_id = safe_id(request.form.get('item_id'))
+            if item_id <= 0:
+                flash('Invalid item ID', 'danger')
+                return redirect(url_for('requests.edit_items', request_id=request_id))
+            
+            request_qty = safe_quantity(request.form.get('request_qty', '0'))
+            # Validate urgency_ind against allowed values
+            ALLOWED_URGENCY = {'H', 'M', 'L'}  # High, Medium, Low
+            urgency_ind = validate_filter_value(
+                request.form.get('urgency_ind', 'M').upper(),
+                ALLOWED_URGENCY,
+                default='M'
+            ).upper()
             rqst_reason_desc = request.form.get('rqst_reason_desc', '').strip()
             required_by_date_str = request.form.get('required_by_date', '').strip()
             

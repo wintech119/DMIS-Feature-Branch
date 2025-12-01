@@ -115,7 +115,9 @@ def funds_donations():
     Shows all FUNDS-type donations with filters for country, date range, and currency.
     Only accessible to DG, Deputy DG, and Director PEOD.
     """
-    page = request.args.get('page', 1, type=int)
+    from app.security.param_validation import safe_page, safe_id
+    
+    page = safe_page(request.args.get('page', 1))
     per_page = 25
     
     country_filter = request.args.get('country_id', '', type=str)

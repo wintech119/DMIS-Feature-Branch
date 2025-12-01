@@ -1,0 +1,99 @@
+Now address Parameter Tampering and Unchecked Input for Loop Conditions reported as Medium issues in the Checkmarx scan.
+
+These typically affect:
+
+Query string parameters (filters, pagination, IDs, status codes).
+
+Form parameters (quantities, amounts, codes).
+
+Any user input used in for loops, pagination loops, or iteration counts.
+
+Constraints:
+
+Do NOT change the data model, only validation and server-side checks.
+
+Do NOT break business logic (e.g. request packaging, donation intake, reports).
+
+Step 1 – Identify sensitive parameters
+
+Search for all places where:
+
+Request data (request.args[...], request.form[...], request.values[...]) is used to influence:
+
+Quantities, amounts, totals.
+
+Pagination (page number, page size).
+
+Status codes, role codes, or workflow transitions.
+
+Any range(...) / for loops where limit/count is derived from user input.
+
+List each location with:
+
+File + function/route.
+
+The parameter name.
+
+How it is currently used.
+
+Step 2 – Add robust server-side validation
+
+For each such parameter, enforce type and range checks. Examples:
+
+For IDs: cast to int with safe fallback:
+
+try:  
+    item_id = int(request.args.get("item_id", 0))  
+except ValueError:  
+    # handle invalid ID (e.g. abort 400 or default behaviour)  
+
+
+For quantities / counts / page sizes:
+
+page = max(int(request.args.get("page", 1)), 1)  
+per_page = int(request.args.get("per_page", 20))  
+per_page = min(max(per_page, 1), 100)  # enforce sensible bounds  
+
+
+For status codes / enums: validate against a fixed set of allowed values before using them.
+
+Where tampering can alter business logic (e.g. user tries to change someone else’s donation ID or request ID):
+
+Re-check that the current user is allowed to view/modify that entity.
+
+Step 3 – Fix unchecked loop conditions
+
+For any loops where the iteration count is directly controlled by user input, for example:
+
+for i in range(int(request.args.get("count"))):  
+    ...  
+
+
+Refactor to:
+
+try:  
+    count = int(request.args.get("count", 0))  
+except ValueError:  
+    count = 0  
+count = max(min(count, 1000), 0)  # enforce upper bound  
+for i in range(count):  
+    ...  
+
+
+Choose reasonable upper bounds based on the business logic:
+
+Small numbers for UI lists / multipliers.
+
+Conservative defaults for anything that could be used for DoS.
+
+Step 4 – Keep UX unchanged
+
+Do not change form names or URL parameters.
+
+Only add validation and sensible fallbacks (e.g. clamp out-of-range values, return 400/403 for clearly malicious manipulation).
+
+After refactoring, summarise:
+
+Which parameters were hardened.
+
+Any new helper functions you introduced for validation.

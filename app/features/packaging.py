@@ -1800,8 +1800,12 @@ def _process_allocations(relief_request, validate_complete=False):
         for key in allocation_keys:
             parts = key.split('_')
             if len(parts) >= 4:
-                batch_id = int(parts[3])
-                allocated_qty = Decimal(request.form.get(key) or '0')
+                from app.security.param_validation import safe_id, safe_quantity
+                
+                batch_id = safe_id(parts[3])
+                if batch_id <= 0:
+                    continue  # Skip invalid batch IDs
+                allocated_qty = safe_quantity(request.form.get(key) or '0')
                 
                 # Get batch details first (needed for warehouse_id and validation)
                 batch = ItemBatch.query.options(

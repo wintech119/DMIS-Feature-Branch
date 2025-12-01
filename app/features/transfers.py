@@ -17,15 +17,18 @@ def list_transfers():
 @login_required
 def create():
     if request.method == 'POST':
-        from_warehouse_id = request.form.get('from_warehouse_id', type=int)
-        to_warehouse_id = request.form.get('to_warehouse_id', type=int)
-        item_id = request.form.get('item_id', type=int)
-        quantity = request.form.get('quantity', type=float)
+        from app.security.param_validation import safe_id, safe_float
+        
+        from_warehouse_id = safe_id(request.form.get('from_warehouse_id'))
+        to_warehouse_id = safe_id(request.form.get('to_warehouse_id'))
+        item_id = safe_id(request.form.get('item_id'))
+        # Validate quantity with reasonable bounds
+        quantity = safe_float(request.form.get('quantity'), default=0.0, min_val=0.0, max_val=999999999.99)
         uom_code = request.form.get('uom_code')
         transport_mode = request.form.get('transport_mode', '').strip()
         comments_text = request.form.get('comments_text', '').strip()
         
-        if not all([from_warehouse_id, to_warehouse_id, item_id, quantity, uom_code]):
+        if not all([from_warehouse_id > 0, to_warehouse_id > 0, item_id > 0, quantity > 0, uom_code]):
             flash('Please fill in all required fields.', 'danger')
             return redirect(url_for('transfers.create'))
         

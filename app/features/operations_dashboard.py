@@ -34,7 +34,9 @@ def index():
     Access restricted to DG, Deputy DG, and Director PEOD only.
     """
     # Get time period from query parameter (default: 30 days)
-    period_days = int(request.args.get('period', 30))
+    # Validate period_days: must be 1-365 to prevent DoS
+    from app.security.param_validation import safe_period_days
+    period_days = safe_period_days(request.args.get('period', 30))
     start_date = jamaica_now() - timedelta(days=period_days)
     
     # =======================
