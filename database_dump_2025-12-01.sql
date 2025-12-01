@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict dx8Uw7YEu2Vqlng6b2nur0FkfX3Y52Vjudg2pQitW99BX4Fv0fjzpmJcJjsSfVy
+\restrict NFEssRVveMDNgJwVxtRQhG6mGWd07hYaEYmBwOxNQsnET37KnL9rzjiJTujzWkw
 
 -- Dumped from database version 16.10 (0374078)
 -- Dumped by pg_dump version 16.10
@@ -2377,6 +2377,8 @@ COPY public.distribution_package_item (id, package_id, item_id, quantity, notes)
 
 COPY public.dnintake (donation_id, inventory_id, intake_date, comments_text, status_code, create_by_id, create_dtime, update_by_id, update_dtime, verify_by_id, verify_dtime, version_nbr) FROM stdin;
 20	2	2025-11-25	\N	V	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:36	LOGMGR	2025-11-28 18:29:36	2
+22	1	2025-11-30	\N	V	LOGMGR	2025-11-30 20:16:46	LOGMGR	2025-11-30 20:17:25	LOGMGR	2025-11-30 20:17:25	2
+23	2	2025-12-01	\N	V	LOGMGR	2025-12-01 11:02:16	LOGMGR	2025-12-01 11:03:12	LOGMGR	2025-12-01 11:03:12	3
 \.
 
 
@@ -2389,6 +2391,10 @@ COPY public.dnintake_item (donation_id, inventory_id, item_id, batch_no, batch_d
 20	2	206	TARP-01	2025-11-25	\N	EA	5000.00	1900.00	100.00	0.00	10000000.00	V	\N	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:37	2
 20	2	214	BLA-01	2025-11-25	\N	EA	1000.00	490.00	10.00	0.00	500000.00	V	\N	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:37	2
 20	2	217	BUC-01	2025-11-25	\N	EA	200.00	799.00	1.00	0.00	160000.00	V	\N	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:37	2
+22	1	23	DIA-01	2025-11-30	\N	EA	300.00	3.00	1.00	0.00	1200.00	V	\N	LOGMGR	2025-11-30 20:16:46	LOGMGR	2025-11-30 20:17:25	2
+22	1	77	GEN-01	2025-11-30	\N	EA	300000.00	1.00	0.00	0.00	300000.00	V	\N	LOGMGR	2025-11-30 20:16:46	LOGMGR	2025-11-30 20:17:25	2
+23	2	29	DIA-01	2025-12-01	\N	EA	400.00	350.00	150.00	0.00	200000.00	V	\N	LOGMGR	2025-12-01 11:02:17	LOGMGR	2025-12-01 11:03:12	2
+23	2	78	GEN-023	2025-12-01	\N	EA	2500000.00	1.00	0.00	0.00	2500000.00	V	\N	LOGMGR	2025-12-01 11:02:17	LOGMGR	2025-12-01 11:03:12	2
 \.
 
 
@@ -2398,6 +2404,9 @@ COPY public.dnintake_item (donation_id, inventory_id, item_id, batch_no, batch_d
 
 COPY public.donation (donation_id, donor_id, donation_desc, origin_country_id, origin_address1_text, origin_address2_text, event_id, custodian_id, received_date, tot_item_cost, storage_cost, haulage_cost, other_cost, other_cost_desc, status_code, comments_text, create_by_id, create_dtime, update_by_id, update_dtime, verify_by_id, verify_dtime, version_nbr) FROM stdin;
 20	2	CARE PACKAGE #1	124	\N	\N	1	2	2025-11-24	3000000.00	14000.00	20000.00	5000.00	LABOUR COST	P	\N	LOGMGR	2025-11-28 18:19:31	LOGMGR	2025-11-28 18:29:38	LOGMGR	2025-11-28 18:22:51	4
+21	2	CARE PACKAGE 11	124	\N	\N	1	2	2025-11-30	1000000.00	0.00	0.00	0.00	\N	V	\N	LOGMGR	2025-11-30 19:18:35	LOGMGR	2025-11-30 19:18:59	LOGMGR	2025-11-30 19:18:59	3
+22	2	CARE PACKAGE 10	124	\N	\N	1	2	2025-12-01	14500000.00	7500.00	4000.00	0.00	\N	P	\N	LOGMGR	2025-11-30 20:14:36	LOGMGR	2025-11-30 20:17:26	LOGMGR	2025-11-30 20:15:28	4
+23	2	CARE PACKAGE 99	124	\N	\N	1	2	2025-12-01	3000000.00	7500.00	15000.00	0.00	\N	P	THIS IS COMING FROM IMF.	LOGMGR	2025-12-01 10:55:06	LOGMGR	2025-12-01 11:03:13	LOGMGR	2025-12-01 10:57:23	4
 \.
 
 
@@ -2418,6 +2427,11 @@ COPY public.donation_item (donation_id, item_id, donation_type, item_qty, item_c
 20	206	GOODS	2000.00	5000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-28 18:19:32	LOGMGR	2025-11-28 18:22:51	LOGMGR	2025-11-28 18:22:51	2
 20	214	GOODS	500.00	1000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-28 18:19:32	LOGMGR	2025-11-28 18:22:51	LOGMGR	2025-11-28 18:22:51	2
 20	217	GOODS	800.00	200.00	EA	\N	KW	V	\N	LOGMGR	2025-11-28 18:22:52	LOGMGR	2025-11-28 18:22:52	LOGMGR	2025-11-28 18:22:51	1
+21	206	GOODS	80.00	2000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-30 19:18:35	LOGMGR	2025-11-30 19:18:59	LOGMGR	2025-11-30 19:18:59	2
+22	23	GOODS	4.00	300.00	EA	\N	KW	V	\N	LOGMGR	2025-11-30 20:14:36	LOGMGR	2025-11-30 20:15:28	LOGMGR	2025-11-30 20:15:28	2
+22	77	GOODS	1.00	300000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-30 20:14:36	LOGMGR	2025-11-30 20:15:28	LOGMGR	2025-11-30 20:15:28	2
+23	29	GOODS	500.00	400.00	EA	\N	DONATION RECEIVED	V	\N	LOGMGR	2025-12-01 10:55:06	LOGMGR	2025-12-01 10:57:23	LOGMGR	2025-12-01 10:57:23	2
+23	78	GOODS	1.00	2500000.00	EA	\N	KW	V	\N	LOGMGR	2025-12-01 10:57:23	LOGMGR	2025-12-01 10:57:23	LOGMGR	2025-12-01 10:57:23	1
 \.
 
 
@@ -3144,7 +3158,6 @@ COPY public.hadr_aid_movement_staging (staging_id, category_code, item_desc, uni
 697	LOGS_ENGR	Solar Lantern with phone charger	ea	MG	2025-11-04	R	1728.00	13.00	22464.00	Logistics & Engineering Equipme	20	16	Location: Mobay - 592, MG-18	IMPORT	2025-11-28 16:55:32
 698	LOGS_ENGR	Solar Lantern with phone charger	ea	MOBAY	2025-11-04	R	1728.00	13.00	22464.00	Logistics & Engineering Equipme	20	16	Location: Mobay - 592, MG-18	IMPORT	2025-11-28 16:55:32
 699	LOGS_ENGR	Solar Lantern with phone charger	ea	MG	2025-11-05	I	1000.00	13.00	13000.00	Logistics & Engineering Equipme	20	19	Location: Mobay - 592, MG-18	IMPORT	2025-11-28 16:55:32
-1228	FOOD_WATER	Snack Packs	ea	UPC	2025-11-02	R	103.00	\N	\N	Items Donated	6	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
 700	LOGS_ENGR	Solar Lantern with phone charger	ea	MOBAY	2025-11-05	I	1000.00	13.00	13000.00	Logistics & Engineering Equipme	20	19	Location: Mobay - 592, MG-18	IMPORT	2025-11-28 16:55:32
 701	LOGS_ENGR	Solar Lantern with phone charger	ea	MG	2025-11-06	R	200.00	13.00	2600.00	Logistics & Engineering Equipme	20	20	Location: Mobay - 592, MG-18	IMPORT	2025-11-28 16:55:32
 702	LOGS_ENGR	Solar Lantern with phone charger	ea	MOBAY	2025-11-06	R	200.00	13.00	2600.00	Logistics & Engineering Equipme	20	20	Location: Mobay - 592, MG-18	IMPORT	2025-11-28 16:55:32
@@ -3187,799 +3200,827 @@ COPY public.hadr_aid_movement_staging (staging_id, category_code, item_desc, uni
 739	LOGS_ENGR	Toolbox	ea	UNKNOWN	2025-11-14	R	300.00	261.16	78348.00	Logistics & Engineering Equipme	27	36	\N	IMPORT	2025-11-28 16:55:32
 740	LOGS_ENGR	Street Lamps	ea	MG	2025-11-18	R	100.00	\N	\N	Logistics & Engineering Equipme	28	44	Location: MG	IMPORT	2025-11-28 16:55:32
 741	LOGS_ENGR	Utility Gloves	pairs	MG	2025-11-08	R	150.00	\N	\N	Logistics & Engineering Equipme	29	24	Location: MG	IMPORT	2025-11-28 16:55:32
-742	FOOD_WATER	Food Package	ea	UPC	2025-10-29	I	500.00	\N	\N	Package distributions	5	2	Location: Luana FOB (St Elizabeth); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-743	FOOD_WATER	Food Package	ea	UPC	2025-10-29	I	5.00	\N	\N	Package distributions	6	2	Location: JDF Relief Aid; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-744	FOOD_WATER	Food Package	ea	UPC	2025-10-30	I	5.00	\N	\N	Package distributions	10	2	Collected by: Ministry Staff; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-745	FOOD_WATER	Food Package	ea	UPC	2025-10-30	I	15.00	\N	\N	Package distributions	11	2	Location: St Elizabeth; Collected by: (MLSS); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-746	FOOD_WATER	Food Package	ea	UPC	2025-10-31	I	167.00	\N	\N	Package distributions	15	2	Location: Manchester North Eastern; Collected by: M Brown; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-747	FOOD_WATER	Food Package	ea	UPC	2025-10-31	I	300.00	\N	\N	Package distributions	16	2	Location: JDF AW; Collected by: Capt HALL (JDF); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-748	FOOD_WATER	Food Package	ea	UPC	2025-10-31	I	1000.00	\N	\N	Package distributions	17	2	Location: Burke Barracks (Montego Bay); Collected by: Capt HALL (JDF); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-749	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	200.00	\N	\N	Package distributions	21	2	Location: Manchester Local Office; Collected by: K Royal (MLSS); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-750	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	22	2	Location: Westmoreland; Collected by: K Powell; Remarks: Collected on behalf of Ian Hayles\n(MP of Westmoreland Western); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-751	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	23	2	Location: Westmoreland; Collected by: K Powell; Remarks: Collected on behalf of Dayton Campbell \n(MP of Westmoreland Eastern); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-752	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	24	2	Location: Westmoreland; Collected by: K Powell; Remarks: Collected on behalf of Dwayne Vaz\n(MP of Westmoreland Central); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-753	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	25	2	Location: St Elizabeth; Collected by: K Powell; Remarks: Collected on behalf of Zuleika Jess\n(MP of St Elizabeth North Central); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-754	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	26	2	Location: Hanover; Collected by: K Powell; Remarks: Collected on behalf of Andrea Purkiss\n(MP of Hanover Eastern); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-755	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	27	2	Location: Hanover; Collected by: K Powell; Remarks: Collected on behalf of Heatha Miller \n(MP of Hanover Western); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-756	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	33.00	\N	\N	Package distributions	28	2	Location: Manchester; Collected by: M Brown; Remarks: Collected on behalf of Audrey Marks \n(MP of Manchester North Eastern); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-757	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	20.00	\N	\N	Package distributions	29	2	Location: Office of Prime Minister; Collected by: Lt T Martin; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-758	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	458.00	\N	\N	Package distributions	30	2	Location: Burke Barracks (Montego Bay); Collected by: Capt HALL (JDF); Remarks: 2000 packages were prepared to send to Burke Barracks\nhowever only 458 were transported. Remainder return \nto warehouse.; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-759	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	200.00	\N	\N	Package distributions	31	2	Location: MOHW; Collected by: Sonia SMITH (MOHW); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-760	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	20.00	\N	\N	Package distributions	35	2	Location: Chief of Defence Staff (CDS); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-761	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	506.00	\N	\N	Package distributions	36	2	Location: Clarendon (MLSS); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-762	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	20.00	\N	\N	Package distributions	37	2	Location: Trelawny (MLSS); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-763	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	499.00	\N	\N	Package distributions	38	2	Location: Burke Barracks; Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-764	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	501.00	\N	\N	Package distributions	39	2	Location: Luana FOB (St Elizabeth); Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-765	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	654.00	\N	\N	Package distributions	40	2	Location: Burke Barracks; Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-766	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	502.00	\N	\N	Package distributions	41	2	Location: Luana FOB (St Elizabeth); Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-767	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	701.00	\N	\N	Package distributions	42	2	Location: St Ann; Collected by: Krystal Lee; Remarks: MP of St Ann North Western; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-768	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	95.00	\N	\N	Package distributions	46	2	Location: Hanover (Fr: FFTP); Collected by: G Gordon; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-769	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	417.00	\N	\N	Package distributions	47	2	Location: Hanover (Fr: MLSS); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-770	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	33.00	\N	\N	Package distributions	48	2	Location: Hanover (Fr: ODPEM); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-771	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	140.00	\N	\N	Package distributions	49	2	Location: St Catherine; Collected by: J Jackson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-772	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	299.00	\N	\N	Package distributions	50	2	Location: St Ann; Collected by: R Smith; Remarks: Collected on behalf of Krystal Lee\n(MP of St Ann North Western); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-773	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	100.00	\N	\N	Package distributions	51	2	Location: Westmoreland MLSS Local Office; Collected by: R Rodrequiez; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-774	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	66.00	\N	\N	Package distributions	52	2	Location: KSA Local Office; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-775	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	100.00	\N	\N	Package distributions	53	2	Location: Manchester; Collected by: M Brown; Remarks: Collected on behalf of Audrey Marks \n(MP of Manchester North Eastern); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-776	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	246.00	\N	\N	Package distributions	54	2	Location: Cambridge; Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-777	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	300.00	\N	\N	Package distributions	55	2	Location: Portland (MLSS); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-778	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	50.00	\N	\N	Package distributions	56	2	Location: Manchester Central; Collected by: M Brown; Remarks: Rhoda Crawford; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-779	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	89.00	\N	\N	Package distributions	57	2	Location: Burke Barracks; Collected by: Capt WEDDERBURN; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-780	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	500.00	\N	\N	Package distributions	61	2	Location: Jackson Town (Trelawny); Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-781	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	153.00	\N	\N	Package distributions	62	2	Location: Adelphi (St James); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-782	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	113.00	\N	\N	Package distributions	63	2	Location: Amity (Westmoreland); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-783	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	120.00	\N	\N	Package distributions	64	2	Location: Frome (Westmoreland); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-784	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	150.00	\N	\N	Package distributions	65	2	Location: Hanover L/O; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-785	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	1.00	\N	\N	Package distributions	66	2	Location: JDF Relief Aid; Collected by: Major TROWERS; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-786	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	134.00	\N	\N	Package distributions	67	2	Location: KSA L/O; Collected by: M LEWIS; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-787	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	300.00	\N	\N	Package distributions	68	2	Location: St Ann Parish Office; Collected by: G Gordon; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-788	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	50.00	\N	\N	Package distributions	69	2	Location: Manchester North Western; Collected by: L THOMAS; Remarks: Collected on behalf of Mikhail Phillips; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-789	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	10.00	\N	\N	Package distributions	70	2	Location: JDF Chaplain (St Elizabeth); Collected by: R ROBINSON; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-790	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	250.00	\N	\N	Package distributions	71	2	Location: Clarendon; Collected by: 1 Engr Regt; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-791	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	100.00	\N	\N	Package distributions	72	2	Location: Hanover; Collected by: MACC; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-792	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	60.00	\N	\N	Package distributions	73	2	Location: St Elizabeth; Collected by: A MORRIS; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-793	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	300.00	\N	\N	Package distributions	77	2	Location: JCPD; Collected by: D MANNING; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-794	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	100.00	\N	\N	Package distributions	78	2	Location: Trelawny; Collected by: Sp Bde (CMP); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-795	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	100.00	\N	\N	Package distributions	79	2	Location: Westmoreland MLSS; Collected by: J Jackson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-796	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	150.00	\N	\N	Package distributions	80	2	Location: Manchester Parish Office; Collected by: K Royal; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-797	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	150.00	\N	\N	Package distributions	81	2	Location: St Andrew North Central; Collected by: J REYNOLDS; Remarks: Collected on behalf of Minister Delano SEIVWRIGHT; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-798	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	300.00	\N	\N	Package distributions	82	2	Location: St Mary Parish Office; Collected by: J BOYD; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-799	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	7.00	\N	\N	Package distributions	83	2	Location: MLSS- Staff Welfare; Collected by: M Miller; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-800	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	10.00	\N	\N	Package distributions	84	2	Collected by: Jca Regt; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-801	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	160.00	\N	\N	Package distributions	85	2	Location: St Catherine Parish Office; Collected by: G GORDON; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-802	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	3.00	\N	\N	Package distributions	86	2	Location: MLSS- Staff Welfare (1F North Street); Collected by: K TUCKER; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-803	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	52.00	\N	\N	Package distributions	87	2	Location: Hanover and Trelawny; Collected by: Sp Bde (CMP); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-804	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	200.00	\N	\N	Package distributions	88	2	Location: St Catherine Central; Collected by: J Scott; Remarks: Collected on behalf of Min Olivia 'Babsy' GRANGE; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-805	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	35.00	\N	\N	Package distributions	89	2	Location: JCF- Commissioner Office; Collected by: R CLARKE; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-806	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	500.00	\N	\N	Package distributions	90	2	Location: Clarendon Parish Office; Collected by: 2Lt O BLOOMFIELD; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-807	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	50.00	\N	\N	Package distributions	91	2	Location: Hanover and Westmoreland; Collected by: Capt INGRAM; Remarks: Sp Bde (HSC Wellness Centre); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-808	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	500.00	\N	\N	Package distributions	92	2	Location: Frome (Westmoreland); Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-809	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	50.00	\N	\N	Package distributions	93	2	Location: St Catherine South East; Collected by: K. Reid; Remarks: Collected on behalf of Holy Trinity; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-810	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	250.00	\N	\N	Package distributions	94	2	Location: JDF - Support Brigade; Collected by: 1 Engr Regt; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-811	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	500.00	\N	\N	Package distributions	98	2	Location: Trelawny L/O; Collected by: G Gordon - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-812	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	200.00	\N	\N	Package distributions	99	2	Location: Zavia Mayne - St Ann South Western; Collected by: MP Representative; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-813	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	150.00	\N	\N	Package distributions	100	2	Location: KSA L/O; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-814	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	30.00	\N	\N	Package distributions	101	2	Location: MLSS Outside Broadcast - Manchester; Collected by: R Smith - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-815	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	1500.00	\N	\N	Package distributions	102	2	Location: Airwing; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-816	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	300.00	\N	\N	Package distributions	103	2	Location: Jamaica Regiment 4 JR - St Ann; Collected by: Ssgt Lindssay; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-817	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	250.00	\N	\N	Package distributions	104	2	Location: Support Brigade - Trelawny & Hanover; Collected by: Ssgt R Bent; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-818	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	100.00	\N	\N	Package distributions	105	2	Location: St Thomas L/O; Collected by: R Morgan - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-819	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	100.00	\N	\N	Package distributions	106	2	Location: JDF Jamaica Regiment 1 JR- St Thomas; Collected by: 2 LT S Edwards; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-820	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	850.00	\N	\N	Package distributions	107	2	Location: Manchester L/O; Collected by: Mr Nelson - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-821	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	100.00	\N	\N	Package distributions	108	2	Location: JDF Coast Guard- St Ann; Collected by: JDF- G Walker; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-822	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	5.00	\N	\N	Package distributions	109	2	Location: MLSS Staff Welfare; Collected by: O Robinson - MLSS Staff; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-823	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	40.00	\N	\N	Package distributions	110	2	Location: Andrew Morris - St Elizabeth North Western; Collected by: V Dixon; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-824	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	100.00	\N	\N	Package distributions	111	2	Location: Jamaica Red Cross - St Catherine; Collected by: Mr Murdock - Ambulance Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-825	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	200.00	\N	\N	Package distributions	112	2	Location: St Catherine North Eastern; Collected by: A Fuller; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-826	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	1800.00	\N	\N	Package distributions	113	2	Location: JDF -Burke Barracks - St James; Remarks: ODPEM donations - sent directly from ODPEM warehouse; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-827	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	150.00	\N	\N	Package distributions	117	2	Location: MLSS; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-828	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	150.00	\N	\N	Package distributions	118	2	Location: Portland Eastern; Collected by: Dawit Jeffrey- Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-829	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	150.00	\N	\N	Package distributions	119	2	Location: Clarendon Central; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-830	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	50.00	\N	\N	Package distributions	120	2	Location: KSA L/O; Collected by: Dwainton Williams; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-831	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	70.00	\N	\N	Package distributions	121	2	Location: Manchester; Collected by: Aldin Edwards; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-832	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	100.00	\N	\N	Package distributions	122	2	Location: St. Ann; Collected by: Krystal Lee; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-833	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	100.00	\N	\N	Package distributions	123	2	Location: St. Elizabeth; Collected by: Novia Wilson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-834	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	32.00	\N	\N	Package distributions	124	2	Location: Trewlawny; Collected by: Okeino Robinson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-835	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	250.00	\N	\N	Package distributions	125	2	Location: Portland Parish Office; Collected by: Corpoarl A. Martin; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-836	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	30.00	\N	\N	Package distributions	126	2	Location: Fosrich Intervention; Collected by: Ansel Waugh; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-837	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	500.00	\N	\N	Package distributions	127	2	Location: St Catherine Parish Office; Collected by: 2 LT R A Yates; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-838	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	20.00	\N	\N	Package distributions	128	2	Location: Jamaica Manufacturing Export Association; Collected by: Dacia Henry; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-839	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	30.00	\N	\N	Package distributions	129	2	Location: Jamaica Manufacturing Export Association; Collected by: S Heaven; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-840	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	500.00	\N	\N	Package distributions	130	2	Location: JDF - Support Brigade - CMP- Trelawny & Hanover; Collected by: SSGT R Bent; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-841	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	100.00	\N	\N	Package distributions	131	2	Location: Rhoda Crawford - MP Manchester Central; Collected by: C Faulkner; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-842	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	500.00	\N	\N	Package distributions	132	2	Location: St Elizabeth; Collected by: D Henry; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-843	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	300.00	\N	\N	Package distributions	133	2	Location: JDF - Support Brigade- Trelawny; Collected by: T Smith; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-844	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	100.00	\N	\N	Package distributions	134	2	Location: JDF - 4TH Battalion_ St Elizabeth; Collected by: LCPL S Walters; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-845	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	137.00	\N	\N	Package distributions	135	2	Location: JDF - CMA; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-846	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	1000.00	\N	\N	Package distributions	136	2	Location: JDF - Airwing; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-847	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	10.00	\N	\N	Package distributions	141	2	Collected by: Brigader E Clarke; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-848	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	300.00	\N	\N	Package distributions	142	2	Location: St Elizabeth; Collected by: S Hinds; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-849	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	20.00	\N	\N	Package distributions	143	2	Location: Organization Gen Sec; Collected by: A Kennedy; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-850	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	10.00	\N	\N	Package distributions	144	2	Location: St Elizabeth & Westmoreland; Collected by: A Anderson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-851	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	250.00	\N	\N	Package distributions	145	2	Location: Trelawny; Collected by: WO2 R Sewell; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-852	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	500.00	\N	\N	Package distributions	146	2	Location: Jamaica Regiment - St James; Collected by: R Pryce; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-853	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	15.00	\N	\N	Package distributions	147	2	Location: Liput, St James (JMEA); Collected by: K Clarke; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-854	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	200.00	\N	\N	Package distributions	148	2	Location: Clarendon; Collected by: MP W Hinds; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-855	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	200.00	\N	\N	Package distributions	149	2	Location: Clarendon; Collected by: G Williams; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1229	FOOD_WATER	Food Packages	ea	UPC	2025-11-02	R	885.00	\N	\N	Items Donated	7	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-856	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	200.00	\N	\N	Package distributions	150	2	Location: CrawfordSt Catherine; Collected by: D Kern; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-857	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	200.00	\N	\N	Package distributions	151	2	Location: MP Omar Woodbine - St Mary Central; Collected by: R Henry; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-858	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	30.00	\N	\N	Package distributions	157	2	Location: Clarendon; Collected by: Thomas; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-859	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	700.00	\N	\N	Package distributions	158	2	Location: JDF- Trelawny Multi Purpose Stadium Hub; Collected by: C McKoy; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-860	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	2200.00	\N	\N	Package distributions	159	2	Location: St James, Burke Barracks; Collected by: D Thompson - Driver; Remarks: Container - - for MPs in the Western Parishes; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-861	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	500.00	\N	\N	Package distributions	160	2	Location: St James - Burke Barracks; Collected by: O Timoll; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-862	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	200.00	\N	\N	Package distributions	161	2	Location: Clarendon; Collected by: D Campbell; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-863	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	500.00	\N	\N	Package distributions	162	2	Location: Clarendon; Collected by: Cpl K Grant; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-864	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	100.00	\N	\N	Package distributions	163	2	Location: MLSS HR - Staff Welfare; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-865	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	50.00	\N	\N	Package distributions	164	2	Location: Airwing - JDF; Collected by: LCpl S Daley; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-866	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	500.00	\N	\N	Package distributions	165	2	Location: Luana - St Elizabeth; Collected by: W Walker; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-867	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	100.00	\N	\N	Package distributions	166	2	Location: Manchester; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-868	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	150.00	\N	\N	Package distributions	167	2	Location: MP Zavia Mayne -; Collected by: S Campbell; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-869	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	30.00	\N	\N	Package distributions	168	2	Location: OPM; Collected by: Lt Martin; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-870	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	100.00	\N	\N	Package distributions	169	2	Location: Airwing - Westmoreland; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-871	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	20.00	\N	\N	Package distributions	173	2	Location: JDF - Chaplaincy; Collected by: Cpt Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-872	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	200.00	\N	\N	Package distributions	174	2	Location: Portland; Collected by: B Carr; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-873	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	100.00	\N	\N	Package distributions	175	2	Location: St Mary; Collected by: J Rhoden; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-874	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	150.00	\N	\N	Package distributions	176	2	Location: Westmoreland Parish Office; Collected by: R Henriques - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-875	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	35.00	\N	\N	Package distributions	177	2	Location: Lucky Play - St James; Collected by: N Wilson - MLSS; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-876	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	83.00	\N	\N	Package distributions	178	2	Location: JDF - Welfare- Jamaica Regiment; Collected by: Sgt A Gossell; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-877	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	30.00	\N	\N	Package distributions	179	2	Location: MLSS - ELE; Collected by: L Ford; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-878	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	2000.00	\N	\N	Package distributions	180	2	Location: JDF - Burke Barracks & Luanna - St James & St Elizabeth; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-879	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	600.00	\N	\N	Package distributions	181	2	Location: St Elizabeth; Remarks: Collected by MP Floyd Green's team; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-880	FOOD_WATER	Food Package	ea	UPC	2025-11-11	I	70.00	\N	\N	Package distributions	185	2	Location: St Elizabeth- Lacovia, Gutters; Collected by: Maj M.Lewin; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-881	FOOD_WATER	Food Package	ea	UPC	2025-11-11	I	100.00	\N	\N	Package distributions	186	2	Location: St Mary; Collected by: J. Rhoden L/P # 8487KV; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-882	FOOD_WATER	Food Package	ea	UPC	2025-11-11	I	25.00	\N	\N	Package distributions	187	2	Location: JDF - Welfare- Jamaica Regiment; Collected by: Sgt A Gossell; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-883	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	257	2	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-884	FOOD_WATER	Water	cases	UPC	1970-01-01	I	75.00	\N	\N	Bulk Items distributed	258	2	Location: Trelawny L/O; Collected by: G Gordon - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-885	SHELTER	Mattress	units	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	259	2	Location: St Ann; Collected by: MP Rep; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-886	FOOD_WATER	Water	cases	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	260	2	Location: St Ann; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-887	HYGIENE	Hygiene Kit	unit	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	261	2	Location: KSA L/O; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-888	FOOD_WATER	Water, Icool	cases	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	319	2	Location: Jamaica Regiment - St James; Collected by: R Pryce; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-889	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	384	2	Location: JDF - Legal Unit; Collected by: Lcpl M Jackson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-890	LOGS_ENGR	Garbage Bags	cases	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	414	2	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-891	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	16.00	\N	\N	Bulk Items distributed	415	2	Location: JDF- Maroon Town - Flag Staff; Collected by: Maj M Lewin; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-892	FOOD_WATER	Water	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	416	2	Location: cases JDF - Coast Guard- St Ann; Collected by: CPO Walker; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-893	HYGIENE	Bleach	cases	UPC	1970-01-01	I	3.00	\N	\N	Bulk Items distributed	417	2	Location: St Mary L/O; Collected by: N Byfield - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-894	FOOD_WATER	Conquest	cases	UPC	1970-01-01	I	3.00	\N	\N	Bulk Items distributed	418	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-895	HYGIENE	Sanitary Hygiene Kits	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	419	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-896	LOGS_ENGR	Solar Lanterns	boxes	UPC	1970-01-01	I	3.00	\N	\N	Bulk Items distributed	420	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-897	SHELTER	Mosquito Repellant	cases	UPC	1970-01-01	I	2.00	\N	\N	Bulk Items distributed	421	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-898	SHELTER	Blankets	cases	UPC	1970-01-01	I	2.00	\N	\N	Bulk Items distributed	422	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-899	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	423	2	Location: St Ann L/O; Collected by: A Robb - MLSS PAD Admin; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-900	HYGIENE	Hygiene Kits	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	424	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-901	FOOD_WATER	Soda	cases	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	425	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-902	HYGIENE	Hygiene Kits	units	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	426	2	Location: KSA L/O; Collected by: D Williams - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-903	SHELTER	Mattress	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	427	2	Location: KSA L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-904	SHELTER	Stoves	units	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	428	2	Location: KSA L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-905	LOGS_ENGR	Packing Bags	cases	UPC	1970-01-01	I	4.00	\N	\N	Bulk Items distributed	429	2	Location: JDF - Trelawny Multi Purpose Stadium; Collected by: JDF- L McFarlane; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-906	FOOD_WATER	Conquest	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	430	2	Location: Denbeigh Clarendon; Collected by: Cpl M Jarrett; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-907	SHELTER	Mattress	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	431	2	Location: JDF - CMP - Trelawny; Collected by: WO2 R Sewell; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-908	SHELTER	Blankets	boes	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	432	2	Location: JDF - CMP - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-909	FOOD_WATER	Conquest	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	433	2	Location: JDF - CMP - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-910	HYGIENE	Bleach	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	434	2	Location: JDF - CMP - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-911	FOOD_WATER	Baby Care Kit	kits	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	435	2	Location: JDF - Burke Barracks- St James; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-912	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	436	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-913	FOOD_WATER	Lishous Drink	cases	UPC	1970-01-01	I	16.00	\N	\N	Bulk Items distributed	437	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-914	FOOD_WATER	Aloe Vera Drink	cases	UPC	1970-01-01	I	47.00	\N	\N	Bulk Items distributed	438	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-915	FOOD_WATER	Baby Sweater	units	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	439	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-916	FOOD_WATER	Baby Body Suit	units	UPC	1970-01-01	I	34.00	\N	\N	Bulk Items distributed	440	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-917	FOOD_WATER	Children Christmas Suit	suits	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	441	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-918	HYGIENE	Paper Towels	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	442	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-919	HYGIENE	Sanitary Hygiene Kits	kits	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	443	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-920	HYGIENE	Hygiene Kits	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	444	2	Location: JDF - Luana- St Elizabeth; Collected by: Cpt Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-921	FOOD_WATER	Lishous Drink	cases	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	445	2	Location: JDF - Luana- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-922	SHELTER	Mattress	units	UPC	1970-01-01	I	16.00	\N	\N	Bulk Items distributed	452	2	Location: St Catherine L/O; Collected by: Mr Logan - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-923	LOGS_ENGR	Packing Bags	units	UPC	1970-01-01	I	1800.00	\N	\N	Bulk Items distributed	453	2	Location: ODPEM; Collected by: Cpt S HAll; Remarks: for the repacking of donoted food packages from overseas; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-924	HYGIENE	Hygiene Kits	units	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	454	2	Location: JDF Blemheim - Hanover; Collected by: Brig E Clark; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-925	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	455	2	Location: JDF - Welfare; Collected by: S Barclay; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-926	HYGIENE	Hygiene Kits	kits	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	456	2	Location: OPM Initiative- St. Andrew; Collected by: Patrick Taylor; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-927	HYGIENE	Hygiene Kits	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	457	2	Location: JDF- Luana - St Elizabeth; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-928	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	458	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-929	LOGS_ENGR	Lanterns	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	459	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-930	FOOD_WATER	Water	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	460	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-931	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	461	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-932	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	500.00	\N	\N	Bulk Items distributed	462	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-933	FOOD_WATER	Kids Pampers	cases	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	463	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-934	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	464	2	Location: JDF- Burke Barracks - St James; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-935	LOGS_ENGR	Lanterns	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	465	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-936	FOOD_WATER	Kids Pampers	cases	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	466	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-937	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	467	2	Location: JDF - Denbigh - Clarendon; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-938	SHELTER	Mattress	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	468	2	Location: JDF - Denbigh - Clarendon; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-939	FOOD_WATER	Kids Pampers	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	475	2	Location: JDF - Trelawny; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-940	FOOD_WATER	Bottle	units	UPC	1970-01-01	I	28.00	\N	\N	Bulk Items distributed	476	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-941	FOOD_WATER	Baby Powder	units	UPC	1970-01-01	I	12.00	\N	\N	Bulk Items distributed	477	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-942	FOOD_WATER	Baby Cream	units	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	478	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-943	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	244.00	\N	\N	Bulk Items distributed	479	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-944	SHELTER	Mattress	units	UPC	1970-01-01	I	58.00	\N	\N	Bulk Items distributed	480	2	Location: JDF - Trelawny; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-945	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	223.00	\N	\N	Bulk Items distributed	481	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-946	SHELTER	Stoves	units	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	482	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-947	HYGIENE	Hygiene Kit	units	UPC	1970-01-01	I	201.00	\N	\N	Bulk Items distributed	483	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-948	HYGIENE	Sanitary Hygiene Kits	units	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	484	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-949	FOOD_WATER	Lishous Drink	units	UPC	1970-01-01	I	734.00	\N	\N	Bulk Items distributed	485	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-950	HYGIENE	Tissue	cases	UPC	1970-01-01	I	23.00	\N	\N	Bulk Items distributed	486	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-951	FOOD_WATER	Cran Water	units	UPC	1970-01-01	I	48.00	\N	\N	Bulk Items distributed	487	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-952	FOOD_WATER	Soda	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	488	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-953	FOOD_WATER	Pepsi	units	UPC	1970-01-01	I	117.00	\N	\N	Bulk Items distributed	489	2	Location: JDF- Burke Barracks - St James; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-954	HYGIENE	Disinfectant	units	UPC	1970-01-01	I	192.00	\N	\N	Bulk Items distributed	490	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-955	HYGIENE	Bleach	units	UPC	1970-01-01	I	192.00	\N	\N	Bulk Items distributed	491	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-956	FOOD_WATER	Baby bottles	units	UPC	1970-01-01	I	48.00	\N	\N	Bulk Items distributed	492	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-957	FOOD_WATER	Baby Cream	units	UPC	1970-01-01	I	36.00	\N	\N	Bulk Items distributed	493	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-958	FOOD_WATER	Baby Powder	units	UPC	1970-01-01	I	18.00	\N	\N	Bulk Items distributed	494	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-959	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	300.00	\N	\N	Bulk Items distributed	495	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-960	FOOD_WATER	Baby Pampers	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	496	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-961	HYGIENE	Hygiene Kit	units	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	497	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-962	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	6.00	\N	\N	Bulk Items distributed	498	2	Location: MLSS - Trelawny & Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-963	SHELTER	Mattress	units	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	499	2	Location: MLSS - Trelawny & Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-964	HYGIENE	Hygiene Kit	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	500	2	Location: MLSS - Trelawny & Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-965	HYGIENE	Hygiene Kit	unit	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	501	2	Location: St Catherine; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-966	HYGIENE	Hygiene Kit	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	502	2	Location: Clarendon L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-967	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	503	2	Location: Clarendon L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-968	LOGS_ENGR	Lantern	boxes	UPC	1970-01-01	I	12.00	\N	\N	Bulk Items distributed	504	2	Location: Clarendon L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-969	SHELTER	Stove	units	UPC	1970-01-01	I	12.00	\N	\N	Bulk Items distributed	505	2	Location: JDF - Luana - St Elizabeth; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-970	LOGS_ENGR	Lantern	boxes	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	506	2	Location: JDF - Frome Westmoreland; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-971	SHELTER	Stoves	units	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	507	2	Location: JDF - Frome Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-972	SHELTER	mattress	units	UPC	1970-01-01	I	22.00	\N	\N	Bulk Items distributed	508	2	Location: JDF - Frome Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-973	FOOD_WATER	LED Lights	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	509	2	Location: JDF - Frome Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-974	LOGS_ENGR	Solar Lantern	units	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	510	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-975	HYGIENE	Hygiene Kit	unit	UPC	1970-01-01	I	33.00	\N	\N	Bulk Items distributed	516	2	Location: MLSS - HR - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-976	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	517	2	Location: MLSS - HR - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-977	FOOD_WATER	Water	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	518	2	Location: MLSS - HR - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-978	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	519	2	Location: JDF - Browns Town - St Ann; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-979	LOGS_ENGR	Solar Lantern	units	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	520	2	Location: Clarendon; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-980	HYGIENE	Hygiene Kits	units	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	521	2	Location: Clarendon; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-981	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	522	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-982	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	523	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-983	FOOD_WATER	Lishous Drink	case	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	524	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-984	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	525	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-985	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	526	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-986	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	527	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-987	FOOD_WATER	Lishous Drink	case	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	528	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-988	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	529	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-989	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	530	2	Location: JDF - Burke Barracks - St James; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-990	HYGIENE	Hygiene Kits	kits	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	531	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-991	FOOD_WATER	Lishous Drink	case	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	532	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-992	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	533	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-993	SHELTER	Tabletop Stove	unit	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	544	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-994	FOOD_WATER	Water	case	UPC	1970-01-01	I	4.00	\N	\N	Bulk Items distributed	545	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-995	SHELTER	Tarpaulin	unit	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	546	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-996	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	2.00	\N	\N	Bulk Items distributed	547	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-997	FOOD_WATER	Pot Set	set	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	548	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-998	FOOD_WATER	Malta	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	549	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-999	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	550	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1000	FOOD_WATER	Water 1.5L	cases	UPC	1970-01-01	I	52.00	\N	\N	Bulk Items distributed	551	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1001	SHELTER	Mattress	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	552	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1002	FOOD_WATER	Bed Base	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	553	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1003	SHELTER	Mattress	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	554	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1004	SHELTER	Stoves	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	555	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1005	HYGIENE	Baby Diaper	packs	UPC	1970-01-01	I	24.00	\N	\N	Bulk Items distributed	556	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1006	FOOD_WATER	Curves Sanitary Napkins	boxes	UPC	1970-01-01	I	2.00	\N	\N	Bulk Items distributed	557	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1007	SHELTER	Mattress	units	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	564	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1008	FOOD_WATER	Repellant	boxes	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	565	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1009	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	566	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1010	SHELTER	Pot Set / Dinnerware	sets	UPC	1970-01-01	I	3.00	\N	\N	Bulk Items distributed	567	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1011	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	568	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1012	HYGIENE	Hygiene Kits, unicef	kits	UPC	1970-01-01	I	23.00	\N	\N	Bulk Items distributed	569	2	Location: Hanover- HR/Mlss; Collected by: S. Logan; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1013	SHELTER	Tarpaulins	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	570	2	Location: Hanover- HR/Mlss; Collected by: S. Logan; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1014	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	23.00	\N	\N	Bulk Items distributed	571	2	Location: Hanover- HR/Mlss; Collected by: S. Logan; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1015	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	572	2	Location: Hanover- HR/Mlss; Collected by: S. Logan; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1016	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	80.00	\N	\N	Bulk Items distributed	573	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1017	SHELTER	Mattress, Double	units	UPC	1970-01-01	I	12.00	\N	\N	Bulk Items distributed	574	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1018	FOOD_WATER	Solar Lights	units	UPC	1970-01-01	I	24.00	\N	\N	Bulk Items distributed	575	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1019	FOOD_WATER	Flash lights	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	576	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1020	FOOD_WATER	Batteries, D-size, 2x1	packs	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	577	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1145	FOOD_WATER	Water	cases	UPC	2025-11-27	I	29.00	\N	\N	Bulk Items distributed	756	2	Location: JDF - Trelawny; Collected by: W Walker; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1021	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	578	2	Location: St. Ann-Mlss Initiative; Collected by: Dennis Blackwood; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1022	HYGIENE	Hygiene Kits	kits	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	583	2	Location: JDF - 1 Engineering Regiment -; Collected by: Lt O Carridice; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1023	HYGIENE	Sanitary Hygiene Kit	kits	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	584	2	Location: JDF - 1 Engineering Regiment -; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1024	FOOD_WATER	Jerry Can, ODPEM	units	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	585	2	Location: JDF - 1 Engineering Regiment -; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1025	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	586	2	Location: JDF - 1 Engineering Regiment -; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1026	FOOD_WATER	Solar Lights	boxes	UPC	2025-11-19	I	2.00	\N	\N	Bulk Items distributed	587	2	Location: Hanover L/O; Collected by: D Grant - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1027	HYGIENE	Baby Diapers	boxes	UPC	2025-11-19	I	3.00	\N	\N	Bulk Items distributed	588	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1028	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	4.00	\N	\N	Bulk Items distributed	589	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1029	SHELTER	Tarpaulin	units	UPC	2025-11-19	I	51.00	\N	\N	Bulk Items distributed	590	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1030	HYGIENE	Hygiene kits	kits	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	591	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1031	HYGIENE	Sanitary Hygiene Kit	kits	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	592	2	Location: Burke Barracks, St. James; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1032	HYGIENE	Hygiene Kits	kits	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	593	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1033	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	594	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1034	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	595	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1035	SHELTER	Mattress, Double	units	UPC	2025-11-19	I	14.00	\N	\N	Bulk Items distributed	596	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1036	FOOD_WATER	Jerry Can, ODPEM	units	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	597	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1037	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	598	2	Location: Multi-purpose Stadium, Trelawny; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1038	HYGIENE	Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	599	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1039	FOOD_WATER	Jerry Can, ODPEM	units	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	600	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1040	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	601	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1041	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	602	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1042	SHELTER	Mattress, Double	units	UPC	2025-11-19	I	16.00	\N	\N	Bulk Items distributed	603	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1043	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	604	2	Location: Luana, St. Elizabeth; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1044	HYGIENE	Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	605	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1045	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	606	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1046	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	607	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1047	SHELTER	Mattress, Double	units	UPC	2025-11-19	I	16.00	\N	\N	Bulk Items distributed	608	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1048	FOOD_WATER	Jerry Can, ODPEM	units	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	609	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1049	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	610	2	Location: Frome, Westmoreland; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1050	HYGIENE	Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	611	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1051	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	612	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1052	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	613	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1053	SHELTER	Mattress, Double	units	UPC	2025-11-19	I	14.00	\N	\N	Bulk Items distributed	614	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1054	FOOD_WATER	Jerry Can, ODPEM	ea	UPC	2025-11-19	I	45.00	\N	\N	Bulk Items distributed	615	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1055	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	25.00	\N	\N	Bulk Items distributed	644	2	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1056	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	25.00	\N	\N	Bulk Items distributed	645	2	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1057	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	646	2	Location: JDF - CMP - Westmoreland; Collected by: C McKay; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1058	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	647	2	Location: JDF - Jamaica Regiment; Collected by: W Walker; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1059	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	648	2	Location: JDF - Jamaica Regiment; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1060	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	72.00	\N	\N	Bulk Items distributed	649	2	Location: JDF - Jamaica Regiment; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1061	SHELTER	Mattress, Double	units	UPC	1970-01-01	I	6.00	\N	\N	Bulk Items distributed	650	2	Location: St James L/O; Collected by: D McKella - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1062	FOOD_WATER	Bed Base	units	UPC	1970-01-01	I	6.00	\N	\N	Bulk Items distributed	651	2	Location: St James L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1063	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	167.00	\N	\N	Bulk Items distributed	652	2	Location: JDF - Burke Barracks - St James; Collected by: M Francis; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1064	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	197.00	\N	\N	Bulk Items distributed	653	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1065	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	654	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1066	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	655	2	Location: JDF - Trelawny; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1067	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	656	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1068	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	657	2	Location: JDF - Burke Barracks - St James; Collected by: Capt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1069	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	658	2	Location: JDF - Burke Barracks - St James; Collected by: Capt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1070	SHELTER	Mattress, Double	unit	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	659	2	Location: MLSS Staff Welfare; Collected by: Simone McKenzie Mair; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1071	SHELTER	Mattress, Double	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	660	2	Location: St. Elizabeth Parish Office; Collected by: Dwainton Williams; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1072	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	661	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1073	HYGIENE	Bleach, Clean N White	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	662	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1074	HYGIENE	Disinfectant, Conquest, 1 Litre	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	663	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1075	FOOD_WATER	Cleaning Kits	buckets	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	664	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1076	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	665	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1077	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	666	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1078	SHELTER	Tarpaulin	units	UPC	2025-11-22	I	101.00	\N	\N	Bulk Items distributed	670	2	Location: Manchester L/O; Collected by: D Williams - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1079	SHELTER	Mattress, Double	units	UPC	2025-11-22	I	20.00	\N	\N	Bulk Items distributed	671	2	Location: Manchester L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1080	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	161.00	\N	\N	Bulk Items distributed	672	2	Location: Manchester L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1081	HYGIENE	Soap Powder	packs	UPC	2025-11-22	I	300.00	\N	\N	Bulk Items distributed	673	2	Location: Manchester L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1082	HYGIENE	Disinfectant, Conquest, 1 Litre	boxes	UPC	2025-11-22	I	15.00	\N	\N	Bulk Items distributed	674	2	Location: Manchester L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1083	FOOD_WATER	Water , Catherine Peak	cs	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	675	2	Location: JDF Regiment - St Elizabeth; Collected by: LCPL K Holness; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1084	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	676	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1085	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	150.00	\N	\N	Bulk Items distributed	677	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1086	SHELTER	Tarpaulin	units	UPC	2025-11-22	I	100.00	\N	\N	Bulk Items distributed	678	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1087	FOOD_WATER	Aloe Water	units	UPC	2025-11-22	I	15.00	\N	\N	Bulk Items distributed	679	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1088	FOOD_WATER	Lishous Drink	units	UPC	2025-11-22	I	47.00	\N	\N	Bulk Items distributed	680	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1089	FOOD_WATER	Water, I Cool	cs	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	681	2	Location: JDF - Jamaica Regiment - St Elizabeth; Collected by: Cpl S Willaimson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1090	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	682	2	Location: JDF - Jamaica Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1091	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	150.00	\N	\N	Bulk Items distributed	683	2	Location: JDF - Jamaica Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1092	SHELTER	Tarpaulin	units	UPC	2025-11-22	I	100.00	\N	\N	Bulk Items distributed	684	2	Location: JDF - Jamaica Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1093	FOOD_WATER	Water, I Cool	cs	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	685	2	Location: JDF- Jamaica Regiment  Burke Barracks- St James; Collected by: Cpl R Graham; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1094	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	686	2	Location: JDF- Jamaica Regiment  Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1095	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	150.00	\N	\N	Bulk Items distributed	687	2	Location: JDF- Jamaica Regiment  Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1096	SHELTER	Tarpaulin	units	UPC	2025-11-22	I	100.00	\N	\N	Bulk Items distributed	688	2	Location: JDF- Jamaica Regiment  Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1097	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	12.00	\N	\N	Bulk Items distributed	689	2	Location: Manchester L/O; Collected by: K Royal - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1098	SHELTER	Tarpaulin	units	UPC	2025-11-23	I	15.00	\N	\N	Bulk Items distributed	695	2	Location: Hanover L/O; Collected by: D Grant - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1099	HYGIENE	Hygiene Kit	units	UPC	2025-11-23	I	9.00	\N	\N	Bulk Items distributed	696	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1100	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-23	I	45.00	\N	\N	Bulk Items distributed	697	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1101	SHELTER	Pot / Dinnerware Sets	units	UPC	2025-11-23	I	10.00	\N	\N	Bulk Items distributed	698	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1102	FOOD_WATER	Water	cs	UPC	2025-11-23	I	30.00	\N	\N	Bulk Items distributed	699	2	Location: JDF - MACC - Westmoreland; Collected by: Lt Col M Stewart; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1103	HYGIENE	Hygiene Kit	units	UPC	2025-11-23	I	150.00	\N	\N	Bulk Items distributed	700	2	Location: JDF - Burke Barracks - St James; Collected by: LCPL - Francis; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1104	FOOD_WATER	Water, I Cool	cs	UPC	2025-11-23	I	72.00	\N	\N	Bulk Items distributed	701	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1105	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-23	I	50.00	\N	\N	Bulk Items distributed	702	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1106	HYGIENE	Hygiene Kit	units	UPC	2025-11-23	I	150.00	\N	\N	Bulk Items distributed	703	2	Location: JDF - Trelawny; Collected by: Cpl Williamson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1107	FOOD_WATER	Water, I Cool	cs	UPC	2025-11-23	I	53.00	\N	\N	Bulk Items distributed	704	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1108	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-23	I	50.00	\N	\N	Bulk Items distributed	705	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1109	FOOD_WATER	Pampers	cs	UPC	2025-11-24	I	42.00	\N	\N	Bulk Items distributed	710	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1110	HYGIENE	Hygiene Kit, ODPEM	kits	UPC	2025-11-24	I	10.00	\N	\N	Bulk Items distributed	711	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1111	HYGIENE	Sanitary Hygiene Kit	kits	UPC	2025-11-24	I	60.00	\N	\N	Bulk Items distributed	712	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1112	FOOD_WATER	Up & Up Wet Floor Wipes	boxes	UPC	2025-11-24	I	5.00	\N	\N	Bulk Items distributed	713	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1113	FOOD_WATER	Up & Up Wet Floor Wipes	boxes	UPC	2025-11-24	I	6.00	\N	\N	Bulk Items distributed	714	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1114	SHELTER	Mattress	units	UPC	2025-11-24	I	17.00	\N	\N	Bulk Items distributed	715	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1115	FOOD_WATER	Bed Base	units	UPC	2025-11-24	I	13.00	\N	\N	Bulk Items distributed	716	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1116	FOOD_WATER	Conquest	cases	UPC	2025-11-24	I	30.00	\N	\N	Bulk Items distributed	717	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1117	HYGIENE	Hygiene Kit	units	UPC	2025-11-24	I	540.00	\N	\N	Bulk Items distributed	718	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1118	SHELTER	Mattress	units	UPC	2025-11-24	I	10.00	\N	\N	Bulk Items distributed	719	2	Location: St Ann L/O; Collected by: Simms - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1119	SHELTER	Mattress	units	UPC	2025-11-25	I	38.00	\N	\N	Bulk Items distributed	723	2	Location: JDF- St Elizabeth; Collected by: Romario Edwards; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1120	HYGIENE	Tissue	cases	UPC	2025-11-25	I	165.00	\N	\N	Bulk Items distributed	724	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1121	FOOD_WATER	Wipes	boxes	UPC	2025-11-25	I	4.00	\N	\N	Bulk Items distributed	725	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1122	HYGIENE	Diapers	cases	UPC	2025-11-25	I	34.00	\N	\N	Bulk Items distributed	726	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1123	SHELTER	Stove	units	UPC	2025-11-25	I	50.00	\N	\N	Bulk Items distributed	727	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1124	FOOD_WATER	Jerry Can	bottles	UPC	2025-11-25	I	45.00	\N	\N	Bulk Items distributed	728	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1125	HYGIENE	Hygiene Kits	units	UPC	2025-11-25	I	650.00	\N	\N	Bulk Items distributed	729	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1126	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-25	I	25.00	\N	\N	Bulk Items distributed	730	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1127	HYGIENE	Tissue	cases	UPC	2025-11-25	I	150.00	\N	\N	Bulk Items distributed	731	2	Location: JDF- St Elizabeth; Collected by: M Francis; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1128	HYGIENE	Diapers	boxes	UPC	2025-11-25	I	9.00	\N	\N	Bulk Items distributed	732	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1129	FOOD_WATER	Wipes	boxes	UPC	2025-11-25	I	10.00	\N	\N	Bulk Items distributed	733	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1130	SHELTER	Stove	units	UPC	2025-11-25	I	14.00	\N	\N	Bulk Items distributed	734	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1131	LOGS_ENGR	Solar Lantern	units	UPC	2025-11-25	I	42.00	\N	\N	Bulk Items distributed	735	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1132	FOOD_WATER	Lamp	units	UPC	2025-11-25	I	40.00	\N	\N	Bulk Items distributed	736	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1133	HYGIENE	Hygiene Kit	units	UPC	2025-11-25	I	600.00	\N	\N	Bulk Items distributed	737	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1134	FOOD_WATER	Roll Mats	units	UPC	2025-11-25	I	40.00	\N	\N	Bulk Items distributed	738	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1135	SHELTER	Tarpaulin	units	UPC	2025-11-25	I	3.00	\N	\N	Bulk Items distributed	739	2	Location: MLSS Staff Welfare; Collected by: K. Anderson Thomas; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1136	SHELTER	Tarpaulin	units	UPC	2025-11-25	I	197.00	\N	\N	Bulk Items distributed	740	2	Location: MLSS Tarpaulin Initiative; Collected by: R Howell - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1137	SHELTER	Tarpaulin	units	UPC	2025-11-26	I	150.00	\N	\N	Bulk Items distributed	745	2	Location: St Catherine L/O; Collected by: R Smith - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1138	HYGIENE	Bath Soap	cases	UPC	2025-11-26	I	3.00	\N	\N	Bulk Items distributed	746	2	Location: St Catherine L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1139	SHELTER	Mattress	units	UPC	2025-11-26	I	10.00	\N	\N	Bulk Items distributed	747	2	Location: St James L/O; Collected by: D McKella - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1140	SHELTER	Tarpaulin	units	UPC	2025-11-26	I	20.00	\N	\N	Bulk Items distributed	748	2	Location: St James L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1141	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-26	I	10.00	\N	\N	Bulk Items distributed	749	2	Location: St James L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1142	FOOD_WATER	Bed Base	unit	UPC	2025-11-26	I	1.00	\N	\N	Bulk Items distributed	750	2	Location: St James L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1143	SHELTER	Mattress	units	UPC	2025-11-26	I	10.00	\N	\N	Bulk Items distributed	751	2	Location: KSA L/O; Collected by: Nocola Wright - KSA Social Worker; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1144	SHELTER	Tarpaulin	units	UPC	2025-11-26	I	50.00	\N	\N	Bulk Items distributed	752	2	Location: KSA L/O; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1227	FOOD_WATER	Water	case	UPC	2025-11-01	R	150.00	\N	\N	Items Donated	5	4	Donor: Food for the poor	MLSS_IMPORT	2025-11-29 17:04:33
-1146	FOOD_WATER	Water	units	UPC	2025-11-27	I	4.00	\N	\N	Bulk Items distributed	757	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1147	FOOD_WATER	Salvation Army Breakfast box	cases	UPC	2025-11-27	I	2.00	\N	\N	Bulk Items distributed	758	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1148	FOOD_WATER	Salvation Army Lunch box	cases	UPC	2025-11-27	I	2.00	\N	\N	Bulk Items distributed	759	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1149	SHELTER	Tarpaulin, 4mx5m	units	UPC	2025-11-27	I	3.00	\N	\N	Bulk Items distributed	760	2	Location: MLSS Staff Welfare; Collected by: Mr Clarke - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1150	FOOD_WATER	Water, Essentials,Waitrose, 8x 2lt	cases	UPC	2025-11-27	I	63.00	\N	\N	Bulk Items distributed	761	2	Location: JDF- St. James; Collected by: Mario Francis; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1151	FOOD_WATER	Salvation Army Breakfast box, 30x1	boxes	UPC	2025-11-27	I	2.00	\N	\N	Bulk Items distributed	762	2	Location: JDF- St. James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1152	FOOD_WATER	Salvation Army Lunch box, 30x1	boxes	UPC	2025-11-27	I	2.00	\N	\N	Bulk Items distributed	763	2	Location: JDF- St. James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1153	SHELTER	Tarpaulin, 4mx5m	units	UPC	2025-11-28	I	1.00	\N	\N	Bulk Items distributed	768	2	Location: JMEA; Collected by: K Blake; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1154	FOOD_WATER	Water	cases	UPC	2025-11-28	I	15.00	\N	\N	Bulk Items distributed	769	2	Location: JDF - Burke Barracks - St James; Collected by: R Graham; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1155	FOOD_WATER	Water	units	UPC	2025-11-28	I	20.00	\N	\N	Bulk Items distributed	770	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1156	FOOD_WATER	Salvation Army Lunch boxes	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	771	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1157	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	772	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1158	FOOD_WATER	Water	cases	UPC	2025-11-28	I	32.00	\N	\N	Bulk Items distributed	773	2	Location: JDF - Westmoreland; Collected by: R Edwards; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1159	FOOD_WATER	Salvation Army Lunch box	boxes	UPC	2025-11-28	I	3.00	\N	\N	Bulk Items distributed	774	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1160	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	3.00	\N	\N	Bulk Items distributed	775	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1161	FOOD_WATER	Water	cases	UPC	2025-11-28	I	16.00	\N	\N	Bulk Items distributed	776	2	Location: JDF - Trelawny; Collected by: Cpl O Reynolds; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1162	FOOD_WATER	Salvation Army Lunch box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	777	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1163	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	778	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1164	FOOD_WATER	Water	cases	UPC	2025-11-28	I	30.00	\N	\N	Bulk Items distributed	779	2	Location: JDF - Westmoreland; Collected by: Cpl Winston Walker; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1165	FOOD_WATER	MRE	boxes	UPC	2025-11-28	I	5.00	\N	\N	Bulk Items distributed	780	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1166	FOOD_WATER	Salvation Army Lunch box	boxes	UPC	2025-11-28	I	3.00	\N	\N	Bulk Items distributed	781	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1167	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	3.00	\N	\N	Bulk Items distributed	782	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1168	SHELTER	Mattress	units	UPC	2025-11-28	I	8.00	\N	\N	Bulk Items distributed	783	2	Location: KSA L/O; Collected by: M Jack; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1169	HYGIENE	Hygiene Kit	kits	UPC	2025-11-28	I	50.00	\N	\N	Bulk Items distributed	784	2	Location: Micro Small & Medium Enterprises (MSME); Collected by: A Hamilton; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1170	HYGIENE	Hygiene Kit	kits	UPC	2025-11-28	I	50.00	\N	\N	Bulk Items distributed	785	2	Location: Jamaica Red Cross; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1171	SHELTER	Tarpaulin, 4mx5m	units	UPC	2025-11-28	I	50.00	\N	\N	Bulk Items distributed	786	2	Location: St Mary L/O; Collected by: N Byfield; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1172	FOOD_WATER	Water	cases	UPC	2025-11-28	I	30.00	\N	\N	Bulk Items distributed	787	2	Location: JDF - Hanover; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1173	FOOD_WATER	Salvation Army Lunch box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	788	2	Location: JDF - Hanover; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1174	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	789	2	Location: JDF - Hanover; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1175	FOOD_WATER	Snack Package	ea	UPC	2025-11-03	I	100.00	\N	\N	Snack Packages Distributions	4	2	Location: Hanover; Collected by: J. Jackson; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1176	FOOD_WATER	Snack Package	ea	UPC	2025-11-03	I	30.00	\N	\N	Snack Packages Distributions	5	2	Location: OPM; Collected by: T MURRAY; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1177	FOOD_WATER	Snack Package	ea	UPC	2025-11-05	I	50.00	\N	\N	Snack Packages Distributions	6	2	Location: St Mary Parish Office; Collected by: J BOYD; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1178	FOOD_WATER	Snack Package	ea	UPC	2025-11-05	I	100.00	\N	\N	Snack Packages Distributions	7	2	Location: Hanover and Trelawny; Collected by: Sp Bde (CMP); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1179	FOOD_WATER	Snack Package	ea	UPC	2025-11-05	I	50.00	\N	\N	Snack Packages Distributions	8	2	Location: Hanover and Westmoreland; Collected by: Capt INGRAM; Remarks: Sp Bde (HSC Wellness Centre); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1180	FOOD_WATER	Snack Package	ea	UPC	2025-11-06	I	20.00	\N	\N	Snack Packages Distributions	9	2	Location: Andrew Moriss- ST Elizabeth North Western; Collected by: V Dixon; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1181	FOOD_WATER	Snack Package	ea	UPC	2025-11-10	I	4.00	\N	\N	Snack Packages Distributions	11	2	Location: JDF - Burke Barracks & Luanna - St James & St Elizabeth; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1182	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	25.00	\N	\N	Snack Packages Distributions	12	2	Location: Ministry of National Security; Collected by: R. Steele McCarthy; Remarks: Jamaica Constabulary Force (JCF); Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1183	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	20.00	\N	\N	Snack Packages Distributions	13	2	Location: St. Mary Parish Office; Collected by: Nigel Byfield; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1184	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	62.00	\N	\N	Snack Packages Distributions	14	2	Location: JDF - Luana- St Elizabeth; Collected by: Cpt Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1185	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	100.00	\N	\N	Snack Packages Distributions	15	2	Location: Denbeigh Clarendon; Collected by: Cpl M Jarrett; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1186	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	30.00	\N	\N	Snack Packages Distributions	16	2	Location: St Ann L/O; Collected by: A Robb - MLSS PAD Admin; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1187	FOOD_WATER	Snack Package	ea	UPC	2025-11-14	I	25.00	\N	\N	Snack Packages Distributions	17	2	Location: JDF- Luana - St Elizabeth; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1188	FOOD_WATER	Snack Package	ea	UPC	2025-11-14	I	25.00	\N	\N	Snack Packages Distributions	18	2	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1189	FOOD_WATER	Snack Package	ea	UPC	2025-11-14	I	25.00	\N	\N	Snack Packages Distributions	19	2	Location: JDF - Burke Barracks - St James; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1190	FOOD_WATER	Snack Package	ea	UPC	2025-11-14	I	167.00	\N	\N	Snack Packages Distributions	20	2	Location: JDF - Burke Barracks - St James; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1191	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-10-29	R	1000.00	\N	\N	Packages produced per day	4	2	Completed packages; 850 package were not completed due to insufficient items; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1192	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-10-29	R	850.00	\N	\N	Packages produced per day	4	3	Partial packages; 850 package were not completed due to insufficient items; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1193	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-10-30	R	2523.00	\N	\N	Packages produced per day	5	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1194	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-10-31	R	1784.00	\N	\N	Packages produced per day	6	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1195	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-10-31	R	1500.00	\N	\N	Packages produced per day	6	3	Partial packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1196	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-01	R	3717.00	\N	\N	Packages produced per day	7	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1197	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-11-01	R	862.00	\N	\N	Packages produced per day	7	3	Partial packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1198	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-02	R	908.00	\N	\N	Packages produced per day	8	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1199	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-03	R	1625.00	\N	\N	Packages produced per day	9	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1200	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-04	R	1844.00	\N	\N	Packages produced per day	10	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1201	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-05	R	4383.00	\N	\N	Packages produced per day	11	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1202	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-06	R	4049.00	\N	\N	Packages produced per day	12	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1203	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-07	R	5120.00	\N	\N	Packages produced per day	13	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1204	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-08	R	3537.00	\N	\N	Packages produced per day	14	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1205	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-09	R	1913.00	\N	\N	Packages produced per day	15	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1206	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-10	R	3420.00	\N	\N	Packages produced per day	16	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1207	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-11	R	3945.00	\N	\N	Packages produced per day	17	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1208	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-12	R	3664.00	\N	\N	Packages produced per day	18	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1209	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-13	R	3695.00	\N	\N	Packages produced per day	19	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1210	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-14	R	4650.00	\N	\N	Packages produced per day	20	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1211	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-15	R	2440.00	\N	\N	Packages produced per day	21	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1212	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-16	R	383.00	\N	\N	Packages produced per day	22	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1213	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-17	R	620.00	\N	\N	Packages produced per day	23	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1214	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-18	R	2756.00	\N	\N	Packages produced per day	24	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1215	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-19	R	5729.00	\N	\N	Packages produced per day	25	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1216	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-20	R	5240.00	\N	\N	Packages produced per day	26	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1217	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-11-21	R	1543.00	\N	\N	Packages produced per day	27	3	Partial packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1218	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-22	R	190.00	\N	\N	Packages produced per day	28	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1219	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-11-22	R	150.00	\N	\N	Packages produced per day	28	3	Partial packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1220	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-24	R	3650.00	\N	\N	Packages produced per day	30	2	Completed packages; 3650 received from ODPEM; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1221	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-25	R	450.00	\N	\N	Packages produced per day	31	2	Completed packages; 450 received from ODPEM; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1222	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-26	R	2130.00	\N	\N	Packages produced per day	32	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1223	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-27	R	4320.00	\N	\N	Packages produced per day	33	2	Completed packages; 1507 received from ODPEM; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1224	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-28	R	1720.00	\N	\N	Packages produced per day	34	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1225	FOOD_WATER	Food Packages	ea	UPC	2025-11-01	R	995.00	\N	\N	Items Donated	3	4	Donor: Food for the poor	MLSS_IMPORT	2025-11-29 17:04:33
-1226	HYGIENE	Hygiene Kits	ea	UPC	2025-11-01	R	30.00	\N	\N	Items Donated	4	4	Donor: Food for the poor	MLSS_IMPORT	2025-11-29 17:04:33
-1230	FOOD_WATER	Chicken Vienna Sausage	case	UPC	2025-11-02	R	210.00	\N	\N	Items Donated	8	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-11-29 17:04:33
-1231	FOOD_WATER	Lasco Baked Bean	case	UPC	2025-11-02	R	420.00	\N	\N	Items Donated	9	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-11-29 17:04:33
-1232	FOOD_WATER	Corn Beef	case	UPC	2025-11-02	R	420.00	\N	\N	Items Donated	10	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-11-29 17:04:33
-1233	FOOD_WATER	Aloe Vera Drink	case	UPC	2025-11-02	R	100.00	\N	\N	Items Donated	11	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-11-29 17:04:33
-1234	FOOD_WATER	Sugar	bags	UPC	2025-11-02	R	23.00	\N	\N	Items Donated	12	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-11-29 17:04:33
-1235	FOOD_WATER	Turmeric tea	packs	UPC	2025-11-03	R	15.00	\N	\N	Items Donated	13	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1236	FOOD_WATER	Syrup - Pina Colada	bottles	UPC	2025-11-03	R	12.00	\N	\N	Items Donated	14	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1237	FOOD_WATER	Tetley Tea Chia Vanilla	pack	UPC	2025-11-03	R	17.00	\N	\N	Items Donated	15	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1238	FOOD_WATER	Condensed Coconut Milk	cans	UPC	2025-11-03	R	17.00	\N	\N	Items Donated	16	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1239	FOOD_WATER	Water Wata 330ml *24	cases	UPC	2025-11-03	R	2.00	\N	\N	Items Donated	17	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1240	FOOD_WATER	Cran Wata 600ml 8*24	cases	UPC	2025-11-03	R	2.00	\N	\N	Items Donated	18	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1241	FOOD_WATER	Pepsi Zero Sugar 350ml*24	cases	UPC	2025-11-03	R	5.00	\N	\N	Items Donated	19	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1242	FOOD_WATER	Pepsi Zero Sugar 350ml	singles	UPC	2025-11-03	R	18.00	\N	\N	Items Donated	20	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1243	FOOD_WATER	Schweppes 355ml*24	cases	UPC	2025-11-03	R	6.00	\N	\N	Items Donated	21	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1244	FOOD_WATER	Cooking Oil	ea	UPC	2025-11-03	R	927.00	\N	\N	Items Donated	22	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1245	HYGIENE	Hygiene Kits	ea	UPC	2025-11-03	R	154.00	\N	\N	Items Donated	23	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1246	HYGIENE	Diapers	toddler	UPC	2025-11-03	R	1332.00	\N	\N	Items Donated	24	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1247	HYGIENE	Diapers	adults	UPC	2025-11-03	R	804.00	\N	\N	Items Donated	25	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1248	SHELTER	Tarpaulin	12x16	UPC	2025-11-03	R	50.00	\N	\N	Items Donated	26	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1249	SHELTER	Tarpaulin	12x20	UPC	2025-11-03	R	30.00	\N	\N	Items Donated	27	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1250	SHELTER	Tarpaulin	16x20	UPC	2025-11-03	R	57.00	\N	\N	Items Donated	28	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1251	SHELTER	Tarpaulin	20x20	UPC	2025-11-03	R	24.00	\N	\N	Items Donated	29	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1252	SHELTER	Dinnerware Sets	ea	UPC	2025-11-03	R	43.00	\N	\N	Items Donated	30	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1253	FOOD_WATER	Pot sets	ea	UPC	2025-11-03	R	24.00	\N	\N	Items Donated	31	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1254	FOOD_WATER	Household Kits	ea	UPC	2025-11-03	R	52.00	\N	\N	Items Donated	32	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1255	SHELTER	Buckets with covers	ea	UPC	2025-11-03	R	50.00	\N	\N	Items Donated	33	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1256	FOOD_WATER	Razor	ea	UPC	2025-11-03	R	76.00	\N	\N	Items Donated	34	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1257	HYGIENE	Shaving Cream	ea	UPC	2025-11-03	R	214.00	\N	\N	Items Donated	35	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1258	HYGIENE	Toothbrush	ea	UPC	2025-11-03	R	1450.00	\N	\N	Items Donated	36	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1259	FOOD_WATER	Alcohol wipes	ea	UPC	2025-11-03	R	12.00	\N	\N	Items Donated	37	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1260	FOOD_WATER	Water	ea	UPC	2025-11-03	R	1330.00	\N	\N	Items Donated	38	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1261	FOOD_WATER	Mix Vegetable	cases	UPC	2025-11-03	R	49.00	\N	\N	Items Donated	39	4	Donor: Food For the Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1262	FOOD_WATER	Mackerel in Brine	cases	UPC	2025-11-03	R	49.00	\N	\N	Items Donated	40	4	Donor: Food For the Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1263	FOOD_WATER	Black Bean	cases	UPC	2025-11-03	R	49.00	\N	\N	Items Donated	41	4	Donor: Food For the Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1264	FOOD_WATER	Manna Pack	cases	UPC	2025-11-03	R	36.00	\N	\N	Items Donated	42	4	Donor: Food For the Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1265	FOOD_WATER	Counter Flour 1lbs	bags	UPC	2025-11-03	R	15.00	\N	\N	Items Donated	43	4	Donor: Food For the Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1266	FOOD_WATER	Sardine in water	cases	UPC	2025-11-04	R	300.00	\N	\N	Items Donated	45	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1267	FOOD_WATER	Sardine in Tomato	cases	UPC	2025-11-04	R	75.00	\N	\N	Items Donated	46	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1268	FOOD_WATER	Sardine in oil	cases	UPC	2025-11-04	R	75.00	\N	\N	Items Donated	47	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1269	FOOD_WATER	Sugar	bags	UPC	2025-11-04	R	49.00	\N	\N	Items Donated	48	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1270	FOOD_WATER	Vegetable oil	ea	UPC	2025-11-04	R	150.00	\N	\N	Items Donated	49	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1271	FOOD_WATER	Curves Maxi Sanitary Napkin	ea	UPC	2025-11-04	R	50.00	\N	\N	Items Donated	50	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1272	FOOD_WATER	Curves Overnight Sanitary Napkin	ea	UPC	2025-11-04	R	50.00	\N	\N	Items Donated	51	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1273	FOOD_WATER	May's White Sugar	box	UPC	2025-11-04	R	1.00	\N	\N	Items Donated	52	4	Donor: Lloyd's Manufacturing Co	MLSS_IMPORT	2025-11-29 17:04:33
-1274	FOOD_WATER	May's Dark Sugar	box	UPC	2025-11-04	R	1.00	\N	\N	Items Donated	53	4	Donor: Lloyd's Manufacturing Co	MLSS_IMPORT	2025-11-29 17:04:33
-1275	SHELTER	Tarpaulins	ea	UPC	2025-11-05	R	250.00	\N	\N	Items Donated	54	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1276	FOOD_WATER	Wipes ADA	40x1	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	55	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1277	FOOD_WATER	Lotion Ashley	200mg	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	56	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1278	HYGIENE	Bath Soap Rose	115g	UPC	2025-11-06	R	36.00	\N	\N	Items Donated	57	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1279	FOOD_WATER	Toothpaste (Colgate, Triple Action)	70mg	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	58	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1280	HYGIENE	Toothbrush (Alex)	12x1	UPC	2025-11-06	R	36.00	\N	\N	Items Donated	59	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1281	FOOD_WATER	Comb	12x1	UPC	2025-11-06	R	12.00	\N	\N	Items Donated	60	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1282	FOOD_WATER	Water (Wata, Wata) (24x600ML)	cases	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	61	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1283	FOOD_WATER	Tiolet Paper (Bingo Grande) (24x1)	cases	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	62	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1284	FOOD_WATER	Sugar (Worthy Park) (40x500g)	cases	UPC	2025-11-06	R	2.00	\N	\N	Items Donated	63	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1285	FOOD_WATER	Sardine (Brunswick) ( 50x106g)	case	UPC	2025-11-06	R	1.00	\N	\N	Items Donated	64	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1286	FOOD_WATER	Detergent (Sud Sud) (20x350g)	cases	UPC	2025-11-06	R	2.00	\N	\N	Items Donated	65	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1287	FOOD_WATER	Banana Chips (St Mary) (5x15x39g)	cases	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	66	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1288	FOOD_WATER	Cup Soup (12x2) (25oz)	cases	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	67	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-11-29 17:04:33
-1289	FOOD_WATER	Sleeping Pads	ea	UPC	2025-11-06	R	200.00	\N	\N	Items Donated	68	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1290	FOOD_WATER	Jerrycan Water	ea	UPC	2025-11-06	R	280.00	\N	\N	Items Donated	69	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1291	SHELTER	Tarpaulins	ea	UPC	2025-11-06	R	200.00	\N	\N	Items Donated	70	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1292	FOOD_WATER	Water Purification System	ea	UPC	2025-11-06	R	20.00	\N	\N	Items Donated	71	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1293	FOOD_WATER	Food Packages	ea	UPC	2025-11-06	R	1200.00	\N	\N	Items Donated	72	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1294	LOGS_ENGR	Generator 3 Kw	ea	UPC	2025-11-06	R	12.00	\N	\N	Items Donated	73	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1295	LOGS_ENGR	Generator 3.5 Kw	ea	UPC	2025-11-06	R	1.00	\N	\N	Items Donated	74	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1296	LOGS_ENGR	Generator 4.65 Kw	ea	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	75	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1297	LOGS_ENGR	Generator 6.5 Kw	ea	UPC	2025-11-06	R	3.00	\N	\N	Items Donated	76	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1298	SHELTER	Gasoline Cans	5 gallon	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	77	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1299	LOGS_ENGR	Solar Lantern with Phone Charger	ea	UPC	2025-11-06	R	704.00	\N	\N	Items Donated	78	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1300	SHELTER	Cots	ea	UPC	2025-11-06	R	200.00	\N	\N	Items Donated	79	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1301	HYGIENE	Hygiene Kits	cases	UPC	2025-11-07	R	44.00	\N	\N	Items Donated	80	4	Donor: UNICEF	MLSS_IMPORT	2025-11-29 17:04:33
-1302	FOOD_WATER	Food  Packages	ea	UPC	2025-11-07	R	90.00	\N	\N	Items Donated	81	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1303	SHELTER	Tarpaulin	ea	UPC	2025-11-07	R	100.00	\N	\N	Items Donated	82	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1304	LOGS_ENGR	Solar Lantern	8x1	UPC	2025-11-07	R	88.00	\N	\N	Items Donated	83	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1305	FOOD_WATER	Lanter Charger	ea	UPC	2025-11-07	R	74.00	\N	\N	Items Donated	84	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1306	FOOD_WATER	Water Purification System	ea	UPC	2025-11-07	R	21.00	\N	\N	Items Donated	85	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1307	FOOD_WATER	Water Container	7x1	UPC	2025-11-07	R	7.00	\N	\N	Items Donated	86	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1308	FOOD_WATER	Foam Mat	20x1	UPC	2025-11-07	R	10.00	\N	\N	Items Donated	87	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1309	LOGS_ENGR	Generator	ea	UPC	2025-11-07	R	22.00	\N	\N	Items Donated	88	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1310	HYGIENE	Bleach 4%	tote	UPC	2025-11-07	R	2.00	\N	\N	Items Donated	89	4	Donor: Ansa Mcal Chemicals Ltd	MLSS_IMPORT	2025-11-29 17:04:33
-1311	HYGIENE	Bleach 8%	tote	UPC	2025-11-07	R	1.00	\N	\N	Items Donated	90	4	Donor: Ansa Mcal Chemicals Ltd	MLSS_IMPORT	2025-11-29 17:04:33
-1312	FOOD_WATER	Food Packages	ea	UPC	2025-11-08	R	2000.00	\N	\N	Items Donated	91	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1313	SHELTER	Tents	ea	UPC	2025-11-08	R	8.00	\N	\N	Items Donated	92	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1314	SHELTER	Mosquito Nets	ea	UPC	2025-11-08	R	60.00	\N	\N	Items Donated	93	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1315	FOOD_WATER	Bed Sheets	ea	UPC	2025-11-08	R	20.00	\N	\N	Items Donated	94	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1316	SHELTER	Tarpaulin	ea	UPC	2025-11-08	R	1.00	\N	\N	Items Donated	95	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1317	LOGS_ENGR	Sleeping Bags	ea	UPC	2025-11-08	R	22.00	\N	\N	Items Donated	96	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1318	FOOD_WATER	MRE	ea	UPC	2025-11-08	R	160.00	\N	\N	Items Donated	97	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1319	LOGS_ENGR	Solar Lanterns	ea	UPC	2025-11-08	R	20.00	\N	\N	Items Donated	98	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1320	FOOD_WATER	Food Pacakges	ea	UPC	2025-11-08	R	30.00	\N	\N	Items Donated	99	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1321	FOOD_WATER	Water	cases	UPC	2025-11-08	R	30.00	\N	\N	Items Donated	100	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1322	FOOD_WATER	Food Packages	ea	UPC	2025-11-08	R	1600.00	\N	\N	Items Donated	101	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1323	FOOD_WATER	Water	ea	UPC	2025-11-08	R	600.00	\N	\N	Items Donated	102	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1324	FOOD_WATER	Food Packages	ea	UPC	2025-11-08	R	1600.00	\N	\N	Items Donated	103	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1325	FOOD_WATER	Food Pacakges	ea	UPC	2025-11-08	R	4000.00	\N	\N	Items Donated	104	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1326	FOOD_WATER	Always Maxi Soft Over Night(12x8) cases	ea	UPC	2025-11-08	R	100.00	\N	\N	Items Donated	105	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-11-29 17:04:33
-1327	FOOD_WATER	Always Maxi Over Night with wing (6*27) cases	ea	UPC	2025-11-08	R	50.00	\N	\N	Items Donated	106	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-11-29 17:04:33
-1328	FOOD_WATER	Always P/Liner 6x60 cases	ea	UPC	2025-11-08	R	50.00	\N	\N	Items Donated	107	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-11-29 17:04:33
-1329	FOOD_WATER	Crest Cav Pro T/P Reg (24x5.7oz) cases	ea	UPC	2025-11-08	R	24.00	\N	\N	Items Donated	108	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-11-29 17:04:33
-1330	FOOD_WATER	Crest Tart Prot C/Mint cases	ea	UPC	2025-11-08	R	20.00	\N	\N	Items Donated	109	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-11-29 17:04:33
-1331	HYGIENE	Pampers B-Dry Diapers S3 Bags (2x52) cases	ea	UPC	2025-11-08	R	30.00	\N	\N	Items Donated	110	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-11-29 17:04:33
-1332	HYGIENE	Pampers B-Dry Diapers S4 Bags (2x46) cases	ea	UPC	2025-11-08	R	30.00	\N	\N	Items Donated	111	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-11-29 17:04:33
-1333	HYGIENE	Pampers B-Dry Diapers S5 Bags (2x39) cases	ea	UPC	2025-11-08	R	24.00	\N	\N	Items Donated	112	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-11-29 17:04:33
-1334	FOOD_WATER	Counter Plus Flour	ea	UPC	2025-11-08	R	400.00	\N	\N	Items Donated	113	4	Donor: JMEA	MLSS_IMPORT	2025-11-29 17:04:33
-1335	FOOD_WATER	Food Packages	ea	UPC	2025-11-09	R	2000.00	\N	\N	Items Donated	114	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1336	FOOD_WATER	Food Packages	ea	UPC	2025-11-09	R	2000.00	\N	\N	Items Donated	115	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1337	FOOD_WATER	Food Packages	ea	UPC	2025-11-09	R	4000.00	\N	\N	Items Donated	116	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1338	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-11	R	96.00	\N	\N	Items Donated	117	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1339	FOOD_WATER	Mackerel in Brine	ea	UPC	2025-11-11	R	204.00	\N	\N	Items Donated	118	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1340	HYGIENE	Tissue, Irie	ea	UPC	2025-11-11	R	30.00	\N	\N	Items Donated	119	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1341	FOOD_WATER	Assorted Q-Shirts/T-Shirts	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	120	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1342	FOOD_WATER	Children Clothing	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	121	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1343	FOOD_WATER	Shoes (Slides),	25 x1	UPC	2025-11-11	R	20.00	\N	\N	Items Donated	122	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1344	SHELTER	Blankets, Disaster	8 x1	UPC	2025-11-11	R	20.00	\N	\N	Items Donated	123	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1345	HYGIENE	Paper Towels	24 x 1	UPC	2025-11-11	R	20.00	\N	\N	Items Donated	124	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1346	FOOD_WATER	Adult Wipes	24 x 1	UPC	2025-11-11	R	10.00	\N	\N	Items Donated	125	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1347	LOGS_ENGR	Flashlights,Power Torch 2D, 50 x 1	ea	UPC	2025-11-11	R	2.00	\N	\N	Items Donated	126	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1348	FOOD_WATER	Batteries, D size, 48 x 1	ea	UPC	2025-11-11	R	2.00	\N	\N	Items Donated	127	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1349	FOOD_WATER	Raincoats, Adults	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	128	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1350	FOOD_WATER	Adult Clothing	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	129	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1351	FOOD_WATER	Manna pack , 36 x 1	ea	UPC	2025-11-11	R	36.00	\N	\N	Items Donated	130	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1352	SHELTER	Mosquito nets	ea	UPC	2025-11-11	R	2.00	\N	\N	Items Donated	131	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1353	FOOD_WATER	Flat Sheet Queen	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	132	4	Donor: Food For The Poor	MLSS_IMPORT	2025-11-29 17:04:33
-1354	SHELTER	Tarpaulin	16x20	UPC	2025-11-13	R	84.00	\N	\N	Items Donated	133	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1355	SHELTER	Tarpaulin	10x12	UPC	2025-11-13	R	660.00	\N	\N	Items Donated	134	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1356	SHELTER	Tarpaulin	10x20	UPC	2025-11-13	R	150.00	\N	\N	Items Donated	135	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1357	SHELTER	Tarpaulin	20x30	UPC	2025-11-13	R	106.00	\N	\N	Items Donated	136	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1358	SHELTER	Tarpaulin	10x12	UPC	2025-11-13	R	675.00	\N	\N	Items Donated	137	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1359	SHELTER	Tarpaulin	10x12	UPC	2025-11-13	R	320.00	\N	\N	Items Donated	138	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1360	SHELTER	Tarpaulin	30x35	UPC	2025-11-13	R	5.00	\N	\N	Items Donated	139	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1361	HYGIENE	Diapers size 4	ea	UPC	2025-11-13	R	30.00	\N	\N	Items Donated	140	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1362	HYGIENE	Diapers size 3	ea	UPC	2025-11-13	R	30.00	\N	\N	Items Donated	141	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1363	HYGIENE	Diapers size 2	ea	UPC	2025-11-13	R	30.00	\N	\N	Items Donated	142	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1364	HYGIENE	Diapers New born	ea	UPC	2025-11-13	R	30.00	\N	\N	Items Donated	143	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1365	HYGIENE	Clean & White Bleach	ea	UPC	2025-11-18	R	27.00	\N	\N	Items Donated	146	4	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1366	FOOD_WATER	Crackers, National, 40x1	ea	UPC	2025-11-19	R	80.00	\N	\N	Items Donated	148	4	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1367	FOOD_WATER	Care Packages	ea	UPC	2025-11-20	R	2100.00	\N	\N	Items Donated	150	4	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1368	FOOD_WATER	Water	ea	UPC	2025-11-20	R	732.00	\N	\N	Items Donated	151	4	Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1369	FOOD_WATER	Food Packages	ea	UPC	2025-11-24	R	3650.00	\N	\N	Items Donated	153	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1370	SHELTER	Tarpaulin	ea	UPC	2025-11-25	R	400.00	\N	\N	Items Donated	155	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1371	FOOD_WATER	Food Packages	ea	UPC	2025-11-25	R	450.00	\N	\N	Items Donated	156	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1372	FOOD_WATER	Cup Soup	ea	UPC	2025-11-25	R	50.00	\N	\N	Items Donated	157	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1373	SHELTER	Tarpaulins, 12x16	ea	UPC	2025-11-25	R	100.00	\N	\N	Items Donated	158	4	Donor: Kingston Wharfs	MLSS_IMPORT	2025-11-29 17:04:33
-1374	FOOD_WATER	Food Packages	ea	UPC	2025-11-27	R	755.00	\N	\N	Items Donated	160	4	Donor: ODPEM	MLSS_IMPORT	2025-11-29 17:04:33
-1375	FOOD_WATER	MRE	ea	UPC	2025-11-27	R	180.00	\N	\N	Items Donated	161	4	Donor: World Food Program	MLSS_IMPORT	2025-11-29 17:04:33
-1376	FOOD_WATER	Jerry Can, 48x1	ea	UPC	2025-11-27	R	336.00	\N	\N	Items Donated	162	4	Donor: World Food Program	MLSS_IMPORT	2025-11-29 17:04:33
-1377	HYGIENE	Bleach 2L	ea	UPC	2025-11-27	R	108.00	\N	\N	Items Donated	163	4	Donor: DFL Imports	MLSS_IMPORT	2025-11-29 17:04:33
-1378	HYGIENE	Bleach 950ML	ea	UPC	2025-11-27	R	162.00	\N	\N	Items Donated	164	4	Donor: DFL Imports	MLSS_IMPORT	2025-11-29 17:04:33
-1379	FOOD_WATER	Rice	ea	UPC	2025-11-28	R	770.00	\N	\N	Items Donated	166	4	Donor: WFP	MLSS_IMPORT	2025-11-29 17:04:33
-1380	FOOD_WATER	Sugar	case	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	3	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1381	FOOD_WATER	Sugar	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	3	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1382	FOOD_WATER	Sugar	case	UPC	2025-11-03	R	200.00	\N	\N	Goods Received from procurement	3	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1383	FOOD_WATER	Sugar	case	UPC	2025-11-06	R	755.00	\N	\N	Goods Received from procurement	3	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1384	FOOD_WATER	Sugar	case	UPC	2025-11-13	R	500.00	\N	\N	Goods Received from procurement	3	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1385	FOOD_WATER	Cornmeal	case	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	4	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1386	FOOD_WATER	Cornmeal	case	UPC	2025-11-05	R	800.00	\N	\N	Goods Received from procurement	4	11	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1387	FOOD_WATER	Cornmeal	case	UPC	2025-11-13	R	200.00	\N	\N	Goods Received from procurement	4	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1388	FOOD_WATER	Cornmeal	case	UPC	2025-11-14	R	198.00	\N	\N	Goods Received from procurement	4	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1389	FOOD_WATER	Cornmeal	case	UPC	2025-11-19	R	137.00	\N	\N	Goods Received from procurement	4	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1390	FOOD_WATER	Crackers	case	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	5	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1391	FOOD_WATER	Crackers	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	5	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1392	FOOD_WATER	Crackers	case	UPC	2025-11-18	R	417.00	\N	\N	Goods Received from procurement	5	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1393	FOOD_WATER	Crackers	case	UPC	2025-11-19	R	417.00	\N	\N	Goods Received from procurement	5	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1394	FOOD_WATER	Crackers	case	UPC	2025-11-25	R	687.00	\N	\N	Goods Received from procurement	5	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1395	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-07	R	417.00	\N	\N	Goods Received from procurement	6	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1396	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-08	R	417.00	\N	\N	Goods Received from procurement	6	14	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1397	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-14	R	417.00	\N	\N	Goods Received from procurement	6	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1398	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-25	R	663.00	\N	\N	Goods Received from procurement	6	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1399	FOOD_WATER	Lasco Food Drink	case	UPC	2025-10-29	R	50.00	\N	\N	Goods Received from procurement	7	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1400	FOOD_WATER	Lasco Food Drink	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	7	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1401	FOOD_WATER	Lasco Food Drink	case	UPC	2025-11-03	R	180.00	\N	\N	Goods Received from procurement	7	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1402	FOOD_WATER	Lasco Food Drink	case	UPC	2025-11-14	R	100.00	\N	\N	Goods Received from procurement	7	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1403	FOOD_WATER	Lasco Food Drink	case	UPC	2025-11-25	R	172.00	\N	\N	Goods Received from procurement	7	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1404	FOOD_WATER	Rice	bag	UPC	2025-10-31	R	100.00	\N	\N	Goods Received from procurement	9	6	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1405	FOOD_WATER	Rice	bag	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	9	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1406	FOOD_WATER	Rice	bag	UPC	2025-11-03	R	100.00	\N	\N	Goods Received from procurement	9	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1407	FOOD_WATER	Rice	bag	UPC	2025-11-04	R	100.00	\N	\N	Goods Received from procurement	9	10	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1408	FOOD_WATER	Rice	bag	UPC	2025-11-07	R	110.00	\N	\N	Goods Received from procurement	9	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1409	FOOD_WATER	Rice	bag	UPC	2025-11-11	R	90.00	\N	\N	Goods Received from procurement	9	17	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1410	FOOD_WATER	Rice	bag	UPC	2025-11-13	R	400.00	\N	\N	Goods Received from procurement	9	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1411	FOOD_WATER	Rice	bag	UPC	2025-11-14	R	417.00	\N	\N	Goods Received from procurement	9	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1412	FOOD_WATER	Rice	bag	UPC	2025-11-18	R	400.00	\N	\N	Goods Received from procurement	9	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1413	FOOD_WATER	Baked Beans	cases	UPC	2025-11-06	R	500.00	\N	\N	Goods Received from procurement	10	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1414	FOOD_WATER	Baked Beans	cases	UPC	2025-11-07	R	537.00	\N	\N	Goods Received from procurement	10	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1415	FOOD_WATER	Baked Beans	cases	UPC	2025-11-09	R	417.00	\N	\N	Goods Received from procurement	10	15	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1416	FOOD_WATER	Baked Beans	cases	UPC	2025-11-14	R	417.00	\N	\N	Goods Received from procurement	10	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1417	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-03	R	100.00	\N	\N	Goods Received from procurement	11	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1418	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-06	R	400.00	\N	\N	Goods Received from procurement	11	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1419	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-07	R	200.00	\N	\N	Goods Received from procurement	11	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1420	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-09	R	200.00	\N	\N	Goods Received from procurement	11	15	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1421	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-25	R	716.00	\N	\N	Goods Received from procurement	11	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1422	FOOD_WATER	Sardine	box	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	12	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1423	FOOD_WATER	Sardine	box	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	12	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1424	FOOD_WATER	Sardine	box	UPC	2025-11-03	R	200.00	\N	\N	Goods Received from procurement	12	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1425	FOOD_WATER	Sardine	box	UPC	2025-11-06	R	400.00	\N	\N	Goods Received from procurement	12	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1426	FOOD_WATER	Sardine	box	UPC	2025-11-07	R	400.00	\N	\N	Goods Received from procurement	12	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1427	FOOD_WATER	Corn Beef	case	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	13	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1428	FOOD_WATER	Corn Beef	case	UPC	2025-11-07	R	417.00	\N	\N	Goods Received from procurement	13	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1429	FOOD_WATER	Corn Beef	case	UPC	2025-11-08	R	416.00	\N	\N	Goods Received from procurement	13	14	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1430	FOOD_WATER	Corn Beef	case	UPC	2025-11-26	R	663.00	\N	\N	Goods Received from procurement	13	28	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1431	FOOD_WATER	Sausage	ea	UPC	2025-11-06	R	1254.00	\N	\N	Goods Received from procurement	14	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1432	FOOD_WATER	Sausage	ea	UPC	2025-11-07	R	417.00	\N	\N	Goods Received from procurement	14	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1433	FOOD_WATER	Flour	case	UPC	2025-10-29	R	50.00	\N	\N	Goods Received from procurement	15	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1434	FOOD_WATER	Flour	case	UPC	2025-10-30	R	100.00	\N	\N	Goods Received from procurement	15	5	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1435	FOOD_WATER	Flour	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	15	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1436	FOOD_WATER	Flour	case	UPC	2025-11-04	R	100.00	\N	\N	Goods Received from procurement	15	10	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1437	FOOD_WATER	Flour	case	UPC	2025-11-06	R	600.00	\N	\N	Goods Received from procurement	15	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1438	FOOD_WATER	Flour	case	UPC	2025-11-18	R	1000.00	\N	\N	Goods Received from procurement	15	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1439	FOOD_WATER	Flour	case	UPC	2025-11-19	R	400.00	\N	\N	Goods Received from procurement	15	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1440	FOOD_WATER	Oil	cases	UPC	2025-11-07	R	417.00	\N	\N	Goods Received from procurement	16	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1441	FOOD_WATER	Oil	cases	UPC	2025-11-11	R	417.00	\N	\N	Goods Received from procurement	16	17	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1442	FOOD_WATER	Oil	cases	UPC	2025-11-14	R	417.00	\N	\N	Goods Received from procurement	16	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1443	FOOD_WATER	Oil	cases	UPC	2025-11-15	R	417.00	\N	\N	Goods Received from procurement	16	21	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1444	FOOD_WATER	Oil	cases	UPC	2025-11-18	R	417.00	\N	\N	Goods Received from procurement	16	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1445	FOOD_WATER	Oil	cases	UPC	2025-11-27	R	500.00	\N	\N	Goods Received from procurement	16	29	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1446	FOOD_WATER	Oil	cases	UPC	2025-11-28	R	163.00	\N	\N	Goods Received from procurement	16	30	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1447	FOOD_WATER	Oats	case	UPC	2025-10-29	R	500.00	\N	\N	Goods Received from procurement	17	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1448	FOOD_WATER	Oats	case	UPC	2025-11-05	R	223.00	\N	\N	Goods Received from procurement	17	11	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1449	FOOD_WATER	Oats	case	UPC	2025-11-06	R	200.00	\N	\N	Goods Received from procurement	17	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1450	FOOD_WATER	Oats	case	UPC	2025-11-13	R	223.00	\N	\N	Goods Received from procurement	17	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1451	FOOD_WATER	Oats	case	UPC	2025-11-14	R	223.00	\N	\N	Goods Received from procurement	17	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1452	HYGIENE	Bath Soap	case	UPC	2025-10-29	R	30.00	\N	\N	Goods Received from procurement	18	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1453	HYGIENE	Bath Soap	case	UPC	2025-11-09	R	139.00	\N	\N	Goods Received from procurement	18	15	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1454	SHELTER	Mattress	ea	UPC	2025-10-29	R	276.00	\N	\N	Goods Received from procurement	19	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1455	SHELTER	Mattress	ea	UPC	2025-10-30	R	97.00	\N	\N	Goods Received from procurement	19	5	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1456	SHELTER	Mattress	ea	UPC	2025-11-03	R	267.00	\N	\N	Goods Received from procurement	19	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1457	SHELTER	Mattress	ea	UPC	2025-11-06	R	75.00	\N	\N	Goods Received from procurement	19	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1458	SHELTER	Mattress	ea	UPC	2025-11-10	R	96.00	\N	\N	Goods Received from procurement	19	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1459	SHELTER	Mattress	ea	UPC	2025-11-19	R	245.00	\N	\N	Goods Received from procurement	19	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1460	HYGIENE	Cup Soap	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	20	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1461	HYGIENE	Cup Soap	case	UPC	2025-11-03	R	200.00	\N	\N	Goods Received from procurement	20	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1462	HYGIENE	Cup Soap	case	UPC	2025-11-08	R	834.00	\N	\N	Goods Received from procurement	20	14	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1463	HYGIENE	Cup Soap	case	UPC	2025-11-14	R	834.00	\N	\N	Goods Received from procurement	20	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1464	HYGIENE	Cup Soap	case	UPC	2025-11-25	R	1434.00	\N	\N	Goods Received from procurement	20	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1465	FOOD_WATER	Water	case	UPC	2025-11-01	R	500.00	\N	\N	Goods Received from procurement	21	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1466	FOOD_WATER	Water	case	UPC	2025-11-03	R	1000.00	\N	\N	Goods Received from procurement	21	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1467	FOOD_WATER	Water	case	UPC	2025-11-04	R	90.00	\N	\N	Goods Received from procurement	21	10	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1468	FOOD_WATER	Water	case	UPC	2025-11-15	R	500.00	\N	\N	Goods Received from procurement	21	21	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1469	FOOD_WATER	Water	case	UPC	2025-11-18	R	1000.00	\N	\N	Goods Received from procurement	21	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1470	SHELTER	Tarparlin	case	UPC	2025-10-31	R	98.00	\N	\N	Goods Received from procurement	22	6	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1471	SHELTER	Tarparlin	case	UPC	2025-11-01	R	72.00	\N	\N	Goods Received from procurement	22	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1472	SHELTER	Tarparlin	single	UPC	2025-10-31	R	10.00	\N	\N	Goods Received from procurement	23	6	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1473	HYGIENE	Tissue	case	UPC	2025-11-03	R	200.00	\N	\N	Goods Received from procurement	24	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1474	HYGIENE	Tissue	case	UPC	2025-11-04	R	199.00	\N	\N	Goods Received from procurement	24	10	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1475	HYGIENE	Tissue	case	UPC	2025-11-05	R	1.00	\N	\N	Goods Received from procurement	24	11	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1476	HYGIENE	Tissue	case	UPC	2025-11-06	R	1429.00	\N	\N	Goods Received from procurement	24	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1477	LOGS_ENGR	Packaging bags, 9x14	ea	UPC	2025-11-19	R	30.00	\N	\N	Goods Received from procurement	25	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1478	LOGS_ENGR	Packing bags	ea	UPC	2025-11-06	R	141.00	\N	\N	Goods Received from procurement	26	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1479	LOGS_ENGR	Packing bags	ea	UPC	2025-11-13	R	16050.00	\N	\N	Goods Received from procurement	26	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1480	LOGS_ENGR	Packing bags	ea	UPC	2025-11-24	R	50.00	\N	\N	Goods Received from procurement	26	26	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1481	HYGIENE	Bleach	12x1	UPC	2025-11-07	R	100.00	\N	\N	Goods Received from procurement	27	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1482	HYGIENE	Bleach	12x1	UPC	2025-11-10	R	148.00	\N	\N	Goods Received from procurement	27	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1483	HYGIENE	Bleach	12x1	UPC	2025-11-13	R	168.00	\N	\N	Goods Received from procurement	27	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1484	HYGIENE	Disinfectant	12x1	UPC	2025-11-07	R	170.00	\N	\N	Goods Received from procurement	28	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1485	HYGIENE	Disinfectant	12x1	UPC	2025-11-10	R	141.00	\N	\N	Goods Received from procurement	28	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1486	HYGIENE	Disinfectant	12x1	UPC	2025-11-13	R	106.00	\N	\N	Goods Received from procurement	28	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1487	HYGIENE	Hand Sanitizer	ea	UPC	2025-11-07	R	1000.00	\N	\N	Goods Received from procurement	29	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1488	SHELTER	Mosquito Spray/Repellant	ea	UPC	2025-11-07	R	1400.00	\N	\N	Goods Received from procurement	30	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1489	SHELTER	Mosquito Spray/Repellant	ea	UPC	2025-11-10	R	504.00	\N	\N	Goods Received from procurement	30	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1490	FOOD_WATER	Sanitary Napkins	pks	UPC	2025-11-09	R	1056.00	\N	\N	Goods Received from procurement	31	15	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1491	FOOD_WATER	Blue Power Wrapped 72x130g	ea	UPC	2025-11-10	R	40.00	\N	\N	Goods Received from procurement	32	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1492	FOOD_WATER	Blue Power Carbolic Wrapped 72x130G	ea	UPC	2025-11-10	R	60.00	\N	\N	Goods Received from procurement	33	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1493	FOOD_WATER	Blue Castile Repellent 30x110g	ea	UPC	2025-11-10	R	50.00	\N	\N	Goods Received from procurement	34	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1494	FOOD_WATER	Blue Power Castile Coconut 30x110g	ea	UPC	2025-11-10	R	20.00	\N	\N	Goods Received from procurement	35	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1495	FOOD_WATER	Blue Power M/Passion 30x110g	ea	UPC	2025-11-10	R	20.00	\N	\N	Goods Received from procurement	36	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1496	FOOD_WATER	Blue Power Irie Assorted 30x110g	ea	UPC	2025-11-10	R	4.00	\N	\N	Goods Received from procurement	37	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1497	HYGIENE	Diapers Large	ea	UPC	2025-11-11	R	100.00	\N	\N	Goods Received from procurement	38	17	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1498	HYGIENE	Diapers Medium	ea	UPC	2025-11-11	R	100.00	\N	\N	Goods Received from procurement	39	17	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1499	LOGS_ENGR	Packaging bags, 20x30	300 per pack	UPC	2025-11-13	R	20.00	\N	\N	Goods Received from procurement	40	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1500	LOGS_ENGR	Packaging bags, 20x30	300 per pack	UPC	2025-11-14	R	45.00	\N	\N	Goods Received from procurement	40	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1501	LOGS_ENGR	Packaging bags, 10x15	2000 per pack	UPC	2025-11-14	R	40.00	\N	\N	Goods Received from procurement	41	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1502	LOGS_ENGR	Packaging bags, 18x30	300 per pack	UPC	2025-11-13	R	21.00	\N	\N	Goods Received from procurement	42	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1503	LOGS_ENGR	Packaging bags, 29x36	150 per pack	UPC	2025-11-13	R	25.00	\N	\N	Goods Received from procurement	43	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1504	FOOD_WATER	Porridge Mix	ea	UPC	2025-11-25	R	344.00	\N	\N	Goods Received from procurement	44	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1505	FOOD_WATER	Water	ea	UPC	2025-10-29	I	2.00	\N	\N	Items taken for Staff	3	1	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1506	FOOD_WATER	Water	ea	UPC	2025-10-30	I	2.00	\N	\N	Items taken for Staff	3	2	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1507	FOOD_WATER	Water	ea	UPC	2025-10-31	I	2.00	\N	\N	Items taken for Staff	3	3	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1508	FOOD_WATER	Water	ea	UPC	2025-11-01	I	3.00	\N	\N	Items taken for Staff	3	4	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1509	FOOD_WATER	Water	ea	UPC	2025-11-02	I	3.00	\N	\N	Items taken for Staff	3	5	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1510	FOOD_WATER	Water	ea	UPC	2025-11-03	I	3.00	\N	\N	Items taken for Staff	3	6	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1511	FOOD_WATER	Water	ea	UPC	2025-11-04	I	3.00	\N	\N	Items taken for Staff	3	7	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1512	FOOD_WATER	Water	ea	UPC	2025-11-05	I	3.00	\N	\N	Items taken for Staff	3	8	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1513	FOOD_WATER	Water	ea	UPC	2025-11-06	I	3.00	\N	\N	Items taken for Staff	3	9	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1514	FOOD_WATER	Water	ea	UPC	2025-11-07	I	3.00	\N	\N	Items taken for Staff	3	10	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1515	FOOD_WATER	Water	ea	UPC	2025-11-08	I	3.00	\N	\N	Items taken for Staff	3	11	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1516	FOOD_WATER	Water	ea	UPC	2025-11-09	I	3.00	\N	\N	Items taken for Staff	3	12	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1517	FOOD_WATER	Water	ea	UPC	2025-11-10	I	3.00	\N	\N	Items taken for Staff	3	13	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1518	FOOD_WATER	Water	ea	UPC	2025-11-11	I	3.00	\N	\N	Items taken for Staff	3	14	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1519	FOOD_WATER	Water	ea	UPC	2025-11-12	I	3.00	\N	\N	Items taken for Staff	3	15	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1520	FOOD_WATER	Water	ea	UPC	2025-11-13	I	3.00	\N	\N	Items taken for Staff	3	16	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1521	FOOD_WATER	Water	ea	UPC	2025-11-14	I	3.00	\N	\N	Items taken for Staff	3	17	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1522	FOOD_WATER	Water	ea	UPC	2025-11-15	I	3.00	\N	\N	Items taken for Staff	3	18	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1523	FOOD_WATER	Water	ea	UPC	2025-11-16	I	3.00	\N	\N	Items taken for Staff	3	19	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1524	FOOD_WATER	Water	ea	UPC	2025-11-17	I	3.00	\N	\N	Items taken for Staff	3	20	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1525	FOOD_WATER	Water	ea	UPC	2025-11-18	I	3.00	\N	\N	Items taken for Staff	3	21	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1526	FOOD_WATER	Water	ea	UPC	2025-11-19	I	3.00	\N	\N	Items taken for Staff	3	22	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1527	FOOD_WATER	Water	ea	UPC	2025-11-20	I	3.00	\N	\N	Items taken for Staff	3	23	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1528	FOOD_WATER	Water	ea	UPC	2025-11-21	I	3.00	\N	\N	Items taken for Staff	3	24	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1529	FOOD_WATER	Water	ea	UPC	2025-11-22	I	3.00	\N	\N	Items taken for Staff	3	25	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1530	FOOD_WATER	Water	ea	UPC	2025-11-23	I	3.00	\N	\N	Items taken for Staff	3	26	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1531	FOOD_WATER	Water	ea	UPC	2025-11-24	I	3.00	\N	\N	Items taken for Staff	3	27	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1532	FOOD_WATER	Water	ea	UPC	2025-11-25	I	3.00	\N	\N	Items taken for Staff	3	28	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1533	FOOD_WATER	Water	ea	UPC	2025-11-26	I	3.00	\N	\N	Items taken for Staff	3	29	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1534	FOOD_WATER	Water	ea	UPC	2025-11-27	I	3.00	\N	\N	Items taken for Staff	3	30	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
-1535	FOOD_WATER	Water	ea	UPC	2025-11-28	I	2.00	\N	\N	Items taken for Staff	3	31	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-11-29 17:04:33
+1536	FOOD_WATER	Food Packages	ea	KW	2025-11-25	I	450.00	1610500.00	724725000.00	Food & Water	3	59	Location: KW	HADR_IMPORT	2025-12-01 19:44:38
+1537	FOOD_WATER	Food Packages	ea	KW	2025-11-27	I	1507.00	1610500.00	2427023500.00	Food & Water	3	63	Location: KW	HADR_IMPORT	2025-12-01 19:44:38
+1538	FOOD_WATER	Meals Ready to Eat	ea	MG	2025-11-26	I	60.00	8304.00	498240.00	Food & Water	7	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1539	FOOD_WATER	Water Purification Tablets (108,000 per box)	ea	MG	2025-11-26	I	324000.00	129100.00	41828400000.00	Food & Water	8	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1540	SHELTER	Inflatable Bed	ea	MG	2025-11-26	I	6.00	5530.00	33180.00	Shelter&NFI	3	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1541	SHELTER	20 x 30 Tarpaulin	ea	UNKNOWN	2025-11-28	R	70.00	73160.00	5121200.00	Shelter&NFI	19	64	Location:  	HADR_IMPORT	2025-12-01 19:44:38
+1542	SHELTER	25 x 40 Tarpaulin	ea	MG	2025-11-25	R	710.00	\N	\N	Shelter&NFI	23	58	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1543	SHELTER	25 x 40 Tarpaulin	ea	MG	2025-11-26	R	510.00	\N	\N	Shelter&NFI	23	60	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1544	SHELTER	25 x 40 Tarpaulin	ea	MG	2025-11-26	I	180.00	\N	\N	Shelter&NFI	23	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1545	SHELTER	Tent (2 Man)	ea	MG	2025-11-26	I	16.00	9622.00	153952.00	Shelter&NFI	26	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1546	SHELTER	Tent (Single & Double Fly)	ea	MG	2025-11-26	I	20.00	6400.00	128000.00	Shelter&NFI	28	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1547	SHELTER	Mosquitoes Net	ea	MG	2025-11-26	I	1500.00	159144.00	238716000.00	Shelter&NFI	29	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1548	SHELTER	Cots	ea	UNKNOWN	2025-11-25	R	80.00	760.00	60800.00	Shelter&NFI	30	58	\N	HADR_IMPORT	2025-12-01 19:44:38
+1549	SHELTER	EU Cots	ea	KW	2025-11-26	I	62.00	4339.92	269075.04	Shelter&NFI	31	61	Location: KW	HADR_IMPORT	2025-12-01 19:44:38
+1550	SHELTER	Bed Sheets	ea	MG	2025-11-26	I	600.00	49428.00	29656800.00	Shelter&NFI	36	61	Location: MG, Mobay -5	HADR_IMPORT	2025-12-01 19:44:38
+1551	SHELTER	Bed Sheets	ea	MOBAY	2025-11-26	I	600.00	49428.00	29656800.00	Shelter&NFI	36	61	Location: MG, Mobay -5	HADR_IMPORT	2025-12-01 19:44:38
+1552	SHELTER	Bed Comforter	ea	MG	2025-11-26	I	150.00	5000.00	750000.00	Shelter&NFI	38	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1553	SHELTER	Roll Mats (Small)	ea	MG	2025-11-26	I	60.00	15120.00	907200.00	Shelter&NFI	39	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1554	SHELTER	Collapsible Jerrican	ea	UNKNOWN	2025-11-26	I	1220.00	9891.00	12067020.00	Shelter&NFI	41	61	\N	HADR_IMPORT	2025-12-01 19:44:38
+1555	SHELTER	Sleeping Mat	ea	MG	2025-11-26	I	40.00	1080.00	43200.00	Shelter&NFI	43	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1556	SHELTER	Blankets	ea	MG	2025-11-26	R	180.00	\N	\N	Shelter&NFI	44	60	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1557	SHELTER	IGL Gas	ea	MG	2025-11-26	I	40.00	\N	\N	Shelter&NFI	59	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1558	SHELTER	IGL Regulator	ea	MG	2025-11-26	I	40.00	\N	\N	Shelter&NFI	60	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1559	SHELTER	Table Top Stove (2 Burner)	ea	MG	2025-11-26	I	30.00	\N	\N	Shelter&NFI	61	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1560	SHELTER	Shelter  Kits	ea	MG	2025-11-26	R	500.00	\N	\N	Shelter&NFI	63	60	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1561	HYGIENE	Drip/Water Filter	ea	KW	2025-11-26	I	100.00	6677.00	667700.00	Hygiene and Sanitation	22	61	Location: KW	HADR_IMPORT	2025-12-01 19:44:38
+1562	LOGS_ENGR	Solar Street Lamps	ea	MG	2025-11-26	I	60.00	102994.00	6179640.00	Logistics & Engineering Equipme	28	61	Location: MG	HADR_IMPORT	2025-12-01 19:44:38
+1563	FOOD_WATER	Food Package	ea	UPC	2025-10-29	I	500.00	\N	\N	Package distributions	5	2	Location: Luana FOB (St Elizabeth); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1564	FOOD_WATER	Food Package	ea	UPC	2025-10-29	I	5.00	\N	\N	Package distributions	6	2	Location: JDF Relief Aid; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1565	FOOD_WATER	Food Package	ea	UPC	2025-10-30	I	5.00	\N	\N	Package distributions	10	2	Collected by: Ministry Staff; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1566	FOOD_WATER	Food Package	ea	UPC	2025-10-30	I	15.00	\N	\N	Package distributions	11	2	Location: St Elizabeth; Collected by: (MLSS); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1567	FOOD_WATER	Food Package	ea	UPC	2025-10-31	I	167.00	\N	\N	Package distributions	15	2	Location: Manchester North Eastern; Collected by: M Brown; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1568	FOOD_WATER	Food Package	ea	UPC	2025-10-31	I	300.00	\N	\N	Package distributions	16	2	Location: JDF AW; Collected by: Capt HALL (JDF); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1569	FOOD_WATER	Food Package	ea	UPC	2025-10-31	I	1000.00	\N	\N	Package distributions	17	2	Location: Burke Barracks (Montego Bay); Collected by: Capt HALL (JDF); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1570	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	200.00	\N	\N	Package distributions	21	2	Location: Manchester Local Office; Collected by: K Royal (MLSS); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1571	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	22	2	Location: Westmoreland; Collected by: K Powell; Remarks: Collected on behalf of Ian Hayles\n(MP of Westmoreland Western); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1572	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	23	2	Location: Westmoreland; Collected by: K Powell; Remarks: Collected on behalf of Dayton Campbell \n(MP of Westmoreland Eastern); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1573	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	24	2	Location: Westmoreland; Collected by: K Powell; Remarks: Collected on behalf of Dwayne Vaz\n(MP of Westmoreland Central); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1574	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	25	2	Location: St Elizabeth; Collected by: K Powell; Remarks: Collected on behalf of Zuleika Jess\n(MP of St Elizabeth North Central); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1575	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	26	2	Location: Hanover; Collected by: K Powell; Remarks: Collected on behalf of Andrea Purkiss\n(MP of Hanover Eastern); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1576	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	150.00	\N	\N	Package distributions	27	2	Location: Hanover; Collected by: K Powell; Remarks: Collected on behalf of Heatha Miller \n(MP of Hanover Western); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1577	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	33.00	\N	\N	Package distributions	28	2	Location: Manchester; Collected by: M Brown; Remarks: Collected on behalf of Audrey Marks \n(MP of Manchester North Eastern); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1578	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	20.00	\N	\N	Package distributions	29	2	Location: Office of Prime Minister; Collected by: Lt T Martin; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1579	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	458.00	\N	\N	Package distributions	30	2	Location: Burke Barracks (Montego Bay); Collected by: Capt HALL (JDF); Remarks: 2000 packages were prepared to send to Burke Barracks\nhowever only 458 were transported. Remainder return \nto warehouse.; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1580	FOOD_WATER	Food Package	ea	UPC	2025-11-01	I	200.00	\N	\N	Package distributions	31	2	Location: MOHW; Collected by: Sonia SMITH (MOHW); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1581	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	20.00	\N	\N	Package distributions	35	2	Location: Chief of Defence Staff (CDS); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1582	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	506.00	\N	\N	Package distributions	36	2	Location: Clarendon (MLSS); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1583	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	20.00	\N	\N	Package distributions	37	2	Location: Trelawny (MLSS); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1584	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	499.00	\N	\N	Package distributions	38	2	Location: Burke Barracks; Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1585	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	501.00	\N	\N	Package distributions	39	2	Location: Luana FOB (St Elizabeth); Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1586	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	654.00	\N	\N	Package distributions	40	2	Location: Burke Barracks; Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1587	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	502.00	\N	\N	Package distributions	41	2	Location: Luana FOB (St Elizabeth); Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1588	FOOD_WATER	Food Package	ea	UPC	2025-11-02	I	701.00	\N	\N	Package distributions	42	2	Location: St Ann; Collected by: Krystal Lee; Remarks: MP of St Ann North Western; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1589	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	95.00	\N	\N	Package distributions	46	2	Location: Hanover (Fr: FFTP); Collected by: G Gordon; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1590	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	417.00	\N	\N	Package distributions	47	2	Location: Hanover (Fr: MLSS); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1591	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	33.00	\N	\N	Package distributions	48	2	Location: Hanover (Fr: ODPEM); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1592	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	140.00	\N	\N	Package distributions	49	2	Location: St Catherine; Collected by: J Jackson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1593	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	299.00	\N	\N	Package distributions	50	2	Location: St Ann; Collected by: R Smith; Remarks: Collected on behalf of Krystal Lee\n(MP of St Ann North Western); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1594	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	100.00	\N	\N	Package distributions	51	2	Location: Westmoreland MLSS Local Office; Collected by: R Rodrequiez; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1595	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	66.00	\N	\N	Package distributions	52	2	Location: KSA Local Office; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1596	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	100.00	\N	\N	Package distributions	53	2	Location: Manchester; Collected by: M Brown; Remarks: Collected on behalf of Audrey Marks \n(MP of Manchester North Eastern); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1597	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	246.00	\N	\N	Package distributions	54	2	Location: Cambridge; Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1598	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	300.00	\N	\N	Package distributions	55	2	Location: Portland (MLSS); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1599	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	50.00	\N	\N	Package distributions	56	2	Location: Manchester Central; Collected by: M Brown; Remarks: Rhoda Crawford; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1600	FOOD_WATER	Food Package	ea	UPC	2025-11-03	I	89.00	\N	\N	Package distributions	57	2	Location: Burke Barracks; Collected by: Capt WEDDERBURN; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1601	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	500.00	\N	\N	Package distributions	61	2	Location: Jackson Town (Trelawny); Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1602	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	153.00	\N	\N	Package distributions	62	2	Location: Adelphi (St James); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1603	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	113.00	\N	\N	Package distributions	63	2	Location: Amity (Westmoreland); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1604	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	120.00	\N	\N	Package distributions	64	2	Location: Frome (Westmoreland); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1605	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	150.00	\N	\N	Package distributions	65	2	Location: Hanover L/O; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1606	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	1.00	\N	\N	Package distributions	66	2	Location: JDF Relief Aid; Collected by: Major TROWERS; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1607	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	134.00	\N	\N	Package distributions	67	2	Location: KSA L/O; Collected by: M LEWIS; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1608	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	300.00	\N	\N	Package distributions	68	2	Location: St Ann Parish Office; Collected by: G Gordon; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1609	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	50.00	\N	\N	Package distributions	69	2	Location: Manchester North Western; Collected by: L THOMAS; Remarks: Collected on behalf of Mikhail Phillips; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1610	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	10.00	\N	\N	Package distributions	70	2	Location: JDF Chaplain (St Elizabeth); Collected by: R ROBINSON; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1611	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	250.00	\N	\N	Package distributions	71	2	Location: Clarendon; Collected by: 1 Engr Regt; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1612	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	100.00	\N	\N	Package distributions	72	2	Location: Hanover; Collected by: MACC; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1613	FOOD_WATER	Food Package	ea	UPC	2025-11-04	I	60.00	\N	\N	Package distributions	73	2	Location: St Elizabeth; Collected by: A MORRIS; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1614	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	300.00	\N	\N	Package distributions	77	2	Location: JCPD; Collected by: D MANNING; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1615	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	100.00	\N	\N	Package distributions	78	2	Location: Trelawny; Collected by: Sp Bde (CMP); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1616	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	100.00	\N	\N	Package distributions	79	2	Location: Westmoreland MLSS; Collected by: J Jackson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1617	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	150.00	\N	\N	Package distributions	80	2	Location: Manchester Parish Office; Collected by: K Royal; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1618	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	150.00	\N	\N	Package distributions	81	2	Location: St Andrew North Central; Collected by: J REYNOLDS; Remarks: Collected on behalf of Minister Delano SEIVWRIGHT; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1619	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	300.00	\N	\N	Package distributions	82	2	Location: St Mary Parish Office; Collected by: J BOYD; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1620	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	7.00	\N	\N	Package distributions	83	2	Location: MLSS- Staff Welfare; Collected by: M Miller; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1621	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	10.00	\N	\N	Package distributions	84	2	Collected by: Jca Regt; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1622	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	160.00	\N	\N	Package distributions	85	2	Location: St Catherine Parish Office; Collected by: G GORDON; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1623	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	3.00	\N	\N	Package distributions	86	2	Location: MLSS- Staff Welfare (1F North Street); Collected by: K TUCKER; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1624	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	52.00	\N	\N	Package distributions	87	2	Location: Hanover and Trelawny; Collected by: Sp Bde (CMP); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1625	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	200.00	\N	\N	Package distributions	88	2	Location: St Catherine Central; Collected by: J Scott; Remarks: Collected on behalf of Min Olivia 'Babsy' GRANGE; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1626	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	35.00	\N	\N	Package distributions	89	2	Location: JCF- Commissioner Office; Collected by: R CLARKE; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1627	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	500.00	\N	\N	Package distributions	90	2	Location: Clarendon Parish Office; Collected by: 2Lt O BLOOMFIELD; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1628	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	50.00	\N	\N	Package distributions	91	2	Location: Hanover and Westmoreland; Collected by: Capt INGRAM; Remarks: Sp Bde (HSC Wellness Centre); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1629	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	500.00	\N	\N	Package distributions	92	2	Location: Frome (Westmoreland); Collected by: JDF Airwing Operation; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1630	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	50.00	\N	\N	Package distributions	93	2	Location: St Catherine South East; Collected by: K. Reid; Remarks: Collected on behalf of Holy Trinity; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1631	FOOD_WATER	Food Package	ea	UPC	2025-11-05	I	250.00	\N	\N	Package distributions	94	2	Location: JDF - Support Brigade; Collected by: 1 Engr Regt; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1632	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	500.00	\N	\N	Package distributions	98	2	Location: Trelawny L/O; Collected by: G Gordon - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1633	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	200.00	\N	\N	Package distributions	99	2	Location: Zavia Mayne - St Ann South Western; Collected by: MP Representative; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1634	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	150.00	\N	\N	Package distributions	100	2	Location: KSA L/O; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1635	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	30.00	\N	\N	Package distributions	101	2	Location: MLSS Outside Broadcast - Manchester; Collected by: R Smith - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1636	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	1500.00	\N	\N	Package distributions	102	2	Location: Airwing; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1637	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	300.00	\N	\N	Package distributions	103	2	Location: Jamaica Regiment 4 JR - St Ann; Collected by: Ssgt Lindssay; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1638	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	250.00	\N	\N	Package distributions	104	2	Location: Support Brigade - Trelawny & Hanover; Collected by: Ssgt R Bent; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1639	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	100.00	\N	\N	Package distributions	105	2	Location: St Thomas L/O; Collected by: R Morgan - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1640	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	100.00	\N	\N	Package distributions	106	2	Location: JDF Jamaica Regiment 1 JR- St Thomas; Collected by: 2 LT S Edwards; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1641	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	850.00	\N	\N	Package distributions	107	2	Location: Manchester L/O; Collected by: Mr Nelson - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1642	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	100.00	\N	\N	Package distributions	108	2	Location: JDF Coast Guard- St Ann; Collected by: JDF- G Walker; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1643	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	5.00	\N	\N	Package distributions	109	2	Location: MLSS Staff Welfare; Collected by: O Robinson - MLSS Staff; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1644	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	40.00	\N	\N	Package distributions	110	2	Location: Andrew Morris - St Elizabeth North Western; Collected by: V Dixon; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1645	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	100.00	\N	\N	Package distributions	111	2	Location: Jamaica Red Cross - St Catherine; Collected by: Mr Murdock - Ambulance Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1646	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	200.00	\N	\N	Package distributions	112	2	Location: St Catherine North Eastern; Collected by: A Fuller; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1647	FOOD_WATER	Food Package	ea	UPC	2025-11-06	I	1800.00	\N	\N	Package distributions	113	2	Location: JDF -Burke Barracks - St James; Remarks: ODPEM donations - sent directly from ODPEM warehouse; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1648	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	150.00	\N	\N	Package distributions	117	2	Location: MLSS; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1649	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	150.00	\N	\N	Package distributions	118	2	Location: Portland Eastern; Collected by: Dawit Jeffrey- Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1650	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	150.00	\N	\N	Package distributions	119	2	Location: Clarendon Central; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1651	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	50.00	\N	\N	Package distributions	120	2	Location: KSA L/O; Collected by: Dwainton Williams; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1652	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	70.00	\N	\N	Package distributions	121	2	Location: Manchester; Collected by: Aldin Edwards; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1653	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	100.00	\N	\N	Package distributions	122	2	Location: St. Ann; Collected by: Krystal Lee; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1654	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	100.00	\N	\N	Package distributions	123	2	Location: St. Elizabeth; Collected by: Novia Wilson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1655	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	32.00	\N	\N	Package distributions	124	2	Location: Trewlawny; Collected by: Okeino Robinson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1656	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	250.00	\N	\N	Package distributions	125	2	Location: Portland Parish Office; Collected by: Corpoarl A. Martin; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1657	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	30.00	\N	\N	Package distributions	126	2	Location: Fosrich Intervention; Collected by: Ansel Waugh; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1658	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	500.00	\N	\N	Package distributions	127	2	Location: St Catherine Parish Office; Collected by: 2 LT R A Yates; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1659	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	20.00	\N	\N	Package distributions	128	2	Location: Jamaica Manufacturing Export Association; Collected by: Dacia Henry; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1660	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	30.00	\N	\N	Package distributions	129	2	Location: Jamaica Manufacturing Export Association; Collected by: S Heaven; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1661	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	500.00	\N	\N	Package distributions	130	2	Location: JDF - Support Brigade - CMP- Trelawny & Hanover; Collected by: SSGT R Bent; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1662	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	100.00	\N	\N	Package distributions	131	2	Location: Rhoda Crawford - MP Manchester Central; Collected by: C Faulkner; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1663	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	500.00	\N	\N	Package distributions	132	2	Location: St Elizabeth; Collected by: D Henry; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1664	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	300.00	\N	\N	Package distributions	133	2	Location: JDF - Support Brigade- Trelawny; Collected by: T Smith; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1665	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	100.00	\N	\N	Package distributions	134	2	Location: JDF - 4TH Battalion_ St Elizabeth; Collected by: LCPL S Walters; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1666	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	137.00	\N	\N	Package distributions	135	2	Location: JDF - CMA; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1667	FOOD_WATER	Food Package	ea	UPC	2025-11-07	I	1000.00	\N	\N	Package distributions	136	2	Location: JDF - Airwing; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1668	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	10.00	\N	\N	Package distributions	141	2	Collected by: Brigader E Clarke; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1669	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	300.00	\N	\N	Package distributions	142	2	Location: St Elizabeth; Collected by: S Hinds; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1670	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	20.00	\N	\N	Package distributions	143	2	Location: Organization Gen Sec; Collected by: A Kennedy; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1671	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	10.00	\N	\N	Package distributions	144	2	Location: St Elizabeth & Westmoreland; Collected by: A Anderson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1672	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	250.00	\N	\N	Package distributions	145	2	Location: Trelawny; Collected by: WO2 R Sewell; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1673	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	500.00	\N	\N	Package distributions	146	2	Location: Jamaica Regiment - St James; Collected by: R Pryce; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1674	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	15.00	\N	\N	Package distributions	147	2	Location: Liput, St James (JMEA); Collected by: K Clarke; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1675	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	200.00	\N	\N	Package distributions	148	2	Location: Clarendon; Collected by: MP W Hinds; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1676	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	200.00	\N	\N	Package distributions	149	2	Location: Clarendon; Collected by: G Williams; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1677	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	200.00	\N	\N	Package distributions	150	2	Location: CrawfordSt Catherine; Collected by: D Kern; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1678	FOOD_WATER	Food Package	ea	UPC	2025-11-08	I	200.00	\N	\N	Package distributions	151	2	Location: MP Omar Woodbine - St Mary Central; Collected by: R Henry; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1679	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	30.00	\N	\N	Package distributions	157	2	Location: Clarendon; Collected by: Thomas; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1680	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	700.00	\N	\N	Package distributions	158	2	Location: JDF- Trelawny Multi Purpose Stadium Hub; Collected by: C McKoy; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1681	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	2200.00	\N	\N	Package distributions	159	2	Location: St James, Burke Barracks; Collected by: D Thompson - Driver; Remarks: Container - - for MPs in the Western Parishes; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1682	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	500.00	\N	\N	Package distributions	160	2	Location: St James - Burke Barracks; Collected by: O Timoll; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1683	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	200.00	\N	\N	Package distributions	161	2	Location: Clarendon; Collected by: D Campbell; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1684	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	500.00	\N	\N	Package distributions	162	2	Location: Clarendon; Collected by: Cpl K Grant; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1685	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	100.00	\N	\N	Package distributions	163	2	Location: MLSS HR - Staff Welfare; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1686	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	50.00	\N	\N	Package distributions	164	2	Location: Airwing - JDF; Collected by: LCpl S Daley; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1687	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	500.00	\N	\N	Package distributions	165	2	Location: Luana - St Elizabeth; Collected by: W Walker; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1688	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	100.00	\N	\N	Package distributions	166	2	Location: Manchester; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1689	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	150.00	\N	\N	Package distributions	167	2	Location: MP Zavia Mayne -; Collected by: S Campbell; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1690	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	30.00	\N	\N	Package distributions	168	2	Location: OPM; Collected by: Lt Martin; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1691	FOOD_WATER	Food Package	ea	UPC	2025-11-09	I	100.00	\N	\N	Package distributions	169	2	Location: Airwing - Westmoreland; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1692	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	20.00	\N	\N	Package distributions	173	2	Location: JDF - Chaplaincy; Collected by: Cpt Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1693	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	200.00	\N	\N	Package distributions	174	2	Location: Portland; Collected by: B Carr; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1694	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	100.00	\N	\N	Package distributions	175	2	Location: St Mary; Collected by: J Rhoden; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1695	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	150.00	\N	\N	Package distributions	176	2	Location: Westmoreland Parish Office; Collected by: R Henriques - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1696	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	35.00	\N	\N	Package distributions	177	2	Location: Lucky Play - St James; Collected by: N Wilson - MLSS; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1697	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	83.00	\N	\N	Package distributions	178	2	Location: JDF - Welfare- Jamaica Regiment; Collected by: Sgt A Gossell; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1698	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	30.00	\N	\N	Package distributions	179	2	Location: MLSS - ELE; Collected by: L Ford; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1699	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	2000.00	\N	\N	Package distributions	180	2	Location: JDF - Burke Barracks & Luanna - St James & St Elizabeth; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1700	FOOD_WATER	Food Package	ea	UPC	2025-11-10	I	600.00	\N	\N	Package distributions	181	2	Location: St Elizabeth; Remarks: Collected by MP Floyd Green's team; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1701	FOOD_WATER	Food Package	ea	UPC	2025-11-11	I	70.00	\N	\N	Package distributions	185	2	Location: St Elizabeth- Lacovia, Gutters; Collected by: Maj M.Lewin; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1702	FOOD_WATER	Food Package	ea	UPC	2025-11-11	I	100.00	\N	\N	Package distributions	186	2	Location: St Mary; Collected by: J. Rhoden L/P # 8487KV; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1703	FOOD_WATER	Food Package	ea	UPC	2025-11-11	I	25.00	\N	\N	Package distributions	187	2	Location: JDF - Welfare- Jamaica Regiment; Collected by: Sgt A Gossell; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1704	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	257	2	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1705	FOOD_WATER	Water	cases	UPC	1970-01-01	I	75.00	\N	\N	Bulk Items distributed	258	2	Location: Trelawny L/O; Collected by: G Gordon - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1706	SHELTER	Mattress	units	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	259	2	Location: St Ann; Collected by: MP Rep; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1707	FOOD_WATER	Water	cases	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	260	2	Location: St Ann; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1708	HYGIENE	Hygiene Kit	unit	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	261	2	Location: KSA L/O; Collected by: D Williams; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1709	FOOD_WATER	Water, Icool	cases	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	319	2	Location: Jamaica Regiment - St James; Collected by: R Pryce; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1710	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	384	2	Location: JDF - Legal Unit; Collected by: Lcpl M Jackson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1711	LOGS_ENGR	Garbage Bags	cases	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	414	2	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1712	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	16.00	\N	\N	Bulk Items distributed	415	2	Location: JDF- Maroon Town - Flag Staff; Collected by: Maj M Lewin; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1713	FOOD_WATER	Water	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	416	2	Location: cases JDF - Coast Guard- St Ann; Collected by: CPO Walker; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1714	HYGIENE	Bleach	cases	UPC	1970-01-01	I	3.00	\N	\N	Bulk Items distributed	417	2	Location: St Mary L/O; Collected by: N Byfield - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1715	FOOD_WATER	Conquest	cases	UPC	1970-01-01	I	3.00	\N	\N	Bulk Items distributed	418	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1716	HYGIENE	Sanitary Hygiene Kits	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	419	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1717	LOGS_ENGR	Solar Lanterns	boxes	UPC	1970-01-01	I	3.00	\N	\N	Bulk Items distributed	420	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1718	SHELTER	Mosquito Repellant	cases	UPC	1970-01-01	I	2.00	\N	\N	Bulk Items distributed	421	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1719	SHELTER	Blankets	cases	UPC	1970-01-01	I	2.00	\N	\N	Bulk Items distributed	422	2	Location: St Mary L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1720	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	423	2	Location: St Ann L/O; Collected by: A Robb - MLSS PAD Admin; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1721	HYGIENE	Hygiene Kits	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	424	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1722	FOOD_WATER	Soda	cases	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	425	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1723	HYGIENE	Hygiene Kits	units	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	426	2	Location: KSA L/O; Collected by: D Williams - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1724	SHELTER	Mattress	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	427	2	Location: KSA L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1725	SHELTER	Stoves	units	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	428	2	Location: KSA L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1726	LOGS_ENGR	Packing Bags	cases	UPC	1970-01-01	I	4.00	\N	\N	Bulk Items distributed	429	2	Location: JDF - Trelawny Multi Purpose Stadium; Collected by: JDF- L McFarlane; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1727	FOOD_WATER	Conquest	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	430	2	Location: Denbeigh Clarendon; Collected by: Cpl M Jarrett; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1728	SHELTER	Mattress	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	431	2	Location: JDF - CMP - Trelawny; Collected by: WO2 R Sewell; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1729	SHELTER	Blankets	boes	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	432	2	Location: JDF - CMP - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1730	FOOD_WATER	Conquest	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	433	2	Location: JDF - CMP - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1731	HYGIENE	Bleach	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	434	2	Location: JDF - CMP - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1732	FOOD_WATER	Baby Care Kit	kits	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	435	2	Location: JDF - Burke Barracks- St James; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1733	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	436	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1734	FOOD_WATER	Lishous Drink	cases	UPC	1970-01-01	I	16.00	\N	\N	Bulk Items distributed	437	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1735	FOOD_WATER	Aloe Vera Drink	cases	UPC	1970-01-01	I	47.00	\N	\N	Bulk Items distributed	438	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1736	FOOD_WATER	Baby Sweater	units	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	439	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1737	FOOD_WATER	Baby Body Suit	units	UPC	1970-01-01	I	34.00	\N	\N	Bulk Items distributed	440	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1738	FOOD_WATER	Children Christmas Suit	suits	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	441	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1739	HYGIENE	Paper Towels	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	442	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1740	HYGIENE	Sanitary Hygiene Kits	kits	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	443	2	Location: JDF - Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1741	HYGIENE	Hygiene Kits	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	444	2	Location: JDF - Luana- St Elizabeth; Collected by: Cpt Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1742	FOOD_WATER	Lishous Drink	cases	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	445	2	Location: JDF - Luana- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1743	SHELTER	Mattress	units	UPC	1970-01-01	I	16.00	\N	\N	Bulk Items distributed	452	2	Location: St Catherine L/O; Collected by: Mr Logan - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1744	LOGS_ENGR	Packing Bags	units	UPC	1970-01-01	I	1800.00	\N	\N	Bulk Items distributed	453	2	Location: ODPEM; Collected by: Cpt S HAll; Remarks: for the repacking of donoted food packages from overseas; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1745	HYGIENE	Hygiene Kits	units	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	454	2	Location: JDF Blemheim - Hanover; Collected by: Brig E Clark; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1746	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	455	2	Location: JDF - Welfare; Collected by: S Barclay; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1747	HYGIENE	Hygiene Kits	kits	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	456	2	Location: OPM Initiative- St. Andrew; Collected by: Patrick Taylor; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1748	HYGIENE	Hygiene Kits	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	457	2	Location: JDF- Luana - St Elizabeth; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1749	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	458	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1750	LOGS_ENGR	Lanterns	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	459	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1751	FOOD_WATER	Water	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	460	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1752	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	461	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1753	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	500.00	\N	\N	Bulk Items distributed	462	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1754	FOOD_WATER	Kids Pampers	cases	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	463	2	Location: JDF- Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1755	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	464	2	Location: JDF- Burke Barracks - St James; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1756	LOGS_ENGR	Lanterns	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	465	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1757	FOOD_WATER	Kids Pampers	cases	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	466	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1758	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	467	2	Location: JDF - Denbigh - Clarendon; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1759	SHELTER	Mattress	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	468	2	Location: JDF - Denbigh - Clarendon; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1760	FOOD_WATER	Kids Pampers	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	475	2	Location: JDF - Trelawny; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1761	FOOD_WATER	Bottle	units	UPC	1970-01-01	I	28.00	\N	\N	Bulk Items distributed	476	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1762	FOOD_WATER	Baby Powder	units	UPC	1970-01-01	I	12.00	\N	\N	Bulk Items distributed	477	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1763	FOOD_WATER	Baby Cream	units	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	478	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1764	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	244.00	\N	\N	Bulk Items distributed	479	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1765	SHELTER	Mattress	units	UPC	1970-01-01	I	58.00	\N	\N	Bulk Items distributed	480	2	Location: JDF - Trelawny; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1766	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	223.00	\N	\N	Bulk Items distributed	481	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1767	SHELTER	Stoves	units	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	482	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1768	HYGIENE	Hygiene Kit	units	UPC	1970-01-01	I	201.00	\N	\N	Bulk Items distributed	483	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1769	HYGIENE	Sanitary Hygiene Kits	units	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	484	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1770	FOOD_WATER	Lishous Drink	units	UPC	1970-01-01	I	734.00	\N	\N	Bulk Items distributed	485	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1771	HYGIENE	Tissue	cases	UPC	1970-01-01	I	23.00	\N	\N	Bulk Items distributed	486	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1772	FOOD_WATER	Cran Water	units	UPC	1970-01-01	I	48.00	\N	\N	Bulk Items distributed	487	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1773	FOOD_WATER	Soda	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	488	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1774	FOOD_WATER	Pepsi	units	UPC	1970-01-01	I	117.00	\N	\N	Bulk Items distributed	489	2	Location: JDF- Burke Barracks - St James; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1775	HYGIENE	Disinfectant	units	UPC	1970-01-01	I	192.00	\N	\N	Bulk Items distributed	490	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1776	HYGIENE	Bleach	units	UPC	1970-01-01	I	192.00	\N	\N	Bulk Items distributed	491	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1777	FOOD_WATER	Baby bottles	units	UPC	1970-01-01	I	48.00	\N	\N	Bulk Items distributed	492	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1778	FOOD_WATER	Baby Cream	units	UPC	1970-01-01	I	36.00	\N	\N	Bulk Items distributed	493	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1779	FOOD_WATER	Baby Powder	units	UPC	1970-01-01	I	18.00	\N	\N	Bulk Items distributed	494	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1780	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	300.00	\N	\N	Bulk Items distributed	495	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1781	FOOD_WATER	Baby Pampers	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	496	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1782	HYGIENE	Hygiene Kit	units	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	497	2	Location: JDF- Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1783	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	6.00	\N	\N	Bulk Items distributed	498	2	Location: MLSS - Trelawny & Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1784	SHELTER	Mattress	units	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	499	2	Location: MLSS - Trelawny & Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1785	HYGIENE	Hygiene Kit	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	500	2	Location: MLSS - Trelawny & Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1786	HYGIENE	Hygiene Kit	unit	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	501	2	Location: St Catherine; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1787	HYGIENE	Hygiene Kit	units	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	502	2	Location: Clarendon L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1788	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	503	2	Location: Clarendon L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1789	LOGS_ENGR	Lantern	boxes	UPC	1970-01-01	I	12.00	\N	\N	Bulk Items distributed	504	2	Location: Clarendon L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1790	SHELTER	Stove	units	UPC	1970-01-01	I	12.00	\N	\N	Bulk Items distributed	505	2	Location: JDF - Luana - St Elizabeth; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1791	LOGS_ENGR	Lantern	boxes	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	506	2	Location: JDF - Frome Westmoreland; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1792	SHELTER	Stoves	units	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	507	2	Location: JDF - Frome Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1793	SHELTER	mattress	units	UPC	1970-01-01	I	22.00	\N	\N	Bulk Items distributed	508	2	Location: JDF - Frome Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1794	FOOD_WATER	LED Lights	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	509	2	Location: JDF - Frome Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1795	LOGS_ENGR	Solar Lantern	units	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	510	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1796	HYGIENE	Hygiene Kit	unit	UPC	1970-01-01	I	33.00	\N	\N	Bulk Items distributed	516	2	Location: MLSS - HR - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1797	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	517	2	Location: MLSS - HR - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1798	FOOD_WATER	Water	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	518	2	Location: MLSS - HR - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1799	SHELTER	Tarpaulin	units	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	519	2	Location: JDF - Browns Town - St Ann; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1800	LOGS_ENGR	Solar Lantern	units	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	520	2	Location: Clarendon; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1801	HYGIENE	Hygiene Kits	units	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	521	2	Location: Clarendon; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1802	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	522	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1803	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	523	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1804	FOOD_WATER	Lishous Drink	case	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	524	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1805	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	525	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1806	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	526	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1807	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	527	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1808	FOOD_WATER	Lishous Drink	case	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	528	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1809	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	529	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1810	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	530	2	Location: JDF - Burke Barracks - St James; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1811	HYGIENE	Hygiene Kits	kits	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	531	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1812	FOOD_WATER	Lishous Drink	case	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	532	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1813	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	533	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1814	SHELTER	Tabletop Stove	unit	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	544	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1815	FOOD_WATER	Water	case	UPC	1970-01-01	I	4.00	\N	\N	Bulk Items distributed	545	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1816	SHELTER	Tarpaulin	unit	UPC	1970-01-01	I	15.00	\N	\N	Bulk Items distributed	546	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1817	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	2.00	\N	\N	Bulk Items distributed	547	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1818	FOOD_WATER	Pot Set	set	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	548	2	Location: JDF - Luana - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1819	FOOD_WATER	Malta	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	549	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1820	FOOD_WATER	Water	cases	UPC	1970-01-01	I	40.00	\N	\N	Bulk Items distributed	550	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1821	FOOD_WATER	Water 1.5L	cases	UPC	1970-01-01	I	52.00	\N	\N	Bulk Items distributed	551	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1822	SHELTER	Mattress	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	552	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1823	FOOD_WATER	Bed Base	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	553	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1824	SHELTER	Mattress	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	554	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1825	SHELTER	Stoves	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	555	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1826	HYGIENE	Baby Diaper	packs	UPC	1970-01-01	I	24.00	\N	\N	Bulk Items distributed	556	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1827	FOOD_WATER	Curves Sanitary Napkins	boxes	UPC	1970-01-01	I	2.00	\N	\N	Bulk Items distributed	557	2	Location: Frome - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1828	SHELTER	Mattress	units	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	564	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1829	FOOD_WATER	Repellant	boxes	UPC	1970-01-01	I	5.00	\N	\N	Bulk Items distributed	565	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1830	SHELTER	Tarpaulin	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	566	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1831	SHELTER	Pot Set / Dinnerware	sets	UPC	1970-01-01	I	3.00	\N	\N	Bulk Items distributed	567	2	Location: St Ann L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1832	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	568	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1833	HYGIENE	Hygiene Kits, unicef	kits	UPC	1970-01-01	I	23.00	\N	\N	Bulk Items distributed	569	2	Location: Hanover- HR/Mlss; Collected by: S. Logan; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1834	SHELTER	Tarpaulins	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	570	2	Location: Hanover- HR/Mlss; Collected by: S. Logan; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1835	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	23.00	\N	\N	Bulk Items distributed	571	2	Location: Hanover- HR/Mlss; Collected by: S. Logan; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1836	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	572	2	Location: Hanover- HR/Mlss; Collected by: S. Logan; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1837	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	80.00	\N	\N	Bulk Items distributed	573	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1838	SHELTER	Mattress, Double	units	UPC	1970-01-01	I	12.00	\N	\N	Bulk Items distributed	574	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1839	FOOD_WATER	Solar Lights	units	UPC	1970-01-01	I	24.00	\N	\N	Bulk Items distributed	575	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1840	FOOD_WATER	Flash lights	units	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	576	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1841	FOOD_WATER	Batteries, D-size, 2x1	packs	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	577	2	Location: St. Ann-Mlss Initiative; Collected by: Mlss Box Truck- R. Nelson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1842	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	578	2	Location: St. Ann-Mlss Initiative; Collected by: Dennis Blackwood; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1843	HYGIENE	Hygiene Kits	kits	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	583	2	Location: JDF - 1 Engineering Regiment -; Collected by: Lt O Carridice; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1844	HYGIENE	Sanitary Hygiene Kit	kits	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	584	2	Location: JDF - 1 Engineering Regiment -; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1845	FOOD_WATER	Jerry Can, ODPEM	units	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	585	2	Location: JDF - 1 Engineering Regiment -; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1846	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	586	2	Location: JDF - 1 Engineering Regiment -; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1847	FOOD_WATER	Solar Lights	boxes	UPC	2025-11-19	I	2.00	\N	\N	Bulk Items distributed	587	2	Location: Hanover L/O; Collected by: D Grant - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1848	HYGIENE	Baby Diapers	boxes	UPC	2025-11-19	I	3.00	\N	\N	Bulk Items distributed	588	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1849	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	4.00	\N	\N	Bulk Items distributed	589	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1850	SHELTER	Tarpaulin	units	UPC	2025-11-19	I	51.00	\N	\N	Bulk Items distributed	590	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1851	HYGIENE	Hygiene kits	kits	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	591	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1852	HYGIENE	Sanitary Hygiene Kit	kits	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	592	2	Location: Burke Barracks, St. James; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1853	HYGIENE	Hygiene Kits	kits	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	593	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1854	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	594	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1855	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	595	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1856	SHELTER	Mattress, Double	units	UPC	2025-11-19	I	14.00	\N	\N	Bulk Items distributed	596	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1857	FOOD_WATER	Jerry Can, ODPEM	units	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	597	2	Location: Burke Barracks, St. James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1858	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	598	2	Location: Multi-purpose Stadium, Trelawny; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1859	HYGIENE	Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	599	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1860	FOOD_WATER	Jerry Can, ODPEM	units	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	600	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1861	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	601	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1862	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	602	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1863	SHELTER	Mattress, Double	units	UPC	2025-11-19	I	16.00	\N	\N	Bulk Items distributed	603	2	Location: Multi-purpose Stadium, Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1864	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	604	2	Location: Luana, St. Elizabeth; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1865	HYGIENE	Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	605	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1866	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	606	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1867	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	607	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1868	SHELTER	Mattress, Double	units	UPC	2025-11-19	I	16.00	\N	\N	Bulk Items distributed	608	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1869	FOOD_WATER	Jerry Can, ODPEM	units	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	609	2	Location: Luana, St. Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1870	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	610	2	Location: Frome, Westmoreland; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1871	HYGIENE	Hygiene Kit	units	UPC	2025-11-19	I	100.00	\N	\N	Bulk Items distributed	611	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1872	FOOD_WATER	Cleaning Kits	boxes	UPC	2025-11-19	I	10.00	\N	\N	Bulk Items distributed	612	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1873	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-19	I	50.00	\N	\N	Bulk Items distributed	613	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1874	SHELTER	Mattress, Double	units	UPC	2025-11-19	I	14.00	\N	\N	Bulk Items distributed	614	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1875	FOOD_WATER	Jerry Can, ODPEM	ea	UPC	2025-11-19	I	45.00	\N	\N	Bulk Items distributed	615	2	Location: Frome, Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1876	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	25.00	\N	\N	Bulk Items distributed	644	2	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1877	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	25.00	\N	\N	Bulk Items distributed	645	2	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1878	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	646	2	Location: JDF - CMP - Westmoreland; Collected by: C McKay; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1879	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	647	2	Location: JDF - Jamaica Regiment; Collected by: W Walker; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1880	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	200.00	\N	\N	Bulk Items distributed	648	2	Location: JDF - Jamaica Regiment; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1881	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	72.00	\N	\N	Bulk Items distributed	649	2	Location: JDF - Jamaica Regiment; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1882	SHELTER	Mattress, Double	units	UPC	1970-01-01	I	6.00	\N	\N	Bulk Items distributed	650	2	Location: St James L/O; Collected by: D McKella - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1883	FOOD_WATER	Bed Base	units	UPC	1970-01-01	I	6.00	\N	\N	Bulk Items distributed	651	2	Location: St James L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1884	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	167.00	\N	\N	Bulk Items distributed	652	2	Location: JDF - Burke Barracks - St James; Collected by: M Francis; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1885	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	197.00	\N	\N	Bulk Items distributed	653	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1886	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	654	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1887	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	655	2	Location: JDF - Trelawny; Collected by: Capt. S. Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1888	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	100.00	\N	\N	Bulk Items distributed	656	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1889	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	657	2	Location: JDF - Burke Barracks - St James; Collected by: Capt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1890	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	658	2	Location: JDF - Burke Barracks - St James; Collected by: Capt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1891	SHELTER	Mattress, Double	unit	UPC	1970-01-01	I	1.00	\N	\N	Bulk Items distributed	659	2	Location: MLSS Staff Welfare; Collected by: Simone McKenzie Mair; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1892	SHELTER	Mattress, Double	units	UPC	1970-01-01	I	20.00	\N	\N	Bulk Items distributed	660	2	Location: St. Elizabeth Parish Office; Collected by: Dwainton Williams; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1893	FOOD_WATER	Water, I Cool	cases	UPC	1970-01-01	I	30.00	\N	\N	Bulk Items distributed	661	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1894	HYGIENE	Bleach, Clean N White	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	662	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1895	HYGIENE	Disinfectant, Conquest, 1 Litre	cases	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	663	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1896	FOOD_WATER	Cleaning Kits	buckets	UPC	1970-01-01	I	10.00	\N	\N	Bulk Items distributed	664	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1897	HYGIENE	Hygiene Kit	kits	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	665	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1898	HYGIENE	Sanitary Hygiene Kit	kits	UPC	1970-01-01	I	50.00	\N	\N	Bulk Items distributed	666	2	Location: St. Elizabeth Parish Office; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1899	SHELTER	Tarpaulin	units	UPC	2025-11-22	I	101.00	\N	\N	Bulk Items distributed	670	2	Location: Manchester L/O; Collected by: D Williams - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1900	SHELTER	Mattress, Double	units	UPC	2025-11-22	I	20.00	\N	\N	Bulk Items distributed	671	2	Location: Manchester L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1901	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	161.00	\N	\N	Bulk Items distributed	672	2	Location: Manchester L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1902	HYGIENE	Soap Powder	packs	UPC	2025-11-22	I	300.00	\N	\N	Bulk Items distributed	673	2	Location: Manchester L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1903	HYGIENE	Disinfectant, Conquest, 1 Litre	boxes	UPC	2025-11-22	I	15.00	\N	\N	Bulk Items distributed	674	2	Location: Manchester L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1904	FOOD_WATER	Water , Catherine Peak	cs	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	675	2	Location: JDF Regiment - St Elizabeth; Collected by: LCPL K Holness; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1905	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	676	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1906	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	150.00	\N	\N	Bulk Items distributed	677	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1907	SHELTER	Tarpaulin	units	UPC	2025-11-22	I	100.00	\N	\N	Bulk Items distributed	678	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1908	FOOD_WATER	Aloe Water	units	UPC	2025-11-22	I	15.00	\N	\N	Bulk Items distributed	679	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1909	FOOD_WATER	Lishous Drink	units	UPC	2025-11-22	I	47.00	\N	\N	Bulk Items distributed	680	2	Location: JDF Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1910	FOOD_WATER	Water, I Cool	cs	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	681	2	Location: JDF - Jamaica Regiment - St Elizabeth; Collected by: Cpl S Willaimson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1911	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	682	2	Location: JDF - Jamaica Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1912	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	150.00	\N	\N	Bulk Items distributed	683	2	Location: JDF - Jamaica Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1913	SHELTER	Tarpaulin	units	UPC	2025-11-22	I	100.00	\N	\N	Bulk Items distributed	684	2	Location: JDF - Jamaica Regiment - St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1914	FOOD_WATER	Water, I Cool	cs	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	685	2	Location: JDF- Jamaica Regiment  Burke Barracks- St James; Collected by: Cpl R Graham; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1915	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-22	I	50.00	\N	\N	Bulk Items distributed	686	2	Location: JDF- Jamaica Regiment  Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1916	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	150.00	\N	\N	Bulk Items distributed	687	2	Location: JDF- Jamaica Regiment  Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1917	SHELTER	Tarpaulin	units	UPC	2025-11-22	I	100.00	\N	\N	Bulk Items distributed	688	2	Location: JDF- Jamaica Regiment  Burke Barracks- St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1918	HYGIENE	Hygiene Kit	units	UPC	2025-11-22	I	12.00	\N	\N	Bulk Items distributed	689	2	Location: Manchester L/O; Collected by: K Royal - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1919	SHELTER	Tarpaulin	units	UPC	2025-11-23	I	15.00	\N	\N	Bulk Items distributed	695	2	Location: Hanover L/O; Collected by: D Grant - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1920	HYGIENE	Hygiene Kit	units	UPC	2025-11-23	I	9.00	\N	\N	Bulk Items distributed	696	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1921	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-23	I	45.00	\N	\N	Bulk Items distributed	697	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1922	SHELTER	Pot / Dinnerware Sets	units	UPC	2025-11-23	I	10.00	\N	\N	Bulk Items distributed	698	2	Location: Hanover L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1923	FOOD_WATER	Water	cs	UPC	2025-11-23	I	30.00	\N	\N	Bulk Items distributed	699	2	Location: JDF - MACC - Westmoreland; Collected by: Lt Col M Stewart; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1924	HYGIENE	Hygiene Kit	units	UPC	2025-11-23	I	150.00	\N	\N	Bulk Items distributed	700	2	Location: JDF - Burke Barracks - St James; Collected by: LCPL - Francis; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1925	FOOD_WATER	Water, I Cool	cs	UPC	2025-11-23	I	72.00	\N	\N	Bulk Items distributed	701	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1926	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-23	I	50.00	\N	\N	Bulk Items distributed	702	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1927	HYGIENE	Hygiene Kit	units	UPC	2025-11-23	I	150.00	\N	\N	Bulk Items distributed	703	2	Location: JDF - Trelawny; Collected by: Cpl Williamson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1928	FOOD_WATER	Water, I Cool	cs	UPC	2025-11-23	I	53.00	\N	\N	Bulk Items distributed	704	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1929	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-23	I	50.00	\N	\N	Bulk Items distributed	705	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1930	FOOD_WATER	Pampers	cs	UPC	2025-11-24	I	42.00	\N	\N	Bulk Items distributed	710	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1931	HYGIENE	Hygiene Kit, ODPEM	kits	UPC	2025-11-24	I	10.00	\N	\N	Bulk Items distributed	711	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1932	HYGIENE	Sanitary Hygiene Kit	kits	UPC	2025-11-24	I	60.00	\N	\N	Bulk Items distributed	712	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1933	FOOD_WATER	Up & Up Wet Floor Wipes	boxes	UPC	2025-11-24	I	5.00	\N	\N	Bulk Items distributed	713	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1934	FOOD_WATER	Up & Up Wet Floor Wipes	boxes	UPC	2025-11-24	I	6.00	\N	\N	Bulk Items distributed	714	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1935	SHELTER	Mattress	units	UPC	2025-11-24	I	17.00	\N	\N	Bulk Items distributed	715	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1936	FOOD_WATER	Bed Base	units	UPC	2025-11-24	I	13.00	\N	\N	Bulk Items distributed	716	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1937	FOOD_WATER	Conquest	cases	UPC	2025-11-24	I	30.00	\N	\N	Bulk Items distributed	717	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1938	HYGIENE	Hygiene Kit	units	UPC	2025-11-24	I	540.00	\N	\N	Bulk Items distributed	718	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1939	SHELTER	Mattress	units	UPC	2025-11-24	I	10.00	\N	\N	Bulk Items distributed	719	2	Location: St Ann L/O; Collected by: Simms - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1940	SHELTER	Mattress	units	UPC	2025-11-25	I	38.00	\N	\N	Bulk Items distributed	723	2	Location: JDF- St Elizabeth; Collected by: Romario Edwards; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1941	HYGIENE	Tissue	cases	UPC	2025-11-25	I	165.00	\N	\N	Bulk Items distributed	724	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1942	FOOD_WATER	Wipes	boxes	UPC	2025-11-25	I	4.00	\N	\N	Bulk Items distributed	725	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1943	HYGIENE	Diapers	cases	UPC	2025-11-25	I	34.00	\N	\N	Bulk Items distributed	726	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1944	SHELTER	Stove	units	UPC	2025-11-25	I	50.00	\N	\N	Bulk Items distributed	727	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1945	FOOD_WATER	Jerry Can	bottles	UPC	2025-11-25	I	45.00	\N	\N	Bulk Items distributed	728	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1946	HYGIENE	Hygiene Kits	units	UPC	2025-11-25	I	650.00	\N	\N	Bulk Items distributed	729	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1947	HYGIENE	Sanitary Hygiene Kit	units	UPC	2025-11-25	I	25.00	\N	\N	Bulk Items distributed	730	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1948	HYGIENE	Tissue	cases	UPC	2025-11-25	I	150.00	\N	\N	Bulk Items distributed	731	2	Location: JDF- St Elizabeth; Collected by: M Francis; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1949	HYGIENE	Diapers	boxes	UPC	2025-11-25	I	9.00	\N	\N	Bulk Items distributed	732	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1950	FOOD_WATER	Wipes	boxes	UPC	2025-11-25	I	10.00	\N	\N	Bulk Items distributed	733	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1951	SHELTER	Stove	units	UPC	2025-11-25	I	14.00	\N	\N	Bulk Items distributed	734	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1952	LOGS_ENGR	Solar Lantern	units	UPC	2025-11-25	I	42.00	\N	\N	Bulk Items distributed	735	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1953	FOOD_WATER	Lamp	units	UPC	2025-11-25	I	40.00	\N	\N	Bulk Items distributed	736	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1954	HYGIENE	Hygiene Kit	units	UPC	2025-11-25	I	600.00	\N	\N	Bulk Items distributed	737	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1955	FOOD_WATER	Roll Mats	units	UPC	2025-11-25	I	40.00	\N	\N	Bulk Items distributed	738	2	Location: JDF- St Elizabeth; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1956	SHELTER	Tarpaulin	units	UPC	2025-11-25	I	3.00	\N	\N	Bulk Items distributed	739	2	Location: MLSS Staff Welfare; Collected by: K. Anderson Thomas; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1957	SHELTER	Tarpaulin	units	UPC	2025-11-25	I	197.00	\N	\N	Bulk Items distributed	740	2	Location: MLSS Tarpaulin Initiative; Collected by: R Howell - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1958	SHELTER	Tarpaulin	units	UPC	2025-11-26	I	150.00	\N	\N	Bulk Items distributed	745	2	Location: St Catherine L/O; Collected by: R Smith - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1959	HYGIENE	Bath Soap	cases	UPC	2025-11-26	I	3.00	\N	\N	Bulk Items distributed	746	2	Location: St Catherine L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1960	SHELTER	Mattress	units	UPC	2025-11-26	I	10.00	\N	\N	Bulk Items distributed	747	2	Location: St James L/O; Collected by: D McKella - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1961	SHELTER	Tarpaulin	units	UPC	2025-11-26	I	20.00	\N	\N	Bulk Items distributed	748	2	Location: St James L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1962	FOOD_WATER	Water, I Cool	cases	UPC	2025-11-26	I	10.00	\N	\N	Bulk Items distributed	749	2	Location: St James L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1963	FOOD_WATER	Bed Base	unit	UPC	2025-11-26	I	1.00	\N	\N	Bulk Items distributed	750	2	Location: St James L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1964	SHELTER	Mattress	units	UPC	2025-11-26	I	10.00	\N	\N	Bulk Items distributed	751	2	Location: KSA L/O; Collected by: Nocola Wright - KSA Social Worker; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1965	SHELTER	Tarpaulin	units	UPC	2025-11-26	I	50.00	\N	\N	Bulk Items distributed	752	2	Location: KSA L/O; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1966	FOOD_WATER	Water	cases	UPC	2025-11-27	I	29.00	\N	\N	Bulk Items distributed	756	2	Location: JDF - Trelawny; Collected by: W Walker; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1967	FOOD_WATER	Water	units	UPC	2025-11-27	I	4.00	\N	\N	Bulk Items distributed	757	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1968	FOOD_WATER	Salvation Army Breakfast box	cases	UPC	2025-11-27	I	2.00	\N	\N	Bulk Items distributed	758	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1969	FOOD_WATER	Salvation Army Lunch box	cases	UPC	2025-11-27	I	2.00	\N	\N	Bulk Items distributed	759	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1970	SHELTER	Tarpaulin, 4mx5m	units	UPC	2025-11-27	I	3.00	\N	\N	Bulk Items distributed	760	2	Location: MLSS Staff Welfare; Collected by: Mr Clarke - MLSS Driver; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1971	FOOD_WATER	Water, Essentials,Waitrose, 8x 2lt	cases	UPC	2025-11-27	I	63.00	\N	\N	Bulk Items distributed	761	2	Location: JDF- St. James; Collected by: Mario Francis; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1972	FOOD_WATER	Salvation Army Breakfast box, 30x1	boxes	UPC	2025-11-27	I	2.00	\N	\N	Bulk Items distributed	762	2	Location: JDF- St. James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1973	FOOD_WATER	Salvation Army Lunch box, 30x1	boxes	UPC	2025-11-27	I	2.00	\N	\N	Bulk Items distributed	763	2	Location: JDF- St. James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1974	SHELTER	Tarpaulin, 4mx5m	units	UPC	2025-11-28	I	1.00	\N	\N	Bulk Items distributed	768	2	Location: JMEA; Collected by: K Blake; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1975	FOOD_WATER	Water	cases	UPC	2025-11-28	I	15.00	\N	\N	Bulk Items distributed	769	2	Location: JDF - Burke Barracks - St James; Collected by: R Graham; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1976	FOOD_WATER	Water	units	UPC	2025-11-28	I	20.00	\N	\N	Bulk Items distributed	770	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1977	FOOD_WATER	Salvation Army Lunch boxes	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	771	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1978	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	772	2	Location: JDF - Burke Barracks - St James; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1979	FOOD_WATER	Water	cases	UPC	2025-11-28	I	32.00	\N	\N	Bulk Items distributed	773	2	Location: JDF - Westmoreland; Collected by: R Edwards; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1980	FOOD_WATER	Salvation Army Lunch box	boxes	UPC	2025-11-28	I	3.00	\N	\N	Bulk Items distributed	774	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1981	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	3.00	\N	\N	Bulk Items distributed	775	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1982	FOOD_WATER	Water	cases	UPC	2025-11-28	I	16.00	\N	\N	Bulk Items distributed	776	2	Location: JDF - Trelawny; Collected by: Cpl O Reynolds; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1983	FOOD_WATER	Salvation Army Lunch box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	777	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1984	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	778	2	Location: JDF - Trelawny; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1985	FOOD_WATER	Water	cases	UPC	2025-11-28	I	30.00	\N	\N	Bulk Items distributed	779	2	Location: JDF - Westmoreland; Collected by: Cpl Winston Walker; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1986	FOOD_WATER	MRE	boxes	UPC	2025-11-28	I	5.00	\N	\N	Bulk Items distributed	780	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1987	FOOD_WATER	Salvation Army Lunch box	boxes	UPC	2025-11-28	I	3.00	\N	\N	Bulk Items distributed	781	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1988	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	3.00	\N	\N	Bulk Items distributed	782	2	Location: JDF - Westmoreland; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1989	SHELTER	Mattress	units	UPC	2025-11-28	I	8.00	\N	\N	Bulk Items distributed	783	2	Location: KSA L/O; Collected by: M Jack; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1990	HYGIENE	Hygiene Kit	kits	UPC	2025-11-28	I	50.00	\N	\N	Bulk Items distributed	784	2	Location: Micro Small & Medium Enterprises (MSME); Collected by: A Hamilton; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1991	HYGIENE	Hygiene Kit	kits	UPC	2025-11-28	I	50.00	\N	\N	Bulk Items distributed	785	2	Location: Jamaica Red Cross; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1992	SHELTER	Tarpaulin, 4mx5m	units	UPC	2025-11-28	I	50.00	\N	\N	Bulk Items distributed	786	2	Location: St Mary L/O; Collected by: N Byfield; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1993	FOOD_WATER	Water	cases	UPC	2025-11-28	I	30.00	\N	\N	Bulk Items distributed	787	2	Location: JDF - Hanover; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1994	FOOD_WATER	Salvation Army Lunch box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	788	2	Location: JDF - Hanover; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1995	FOOD_WATER	Salvation Army Breakfast box	boxes	UPC	2025-11-28	I	2.00	\N	\N	Bulk Items distributed	789	2	Location: JDF - Hanover; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1996	FOOD_WATER	Snack Package	ea	UPC	2025-11-03	I	100.00	\N	\N	Snack Packages Distributions	4	2	Location: Hanover; Collected by: J. Jackson; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1997	FOOD_WATER	Snack Package	ea	UPC	2025-11-03	I	30.00	\N	\N	Snack Packages Distributions	5	2	Location: OPM; Collected by: T MURRAY; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1998	FOOD_WATER	Snack Package	ea	UPC	2025-11-05	I	50.00	\N	\N	Snack Packages Distributions	6	2	Location: St Mary Parish Office; Collected by: J BOYD; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+1999	FOOD_WATER	Snack Package	ea	UPC	2025-11-05	I	100.00	\N	\N	Snack Packages Distributions	7	2	Location: Hanover and Trelawny; Collected by: Sp Bde (CMP); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2000	FOOD_WATER	Snack Package	ea	UPC	2025-11-05	I	50.00	\N	\N	Snack Packages Distributions	8	2	Location: Hanover and Westmoreland; Collected by: Capt INGRAM; Remarks: Sp Bde (HSC Wellness Centre); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2001	FOOD_WATER	Snack Package	ea	UPC	2025-11-06	I	20.00	\N	\N	Snack Packages Distributions	9	2	Location: Andrew Moriss- ST Elizabeth North Western; Collected by: V Dixon; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2002	FOOD_WATER	Snack Package	ea	UPC	2025-11-10	I	4.00	\N	\N	Snack Packages Distributions	11	2	Location: JDF - Burke Barracks & Luanna - St James & St Elizabeth; Collected by: Maj Barrett; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2003	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	25.00	\N	\N	Snack Packages Distributions	12	2	Location: Ministry of National Security; Collected by: R. Steele McCarthy; Remarks: Jamaica Constabulary Force (JCF); Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2004	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	20.00	\N	\N	Snack Packages Distributions	13	2	Location: St. Mary Parish Office; Collected by: Nigel Byfield; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2005	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	62.00	\N	\N	Snack Packages Distributions	14	2	Location: JDF - Luana- St Elizabeth; Collected by: Cpt Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2006	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	100.00	\N	\N	Snack Packages Distributions	15	2	Location: Denbeigh Clarendon; Collected by: Cpl M Jarrett; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2007	FOOD_WATER	Snack Package	ea	UPC	2025-11-12	I	30.00	\N	\N	Snack Packages Distributions	16	2	Location: St Ann L/O; Collected by: A Robb - MLSS PAD Admin; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2008	FOOD_WATER	Snack Package	ea	UPC	2025-11-14	I	25.00	\N	\N	Snack Packages Distributions	17	2	Location: JDF- Luana - St Elizabeth; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2009	FOOD_WATER	Snack Package	ea	UPC	2025-11-14	I	25.00	\N	\N	Snack Packages Distributions	18	2	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2010	FOOD_WATER	Snack Package	ea	UPC	2025-11-14	I	25.00	\N	\N	Snack Packages Distributions	19	2	Location: JDF - Burke Barracks - St James; Collected by: Maj W Barratt; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2011	FOOD_WATER	Snack Package	ea	UPC	2025-11-14	I	167.00	\N	\N	Snack Packages Distributions	20	2	Location: JDF - Burke Barracks - St James; Collected by: Cpt S Hall; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2012	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-10-29	R	1000.00	\N	\N	Packages produced per day	4	2	Completed packages; 850 package were not completed due to insufficient items; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2013	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-10-29	R	850.00	\N	\N	Packages produced per day	4	3	Partial packages; 850 package were not completed due to insufficient items; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2014	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-10-30	R	2523.00	\N	\N	Packages produced per day	5	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2015	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-10-31	R	1784.00	\N	\N	Packages produced per day	6	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2016	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-10-31	R	1500.00	\N	\N	Packages produced per day	6	3	Partial packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2017	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-01	R	3717.00	\N	\N	Packages produced per day	7	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2018	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-11-01	R	862.00	\N	\N	Packages produced per day	7	3	Partial packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2019	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-02	R	908.00	\N	\N	Packages produced per day	8	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2020	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-03	R	1625.00	\N	\N	Packages produced per day	9	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2021	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-04	R	1844.00	\N	\N	Packages produced per day	10	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2022	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-05	R	4383.00	\N	\N	Packages produced per day	11	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2023	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-06	R	4049.00	\N	\N	Packages produced per day	12	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2024	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-07	R	5120.00	\N	\N	Packages produced per day	13	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2025	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-08	R	3537.00	\N	\N	Packages produced per day	14	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2026	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-09	R	1913.00	\N	\N	Packages produced per day	15	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2027	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-10	R	3420.00	\N	\N	Packages produced per day	16	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2028	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-11	R	3945.00	\N	\N	Packages produced per day	17	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2029	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-12	R	3664.00	\N	\N	Packages produced per day	18	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2030	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-13	R	3695.00	\N	\N	Packages produced per day	19	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2031	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-14	R	4650.00	\N	\N	Packages produced per day	20	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2032	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-15	R	2440.00	\N	\N	Packages produced per day	21	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2033	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-16	R	383.00	\N	\N	Packages produced per day	22	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2034	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-17	R	620.00	\N	\N	Packages produced per day	23	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2035	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-18	R	2756.00	\N	\N	Packages produced per day	24	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2036	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-19	R	5729.00	\N	\N	Packages produced per day	25	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2037	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-20	R	5240.00	\N	\N	Packages produced per day	26	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2038	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-11-21	R	1543.00	\N	\N	Packages produced per day	27	3	Partial packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2039	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-22	R	190.00	\N	\N	Packages produced per day	28	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2040	FOOD_WATER	Food Package (Partial)	ea	UPC	2025-11-22	R	150.00	\N	\N	Packages produced per day	28	3	Partial packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2041	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-24	R	3650.00	\N	\N	Packages produced per day	30	2	Completed packages; 3650 received from ODPEM; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2042	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-25	R	450.00	\N	\N	Packages produced per day	31	2	Completed packages; 450 received from ODPEM; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2043	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-26	R	2130.00	\N	\N	Packages produced per day	32	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2044	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-27	R	4320.00	\N	\N	Packages produced per day	33	2	Completed packages; 1507 received from ODPEM; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2045	FOOD_WATER	Food Package (Produced)	ea	UPC	2025-11-28	R	1720.00	\N	\N	Packages produced per day	34	2	Completed packages; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2046	FOOD_WATER	Food Packages	ea	UPC	2025-11-01	R	995.00	\N	\N	Items Donated	3	4	Donor: Food for the poor	MLSS_IMPORT	2025-12-01 20:11:51
+2047	HYGIENE	Hygiene Kits	ea	UPC	2025-11-01	R	30.00	\N	\N	Items Donated	4	4	Donor: Food for the poor	MLSS_IMPORT	2025-12-01 20:11:51
+2048	FOOD_WATER	Water	case	UPC	2025-11-01	R	150.00	\N	\N	Items Donated	5	4	Donor: Food for the poor	MLSS_IMPORT	2025-12-01 20:11:51
+2049	FOOD_WATER	Snack Packs	ea	UPC	2025-11-02	R	103.00	\N	\N	Items Donated	6	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2050	FOOD_WATER	Food Packages	ea	UPC	2025-11-02	R	885.00	\N	\N	Items Donated	7	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2051	FOOD_WATER	Chicken Vienna Sausage	case	UPC	2025-11-02	R	210.00	\N	\N	Items Donated	8	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-12-01 20:11:51
+2052	FOOD_WATER	Lasco Baked Bean	case	UPC	2025-11-02	R	420.00	\N	\N	Items Donated	9	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-12-01 20:11:51
+2053	FOOD_WATER	Corn Beef	case	UPC	2025-11-02	R	420.00	\N	\N	Items Donated	10	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-12-01 20:11:51
+2054	FOOD_WATER	Aloe Vera Drink	case	UPC	2025-11-02	R	100.00	\N	\N	Items Donated	11	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-12-01 20:11:51
+2055	FOOD_WATER	Sugar	bags	UPC	2025-11-02	R	23.00	\N	\N	Items Donated	12	4	Donor: JMMB and Sagicor (JMEA)	MLSS_IMPORT	2025-12-01 20:11:51
+2056	FOOD_WATER	Turmeric tea	packs	UPC	2025-11-03	R	15.00	\N	\N	Items Donated	13	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2057	FOOD_WATER	Syrup - Pina Colada	bottles	UPC	2025-11-03	R	12.00	\N	\N	Items Donated	14	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2058	FOOD_WATER	Tetley Tea Chia Vanilla	pack	UPC	2025-11-03	R	17.00	\N	\N	Items Donated	15	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2059	FOOD_WATER	Condensed Coconut Milk	cans	UPC	2025-11-03	R	17.00	\N	\N	Items Donated	16	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2060	FOOD_WATER	Water Wata 330ml *24	cases	UPC	2025-11-03	R	2.00	\N	\N	Items Donated	17	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2061	FOOD_WATER	Cran Wata 600ml 8*24	cases	UPC	2025-11-03	R	2.00	\N	\N	Items Donated	18	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2062	FOOD_WATER	Pepsi Zero Sugar 350ml*24	cases	UPC	2025-11-03	R	5.00	\N	\N	Items Donated	19	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2063	FOOD_WATER	Pepsi Zero Sugar 350ml	singles	UPC	2025-11-03	R	18.00	\N	\N	Items Donated	20	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2064	FOOD_WATER	Schweppes 355ml*24	cases	UPC	2025-11-03	R	6.00	\N	\N	Items Donated	21	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2065	FOOD_WATER	Cooking Oil	ea	UPC	2025-11-03	R	927.00	\N	\N	Items Donated	22	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2066	HYGIENE	Hygiene Kits	ea	UPC	2025-11-03	R	154.00	\N	\N	Items Donated	23	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2067	HYGIENE	Diapers	toddler	UPC	2025-11-03	R	1332.00	\N	\N	Items Donated	24	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2068	HYGIENE	Diapers	adults	UPC	2025-11-03	R	804.00	\N	\N	Items Donated	25	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2069	SHELTER	Tarpaulin	12x16	UPC	2025-11-03	R	50.00	\N	\N	Items Donated	26	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2070	SHELTER	Tarpaulin	12x20	UPC	2025-11-03	R	30.00	\N	\N	Items Donated	27	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2071	SHELTER	Tarpaulin	16x20	UPC	2025-11-03	R	57.00	\N	\N	Items Donated	28	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2072	SHELTER	Tarpaulin	20x20	UPC	2025-11-03	R	24.00	\N	\N	Items Donated	29	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2073	SHELTER	Dinnerware Sets	ea	UPC	2025-11-03	R	43.00	\N	\N	Items Donated	30	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2074	FOOD_WATER	Pot sets	ea	UPC	2025-11-03	R	24.00	\N	\N	Items Donated	31	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2075	FOOD_WATER	Household Kits	ea	UPC	2025-11-03	R	52.00	\N	\N	Items Donated	32	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2076	SHELTER	Buckets with covers	ea	UPC	2025-11-03	R	50.00	\N	\N	Items Donated	33	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2077	FOOD_WATER	Razor	ea	UPC	2025-11-03	R	76.00	\N	\N	Items Donated	34	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2078	HYGIENE	Shaving Cream	ea	UPC	2025-11-03	R	214.00	\N	\N	Items Donated	35	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2079	HYGIENE	Toothbrush	ea	UPC	2025-11-03	R	1450.00	\N	\N	Items Donated	36	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2080	FOOD_WATER	Alcohol wipes	ea	UPC	2025-11-03	R	12.00	\N	\N	Items Donated	37	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2081	FOOD_WATER	Water	ea	UPC	2025-11-03	R	1330.00	\N	\N	Items Donated	38	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2082	FOOD_WATER	Mix Vegetable	cases	UPC	2025-11-03	R	49.00	\N	\N	Items Donated	39	4	Donor: Food For the Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2083	FOOD_WATER	Mackerel in Brine	cases	UPC	2025-11-03	R	49.00	\N	\N	Items Donated	40	4	Donor: Food For the Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2084	FOOD_WATER	Black Bean	cases	UPC	2025-11-03	R	49.00	\N	\N	Items Donated	41	4	Donor: Food For the Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2085	FOOD_WATER	Manna Pack	cases	UPC	2025-11-03	R	36.00	\N	\N	Items Donated	42	4	Donor: Food For the Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2086	FOOD_WATER	Counter Flour 1lbs	bags	UPC	2025-11-03	R	15.00	\N	\N	Items Donated	43	4	Donor: Food For the Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2087	FOOD_WATER	Sardine in water	cases	UPC	2025-11-04	R	300.00	\N	\N	Items Donated	45	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2088	FOOD_WATER	Sardine in Tomato	cases	UPC	2025-11-04	R	75.00	\N	\N	Items Donated	46	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2089	FOOD_WATER	Sardine in oil	cases	UPC	2025-11-04	R	75.00	\N	\N	Items Donated	47	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2090	FOOD_WATER	Sugar	bags	UPC	2025-11-04	R	49.00	\N	\N	Items Donated	48	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2091	FOOD_WATER	Vegetable oil	ea	UPC	2025-11-04	R	150.00	\N	\N	Items Donated	49	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2092	FOOD_WATER	Curves Maxi Sanitary Napkin	ea	UPC	2025-11-04	R	50.00	\N	\N	Items Donated	50	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2093	FOOD_WATER	Curves Overnight Sanitary Napkin	ea	UPC	2025-11-04	R	50.00	\N	\N	Items Donated	51	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2094	FOOD_WATER	May's White Sugar	box	UPC	2025-11-04	R	1.00	\N	\N	Items Donated	52	4	Donor: Lloyd's Manufacturing Co	MLSS_IMPORT	2025-12-01 20:11:51
+2095	FOOD_WATER	May's Dark Sugar	box	UPC	2025-11-04	R	1.00	\N	\N	Items Donated	53	4	Donor: Lloyd's Manufacturing Co	MLSS_IMPORT	2025-12-01 20:11:51
+2096	SHELTER	Tarpaulins	ea	UPC	2025-11-05	R	250.00	\N	\N	Items Donated	54	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2097	FOOD_WATER	Wipes ADA	40x1	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	55	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2098	FOOD_WATER	Lotion Ashley	200mg	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	56	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2099	HYGIENE	Bath Soap Rose	115g	UPC	2025-11-06	R	36.00	\N	\N	Items Donated	57	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2100	FOOD_WATER	Toothpaste (Colgate, Triple Action)	70mg	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	58	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2101	HYGIENE	Toothbrush (Alex)	12x1	UPC	2025-11-06	R	36.00	\N	\N	Items Donated	59	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2102	FOOD_WATER	Comb	12x1	UPC	2025-11-06	R	12.00	\N	\N	Items Donated	60	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2103	FOOD_WATER	Water (Wata, Wata) (24x600ML)	cases	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	61	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2104	FOOD_WATER	Tiolet Paper (Bingo Grande) (24x1)	cases	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	62	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2105	FOOD_WATER	Sugar (Worthy Park) (40x500g)	cases	UPC	2025-11-06	R	2.00	\N	\N	Items Donated	63	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2106	FOOD_WATER	Sardine (Brunswick) ( 50x106g)	case	UPC	2025-11-06	R	1.00	\N	\N	Items Donated	64	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2107	FOOD_WATER	Detergent (Sud Sud) (20x350g)	cases	UPC	2025-11-06	R	2.00	\N	\N	Items Donated	65	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2108	FOOD_WATER	Banana Chips (St Mary) (5x15x39g)	cases	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	66	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2109	FOOD_WATER	Cup Soup (12x2) (25oz)	cases	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	67	4	Donor: RVR ELITE SCIENCE	MLSS_IMPORT	2025-12-01 20:11:51
+2110	FOOD_WATER	Sleeping Pads	ea	UPC	2025-11-06	R	200.00	\N	\N	Items Donated	68	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2111	FOOD_WATER	Jerrycan Water	ea	UPC	2025-11-06	R	280.00	\N	\N	Items Donated	69	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2112	SHELTER	Tarpaulins	ea	UPC	2025-11-06	R	200.00	\N	\N	Items Donated	70	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2113	FOOD_WATER	Water Purification System	ea	UPC	2025-11-06	R	20.00	\N	\N	Items Donated	71	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2114	FOOD_WATER	Food Packages	ea	UPC	2025-11-06	R	1200.00	\N	\N	Items Donated	72	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2115	LOGS_ENGR	Generator 3 Kw	ea	UPC	2025-11-06	R	12.00	\N	\N	Items Donated	73	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2116	LOGS_ENGR	Generator 3.5 Kw	ea	UPC	2025-11-06	R	1.00	\N	\N	Items Donated	74	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2117	LOGS_ENGR	Generator 4.65 Kw	ea	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	75	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2118	LOGS_ENGR	Generator 6.5 Kw	ea	UPC	2025-11-06	R	3.00	\N	\N	Items Donated	76	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2119	SHELTER	Gasoline Cans	5 gallon	UPC	2025-11-06	R	6.00	\N	\N	Items Donated	77	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2120	LOGS_ENGR	Solar Lantern with Phone Charger	ea	UPC	2025-11-06	R	704.00	\N	\N	Items Donated	78	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2121	SHELTER	Cots	ea	UPC	2025-11-06	R	200.00	\N	\N	Items Donated	79	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2122	HYGIENE	Hygiene Kits	cases	UPC	2025-11-07	R	44.00	\N	\N	Items Donated	80	4	Donor: UNICEF	MLSS_IMPORT	2025-12-01 20:11:51
+2123	FOOD_WATER	Food  Packages	ea	UPC	2025-11-07	R	90.00	\N	\N	Items Donated	81	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2124	SHELTER	Tarpaulin	ea	UPC	2025-11-07	R	100.00	\N	\N	Items Donated	82	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2125	LOGS_ENGR	Solar Lantern	8x1	UPC	2025-11-07	R	88.00	\N	\N	Items Donated	83	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2126	FOOD_WATER	Lanter Charger	ea	UPC	2025-11-07	R	74.00	\N	\N	Items Donated	84	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2127	FOOD_WATER	Water Purification System	ea	UPC	2025-11-07	R	21.00	\N	\N	Items Donated	85	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2128	FOOD_WATER	Water Container	7x1	UPC	2025-11-07	R	7.00	\N	\N	Items Donated	86	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2129	FOOD_WATER	Foam Mat	20x1	UPC	2025-11-07	R	10.00	\N	\N	Items Donated	87	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2130	LOGS_ENGR	Generator	ea	UPC	2025-11-07	R	22.00	\N	\N	Items Donated	88	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2131	HYGIENE	Bleach 4%	tote	UPC	2025-11-07	R	2.00	\N	\N	Items Donated	89	4	Donor: Ansa Mcal Chemicals Ltd	MLSS_IMPORT	2025-12-01 20:11:51
+2132	HYGIENE	Bleach 8%	tote	UPC	2025-11-07	R	1.00	\N	\N	Items Donated	90	4	Donor: Ansa Mcal Chemicals Ltd	MLSS_IMPORT	2025-12-01 20:11:51
+2133	FOOD_WATER	Food Packages	ea	UPC	2025-11-08	R	2000.00	\N	\N	Items Donated	91	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2134	SHELTER	Tents	ea	UPC	2025-11-08	R	8.00	\N	\N	Items Donated	92	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2135	SHELTER	Mosquito Nets	ea	UPC	2025-11-08	R	60.00	\N	\N	Items Donated	93	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2136	FOOD_WATER	Bed Sheets	ea	UPC	2025-11-08	R	20.00	\N	\N	Items Donated	94	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2137	SHELTER	Tarpaulin	ea	UPC	2025-11-08	R	1.00	\N	\N	Items Donated	95	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2138	LOGS_ENGR	Sleeping Bags	ea	UPC	2025-11-08	R	22.00	\N	\N	Items Donated	96	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2139	FOOD_WATER	MRE	ea	UPC	2025-11-08	R	160.00	\N	\N	Items Donated	97	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2140	LOGS_ENGR	Solar Lanterns	ea	UPC	2025-11-08	R	20.00	\N	\N	Items Donated	98	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2141	FOOD_WATER	Food Pacakges	ea	UPC	2025-11-08	R	30.00	\N	\N	Items Donated	99	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2142	FOOD_WATER	Water	cases	UPC	2025-11-08	R	30.00	\N	\N	Items Donated	100	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2143	FOOD_WATER	Food Packages	ea	UPC	2025-11-08	R	1600.00	\N	\N	Items Donated	101	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2144	FOOD_WATER	Water	ea	UPC	2025-11-08	R	600.00	\N	\N	Items Donated	102	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2145	FOOD_WATER	Food Packages	ea	UPC	2025-11-08	R	1600.00	\N	\N	Items Donated	103	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2146	FOOD_WATER	Food Pacakges	ea	UPC	2025-11-08	R	4000.00	\N	\N	Items Donated	104	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2147	FOOD_WATER	Always Maxi Soft Over Night(12x8) cases	ea	UPC	2025-11-08	R	100.00	\N	\N	Items Donated	105	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-12-01 20:11:51
+2148	FOOD_WATER	Always Maxi Over Night with wing (6*27) cases	ea	UPC	2025-11-08	R	50.00	\N	\N	Items Donated	106	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-12-01 20:11:51
+2149	FOOD_WATER	Always P/Liner 6x60 cases	ea	UPC	2025-11-08	R	50.00	\N	\N	Items Donated	107	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-12-01 20:11:51
+2150	FOOD_WATER	Crest Cav Pro T/P Reg (24x5.7oz) cases	ea	UPC	2025-11-08	R	24.00	\N	\N	Items Donated	108	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-12-01 20:11:51
+2151	FOOD_WATER	Crest Tart Prot C/Mint cases	ea	UPC	2025-11-08	R	20.00	\N	\N	Items Donated	109	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-12-01 20:11:51
+2152	HYGIENE	Pampers B-Dry Diapers S3 Bags (2x52) cases	ea	UPC	2025-11-08	R	30.00	\N	\N	Items Donated	110	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-12-01 20:11:51
+2153	HYGIENE	Pampers B-Dry Diapers S4 Bags (2x46) cases	ea	UPC	2025-11-08	R	30.00	\N	\N	Items Donated	111	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-12-01 20:11:51
+2154	HYGIENE	Pampers B-Dry Diapers S5 Bags (2x39) cases	ea	UPC	2025-11-08	R	24.00	\N	\N	Items Donated	112	4	Donor: KEITH DUNCAN	MLSS_IMPORT	2025-12-01 20:11:51
+2155	FOOD_WATER	Counter Plus Flour	ea	UPC	2025-11-08	R	400.00	\N	\N	Items Donated	113	4	Donor: JMEA	MLSS_IMPORT	2025-12-01 20:11:51
+2156	FOOD_WATER	Food Packages	ea	UPC	2025-11-09	R	2000.00	\N	\N	Items Donated	114	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2157	FOOD_WATER	Food Packages	ea	UPC	2025-11-09	R	2000.00	\N	\N	Items Donated	115	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2158	FOOD_WATER	Food Packages	ea	UPC	2025-11-09	R	4000.00	\N	\N	Items Donated	116	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2159	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-11	R	96.00	\N	\N	Items Donated	117	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2160	FOOD_WATER	Mackerel in Brine	ea	UPC	2025-11-11	R	204.00	\N	\N	Items Donated	118	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2161	HYGIENE	Tissue, Irie	ea	UPC	2025-11-11	R	30.00	\N	\N	Items Donated	119	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2162	FOOD_WATER	Assorted Q-Shirts/T-Shirts	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	120	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2163	FOOD_WATER	Children Clothing	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	121	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2164	FOOD_WATER	Shoes (Slides),	25 x1	UPC	2025-11-11	R	20.00	\N	\N	Items Donated	122	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2165	SHELTER	Blankets, Disaster	8 x1	UPC	2025-11-11	R	20.00	\N	\N	Items Donated	123	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2166	HYGIENE	Paper Towels	24 x 1	UPC	2025-11-11	R	20.00	\N	\N	Items Donated	124	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2167	FOOD_WATER	Adult Wipes	24 x 1	UPC	2025-11-11	R	10.00	\N	\N	Items Donated	125	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2168	LOGS_ENGR	Flashlights,Power Torch 2D, 50 x 1	ea	UPC	2025-11-11	R	2.00	\N	\N	Items Donated	126	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2169	FOOD_WATER	Batteries, D size, 48 x 1	ea	UPC	2025-11-11	R	2.00	\N	\N	Items Donated	127	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2170	FOOD_WATER	Raincoats, Adults	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	128	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2171	FOOD_WATER	Adult Clothing	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	129	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2172	FOOD_WATER	Manna pack , 36 x 1	ea	UPC	2025-11-11	R	36.00	\N	\N	Items Donated	130	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2173	SHELTER	Mosquito nets	ea	UPC	2025-11-11	R	2.00	\N	\N	Items Donated	131	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2174	FOOD_WATER	Flat Sheet Queen	ea	UPC	2025-11-11	R	1.00	\N	\N	Items Donated	132	4	Donor: Food For The Poor	MLSS_IMPORT	2025-12-01 20:11:51
+2175	SHELTER	Tarpaulin	16x20	UPC	2025-11-13	R	84.00	\N	\N	Items Donated	133	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2176	SHELTER	Tarpaulin	10x12	UPC	2025-11-13	R	660.00	\N	\N	Items Donated	134	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2177	SHELTER	Tarpaulin	10x20	UPC	2025-11-13	R	150.00	\N	\N	Items Donated	135	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2178	SHELTER	Tarpaulin	20x30	UPC	2025-11-13	R	106.00	\N	\N	Items Donated	136	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2179	SHELTER	Tarpaulin	10x12	UPC	2025-11-13	R	675.00	\N	\N	Items Donated	137	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2180	SHELTER	Tarpaulin	10x12	UPC	2025-11-13	R	320.00	\N	\N	Items Donated	138	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2181	SHELTER	Tarpaulin	30x35	UPC	2025-11-13	R	5.00	\N	\N	Items Donated	139	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2182	HYGIENE	Diapers size 4	ea	UPC	2025-11-13	R	30.00	\N	\N	Items Donated	140	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2183	HYGIENE	Diapers size 3	ea	UPC	2025-11-13	R	30.00	\N	\N	Items Donated	141	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2184	HYGIENE	Diapers size 2	ea	UPC	2025-11-13	R	30.00	\N	\N	Items Donated	142	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2185	HYGIENE	Diapers New born	ea	UPC	2025-11-13	R	30.00	\N	\N	Items Donated	143	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2186	HYGIENE	Clean & White Bleach	ea	UPC	2025-11-18	R	27.00	\N	\N	Items Donated	146	4	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2187	FOOD_WATER	Crackers, National, 40x1	ea	UPC	2025-11-19	R	80.00	\N	\N	Items Donated	148	4	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2188	FOOD_WATER	Care Packages	ea	UPC	2025-11-20	R	2100.00	\N	\N	Items Donated	150	4	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2189	FOOD_WATER	Water	ea	UPC	2025-11-20	R	732.00	\N	\N	Items Donated	151	4	Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2190	FOOD_WATER	Food Packages	ea	UPC	2025-11-24	R	3650.00	\N	\N	Items Donated	153	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2191	SHELTER	Tarpaulin	ea	UPC	2025-11-25	R	400.00	\N	\N	Items Donated	155	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2192	FOOD_WATER	Food Packages	ea	UPC	2025-11-25	R	450.00	\N	\N	Items Donated	156	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2193	FOOD_WATER	Cup Soup	ea	UPC	2025-11-25	R	50.00	\N	\N	Items Donated	157	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2194	SHELTER	Tarpaulins, 12x16	ea	UPC	2025-11-25	R	100.00	\N	\N	Items Donated	158	4	Donor: Kingston Wharfs	MLSS_IMPORT	2025-12-01 20:11:51
+2195	FOOD_WATER	Food Packages	ea	UPC	2025-11-27	R	755.00	\N	\N	Items Donated	160	4	Donor: ODPEM	MLSS_IMPORT	2025-12-01 20:11:51
+2196	FOOD_WATER	MRE	ea	UPC	2025-11-27	R	180.00	\N	\N	Items Donated	161	4	Donor: World Food Program	MLSS_IMPORT	2025-12-01 20:11:51
+2197	FOOD_WATER	Jerry Can, 48x1	ea	UPC	2025-11-27	R	336.00	\N	\N	Items Donated	162	4	Donor: World Food Program	MLSS_IMPORT	2025-12-01 20:11:51
+2198	HYGIENE	Bleach 2L	ea	UPC	2025-11-27	R	108.00	\N	\N	Items Donated	163	4	Donor: DFL Imports	MLSS_IMPORT	2025-12-01 20:11:51
+2199	HYGIENE	Bleach 950ML	ea	UPC	2025-11-27	R	162.00	\N	\N	Items Donated	164	4	Donor: DFL Imports	MLSS_IMPORT	2025-12-01 20:11:51
+2200	FOOD_WATER	Rice	ea	UPC	2025-11-28	R	770.00	\N	\N	Items Donated	166	4	Donor: WFP	MLSS_IMPORT	2025-12-01 20:11:51
+2201	FOOD_WATER	Sugar	case	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	3	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2202	FOOD_WATER	Sugar	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	3	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2203	FOOD_WATER	Sugar	case	UPC	2025-11-03	R	200.00	\N	\N	Goods Received from procurement	3	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2204	FOOD_WATER	Sugar	case	UPC	2025-11-06	R	755.00	\N	\N	Goods Received from procurement	3	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2205	FOOD_WATER	Sugar	case	UPC	2025-11-13	R	500.00	\N	\N	Goods Received from procurement	3	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2206	FOOD_WATER	Cornmeal	case	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	4	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2207	FOOD_WATER	Cornmeal	case	UPC	2025-11-05	R	800.00	\N	\N	Goods Received from procurement	4	11	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2208	FOOD_WATER	Cornmeal	case	UPC	2025-11-13	R	200.00	\N	\N	Goods Received from procurement	4	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2209	FOOD_WATER	Cornmeal	case	UPC	2025-11-14	R	198.00	\N	\N	Goods Received from procurement	4	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2210	FOOD_WATER	Cornmeal	case	UPC	2025-11-19	R	137.00	\N	\N	Goods Received from procurement	4	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2211	FOOD_WATER	Crackers	case	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	5	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2212	FOOD_WATER	Crackers	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	5	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2213	FOOD_WATER	Crackers	case	UPC	2025-11-18	R	417.00	\N	\N	Goods Received from procurement	5	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2214	FOOD_WATER	Crackers	case	UPC	2025-11-19	R	417.00	\N	\N	Goods Received from procurement	5	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2215	FOOD_WATER	Crackers	case	UPC	2025-11-25	R	687.00	\N	\N	Goods Received from procurement	5	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2216	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-07	R	417.00	\N	\N	Goods Received from procurement	6	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2217	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-08	R	417.00	\N	\N	Goods Received from procurement	6	14	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2218	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-14	R	417.00	\N	\N	Goods Received from procurement	6	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2219	FOOD_WATER	Mixed Vegetables	ea	UPC	2025-11-25	R	663.00	\N	\N	Goods Received from procurement	6	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2220	FOOD_WATER	Lasco Food Drink	case	UPC	2025-10-29	R	50.00	\N	\N	Goods Received from procurement	7	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2221	FOOD_WATER	Lasco Food Drink	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	7	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2270	FOOD_WATER	Oats	case	UPC	2025-11-06	R	200.00	\N	\N	Goods Received from procurement	17	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2222	FOOD_WATER	Lasco Food Drink	case	UPC	2025-11-03	R	180.00	\N	\N	Goods Received from procurement	7	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2223	FOOD_WATER	Lasco Food Drink	case	UPC	2025-11-14	R	100.00	\N	\N	Goods Received from procurement	7	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2224	FOOD_WATER	Lasco Food Drink	case	UPC	2025-11-25	R	172.00	\N	\N	Goods Received from procurement	7	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2225	FOOD_WATER	Rice	bag	UPC	2025-10-31	R	100.00	\N	\N	Goods Received from procurement	9	6	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2226	FOOD_WATER	Rice	bag	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	9	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2227	FOOD_WATER	Rice	bag	UPC	2025-11-03	R	100.00	\N	\N	Goods Received from procurement	9	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2228	FOOD_WATER	Rice	bag	UPC	2025-11-04	R	100.00	\N	\N	Goods Received from procurement	9	10	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2229	FOOD_WATER	Rice	bag	UPC	2025-11-07	R	110.00	\N	\N	Goods Received from procurement	9	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2230	FOOD_WATER	Rice	bag	UPC	2025-11-11	R	90.00	\N	\N	Goods Received from procurement	9	17	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2231	FOOD_WATER	Rice	bag	UPC	2025-11-13	R	400.00	\N	\N	Goods Received from procurement	9	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2232	FOOD_WATER	Rice	bag	UPC	2025-11-14	R	417.00	\N	\N	Goods Received from procurement	9	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2233	FOOD_WATER	Rice	bag	UPC	2025-11-18	R	400.00	\N	\N	Goods Received from procurement	9	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2234	FOOD_WATER	Baked Beans	cases	UPC	2025-11-06	R	500.00	\N	\N	Goods Received from procurement	10	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2235	FOOD_WATER	Baked Beans	cases	UPC	2025-11-07	R	537.00	\N	\N	Goods Received from procurement	10	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2236	FOOD_WATER	Baked Beans	cases	UPC	2025-11-09	R	417.00	\N	\N	Goods Received from procurement	10	15	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2237	FOOD_WATER	Baked Beans	cases	UPC	2025-11-14	R	417.00	\N	\N	Goods Received from procurement	10	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2238	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-03	R	100.00	\N	\N	Goods Received from procurement	11	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2239	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-06	R	400.00	\N	\N	Goods Received from procurement	11	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2240	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-07	R	200.00	\N	\N	Goods Received from procurement	11	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2241	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-09	R	200.00	\N	\N	Goods Received from procurement	11	15	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2242	FOOD_WATER	Tin Mackerel	cases	UPC	2025-11-25	R	716.00	\N	\N	Goods Received from procurement	11	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2243	FOOD_WATER	Sardine	box	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	12	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2244	FOOD_WATER	Sardine	box	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	12	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2245	FOOD_WATER	Sardine	box	UPC	2025-11-03	R	200.00	\N	\N	Goods Received from procurement	12	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2246	FOOD_WATER	Sardine	box	UPC	2025-11-06	R	400.00	\N	\N	Goods Received from procurement	12	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2247	FOOD_WATER	Sardine	box	UPC	2025-11-07	R	400.00	\N	\N	Goods Received from procurement	12	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2248	FOOD_WATER	Corn Beef	case	UPC	2025-10-29	R	100.00	\N	\N	Goods Received from procurement	13	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2249	FOOD_WATER	Corn Beef	case	UPC	2025-11-07	R	417.00	\N	\N	Goods Received from procurement	13	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2250	FOOD_WATER	Corn Beef	case	UPC	2025-11-08	R	416.00	\N	\N	Goods Received from procurement	13	14	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2251	FOOD_WATER	Corn Beef	case	UPC	2025-11-26	R	663.00	\N	\N	Goods Received from procurement	13	28	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2252	FOOD_WATER	Sausage	ea	UPC	2025-11-06	R	1254.00	\N	\N	Goods Received from procurement	14	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2253	FOOD_WATER	Sausage	ea	UPC	2025-11-07	R	417.00	\N	\N	Goods Received from procurement	14	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2254	FOOD_WATER	Flour	case	UPC	2025-10-29	R	50.00	\N	\N	Goods Received from procurement	15	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2255	FOOD_WATER	Flour	case	UPC	2025-10-30	R	100.00	\N	\N	Goods Received from procurement	15	5	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2256	FOOD_WATER	Flour	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	15	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2257	FOOD_WATER	Flour	case	UPC	2025-11-04	R	100.00	\N	\N	Goods Received from procurement	15	10	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2258	FOOD_WATER	Flour	case	UPC	2025-11-06	R	600.00	\N	\N	Goods Received from procurement	15	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2259	FOOD_WATER	Flour	case	UPC	2025-11-18	R	1000.00	\N	\N	Goods Received from procurement	15	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2260	FOOD_WATER	Flour	case	UPC	2025-11-19	R	400.00	\N	\N	Goods Received from procurement	15	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2261	FOOD_WATER	Oil	cases	UPC	2025-11-07	R	417.00	\N	\N	Goods Received from procurement	16	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2262	FOOD_WATER	Oil	cases	UPC	2025-11-11	R	417.00	\N	\N	Goods Received from procurement	16	17	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2263	FOOD_WATER	Oil	cases	UPC	2025-11-14	R	417.00	\N	\N	Goods Received from procurement	16	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2264	FOOD_WATER	Oil	cases	UPC	2025-11-15	R	417.00	\N	\N	Goods Received from procurement	16	21	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2265	FOOD_WATER	Oil	cases	UPC	2025-11-18	R	417.00	\N	\N	Goods Received from procurement	16	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2266	FOOD_WATER	Oil	cases	UPC	2025-11-27	R	500.00	\N	\N	Goods Received from procurement	16	29	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2267	FOOD_WATER	Oil	cases	UPC	2025-11-28	R	163.00	\N	\N	Goods Received from procurement	16	30	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2268	FOOD_WATER	Oats	case	UPC	2025-10-29	R	500.00	\N	\N	Goods Received from procurement	17	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2269	FOOD_WATER	Oats	case	UPC	2025-11-05	R	223.00	\N	\N	Goods Received from procurement	17	11	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2271	FOOD_WATER	Oats	case	UPC	2025-11-13	R	223.00	\N	\N	Goods Received from procurement	17	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2272	FOOD_WATER	Oats	case	UPC	2025-11-14	R	223.00	\N	\N	Goods Received from procurement	17	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2273	HYGIENE	Bath Soap	case	UPC	2025-10-29	R	30.00	\N	\N	Goods Received from procurement	18	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2274	HYGIENE	Bath Soap	case	UPC	2025-11-09	R	139.00	\N	\N	Goods Received from procurement	18	15	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2275	SHELTER	Mattress	ea	UPC	2025-10-29	R	276.00	\N	\N	Goods Received from procurement	19	4	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2276	SHELTER	Mattress	ea	UPC	2025-10-30	R	97.00	\N	\N	Goods Received from procurement	19	5	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2277	SHELTER	Mattress	ea	UPC	2025-11-03	R	267.00	\N	\N	Goods Received from procurement	19	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2278	SHELTER	Mattress	ea	UPC	2025-11-06	R	75.00	\N	\N	Goods Received from procurement	19	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2279	SHELTER	Mattress	ea	UPC	2025-11-10	R	96.00	\N	\N	Goods Received from procurement	19	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2280	SHELTER	Mattress	ea	UPC	2025-11-19	R	245.00	\N	\N	Goods Received from procurement	19	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2281	HYGIENE	Cup Soap	case	UPC	2025-11-01	R	100.00	\N	\N	Goods Received from procurement	20	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2282	HYGIENE	Cup Soap	case	UPC	2025-11-03	R	200.00	\N	\N	Goods Received from procurement	20	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2283	HYGIENE	Cup Soap	case	UPC	2025-11-08	R	834.00	\N	\N	Goods Received from procurement	20	14	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2284	HYGIENE	Cup Soap	case	UPC	2025-11-14	R	834.00	\N	\N	Goods Received from procurement	20	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2285	HYGIENE	Cup Soap	case	UPC	2025-11-25	R	1434.00	\N	\N	Goods Received from procurement	20	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2286	FOOD_WATER	Water	case	UPC	2025-11-01	R	500.00	\N	\N	Goods Received from procurement	21	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2287	FOOD_WATER	Water	case	UPC	2025-11-03	R	1000.00	\N	\N	Goods Received from procurement	21	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2288	FOOD_WATER	Water	case	UPC	2025-11-04	R	90.00	\N	\N	Goods Received from procurement	21	10	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2289	FOOD_WATER	Water	case	UPC	2025-11-15	R	500.00	\N	\N	Goods Received from procurement	21	21	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2290	FOOD_WATER	Water	case	UPC	2025-11-18	R	1000.00	\N	\N	Goods Received from procurement	21	24	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2291	SHELTER	Tarparlin	case	UPC	2025-10-31	R	98.00	\N	\N	Goods Received from procurement	22	6	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2292	SHELTER	Tarparlin	case	UPC	2025-11-01	R	72.00	\N	\N	Goods Received from procurement	22	7	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2293	SHELTER	Tarparlin	single	UPC	2025-10-31	R	10.00	\N	\N	Goods Received from procurement	23	6	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2294	HYGIENE	Tissue	case	UPC	2025-11-03	R	200.00	\N	\N	Goods Received from procurement	24	9	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2295	HYGIENE	Tissue	case	UPC	2025-11-04	R	199.00	\N	\N	Goods Received from procurement	24	10	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2296	HYGIENE	Tissue	case	UPC	2025-11-05	R	1.00	\N	\N	Goods Received from procurement	24	11	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2297	HYGIENE	Tissue	case	UPC	2025-11-06	R	1429.00	\N	\N	Goods Received from procurement	24	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2298	LOGS_ENGR	Packaging bags, 9x14	ea	UPC	2025-11-19	R	30.00	\N	\N	Goods Received from procurement	25	25	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2299	LOGS_ENGR	Packing bags	ea	UPC	2025-11-06	R	141.00	\N	\N	Goods Received from procurement	26	12	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2300	LOGS_ENGR	Packing bags	ea	UPC	2025-11-13	R	16050.00	\N	\N	Goods Received from procurement	26	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2301	LOGS_ENGR	Packing bags	ea	UPC	2025-11-24	R	50.00	\N	\N	Goods Received from procurement	26	26	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2302	HYGIENE	Bleach	12x1	UPC	2025-11-07	R	100.00	\N	\N	Goods Received from procurement	27	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2303	HYGIENE	Bleach	12x1	UPC	2025-11-10	R	148.00	\N	\N	Goods Received from procurement	27	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2304	HYGIENE	Bleach	12x1	UPC	2025-11-13	R	168.00	\N	\N	Goods Received from procurement	27	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2305	HYGIENE	Disinfectant	12x1	UPC	2025-11-07	R	170.00	\N	\N	Goods Received from procurement	28	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2306	HYGIENE	Disinfectant	12x1	UPC	2025-11-10	R	141.00	\N	\N	Goods Received from procurement	28	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2307	HYGIENE	Disinfectant	12x1	UPC	2025-11-13	R	106.00	\N	\N	Goods Received from procurement	28	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2308	HYGIENE	Hand Sanitizer	ea	UPC	2025-11-07	R	1000.00	\N	\N	Goods Received from procurement	29	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2309	SHELTER	Mosquito Spray/Repellant	ea	UPC	2025-11-07	R	1400.00	\N	\N	Goods Received from procurement	30	13	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2310	SHELTER	Mosquito Spray/Repellant	ea	UPC	2025-11-10	R	504.00	\N	\N	Goods Received from procurement	30	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2311	FOOD_WATER	Sanitary Napkins	pks	UPC	2025-11-09	R	1056.00	\N	\N	Goods Received from procurement	31	15	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2312	FOOD_WATER	Blue Power Wrapped 72x130g	ea	UPC	2025-11-10	R	40.00	\N	\N	Goods Received from procurement	32	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2313	FOOD_WATER	Blue Power Carbolic Wrapped 72x130G	ea	UPC	2025-11-10	R	60.00	\N	\N	Goods Received from procurement	33	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2314	FOOD_WATER	Blue Castile Repellent 30x110g	ea	UPC	2025-11-10	R	50.00	\N	\N	Goods Received from procurement	34	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2315	FOOD_WATER	Blue Power Castile Coconut 30x110g	ea	UPC	2025-11-10	R	20.00	\N	\N	Goods Received from procurement	35	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2316	FOOD_WATER	Blue Power M/Passion 30x110g	ea	UPC	2025-11-10	R	20.00	\N	\N	Goods Received from procurement	36	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2317	FOOD_WATER	Blue Power Irie Assorted 30x110g	ea	UPC	2025-11-10	R	4.00	\N	\N	Goods Received from procurement	37	16	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2318	HYGIENE	Diapers Large	ea	UPC	2025-11-11	R	100.00	\N	\N	Goods Received from procurement	38	17	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2319	HYGIENE	Diapers Medium	ea	UPC	2025-11-11	R	100.00	\N	\N	Goods Received from procurement	39	17	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2320	LOGS_ENGR	Packaging bags, 20x30	300 per pack	UPC	2025-11-13	R	20.00	\N	\N	Goods Received from procurement	40	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2321	LOGS_ENGR	Packaging bags, 20x30	300 per pack	UPC	2025-11-14	R	45.00	\N	\N	Goods Received from procurement	40	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2322	LOGS_ENGR	Packaging bags, 10x15	2000 per pack	UPC	2025-11-14	R	40.00	\N	\N	Goods Received from procurement	41	20	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2323	LOGS_ENGR	Packaging bags, 18x30	300 per pack	UPC	2025-11-13	R	21.00	\N	\N	Goods Received from procurement	42	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2324	LOGS_ENGR	Packaging bags, 29x36	150 per pack	UPC	2025-11-13	R	25.00	\N	\N	Goods Received from procurement	43	19	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2325	FOOD_WATER	Porridge Mix	ea	UPC	2025-11-25	R	344.00	\N	\N	Goods Received from procurement	44	27	Procurement; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2326	FOOD_WATER	Water	ea	UPC	2025-10-29	I	2.00	\N	\N	Items taken for Staff	3	1	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2327	FOOD_WATER	Water	ea	UPC	2025-10-30	I	2.00	\N	\N	Items taken for Staff	3	2	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2328	FOOD_WATER	Water	ea	UPC	2025-10-31	I	2.00	\N	\N	Items taken for Staff	3	3	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2329	FOOD_WATER	Water	ea	UPC	2025-11-01	I	3.00	\N	\N	Items taken for Staff	3	4	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2330	FOOD_WATER	Water	ea	UPC	2025-11-02	I	3.00	\N	\N	Items taken for Staff	3	5	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2331	FOOD_WATER	Water	ea	UPC	2025-11-03	I	3.00	\N	\N	Items taken for Staff	3	6	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2332	FOOD_WATER	Water	ea	UPC	2025-11-04	I	3.00	\N	\N	Items taken for Staff	3	7	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2333	FOOD_WATER	Water	ea	UPC	2025-11-05	I	3.00	\N	\N	Items taken for Staff	3	8	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2334	FOOD_WATER	Water	ea	UPC	2025-11-06	I	3.00	\N	\N	Items taken for Staff	3	9	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2335	FOOD_WATER	Water	ea	UPC	2025-11-07	I	3.00	\N	\N	Items taken for Staff	3	10	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2336	FOOD_WATER	Water	ea	UPC	2025-11-08	I	3.00	\N	\N	Items taken for Staff	3	11	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2337	FOOD_WATER	Water	ea	UPC	2025-11-09	I	3.00	\N	\N	Items taken for Staff	3	12	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2338	FOOD_WATER	Water	ea	UPC	2025-11-10	I	3.00	\N	\N	Items taken for Staff	3	13	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2339	FOOD_WATER	Water	ea	UPC	2025-11-11	I	3.00	\N	\N	Items taken for Staff	3	14	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2340	FOOD_WATER	Water	ea	UPC	2025-11-12	I	3.00	\N	\N	Items taken for Staff	3	15	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2341	FOOD_WATER	Water	ea	UPC	2025-11-13	I	3.00	\N	\N	Items taken for Staff	3	16	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2342	FOOD_WATER	Water	ea	UPC	2025-11-14	I	3.00	\N	\N	Items taken for Staff	3	17	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2343	FOOD_WATER	Water	ea	UPC	2025-11-15	I	3.00	\N	\N	Items taken for Staff	3	18	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2344	FOOD_WATER	Water	ea	UPC	2025-11-16	I	3.00	\N	\N	Items taken for Staff	3	19	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2345	FOOD_WATER	Water	ea	UPC	2025-11-17	I	3.00	\N	\N	Items taken for Staff	3	20	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2346	FOOD_WATER	Water	ea	UPC	2025-11-18	I	3.00	\N	\N	Items taken for Staff	3	21	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2347	FOOD_WATER	Water	ea	UPC	2025-11-19	I	3.00	\N	\N	Items taken for Staff	3	22	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2348	FOOD_WATER	Water	ea	UPC	2025-11-20	I	3.00	\N	\N	Items taken for Staff	3	23	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2349	FOOD_WATER	Water	ea	UPC	2025-11-21	I	3.00	\N	\N	Items taken for Staff	3	24	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2350	FOOD_WATER	Water	ea	UPC	2025-11-22	I	3.00	\N	\N	Items taken for Staff	3	25	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2351	FOOD_WATER	Water	ea	UPC	2025-11-23	I	3.00	\N	\N	Items taken for Staff	3	26	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2352	FOOD_WATER	Water	ea	UPC	2025-11-24	I	3.00	\N	\N	Items taken for Staff	3	27	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2353	FOOD_WATER	Water	ea	UPC	2025-11-25	I	3.00	\N	\N	Items taken for Staff	3	28	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2354	FOOD_WATER	Water	ea	UPC	2025-11-26	I	3.00	\N	\N	Items taken for Staff	3	29	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2355	FOOD_WATER	Water	ea	UPC	2025-11-27	I	3.00	\N	\N	Items taken for Staff	3	30	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
+2356	FOOD_WATER	Water	ea	UPC	2025-11-28	I	2.00	\N	\N	Items taken for Staff	3	31	Staff consumption; Donor: GOJ	MLSS_IMPORT	2025-12-01 20:11:51
 \.
 
 
@@ -4028,7 +4069,6 @@ COPY public.inventory (inventory_id, item_id, usable_qty, reserved_qty, defectiv
 2	229	180.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 3	39	150.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 1	250	9.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
-3	29	4780.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 2	2	80.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 1	47	135.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 2	215	40.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
@@ -4079,7 +4119,6 @@ COPY public.inventory (inventory_id, item_id, usable_qty, reserved_qty, defectiv
 3	209	8.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 3	50	141.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 2	60	1000.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
-1	78	25.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 2	183	15000.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 2	58	1000.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 1	223	984.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
@@ -4095,11 +4134,169 @@ COPY public.inventory (inventory_id, item_id, usable_qty, reserved_qty, defectiv
 3	37	334.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 1	197	164.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 2	84	150.00	0.00	0.00	0.00	PAIR	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
-1	77	25.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1	0.00
 2	66	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	LOGMGR	2025-11-28 18:29:37	LOGMGR	2025-11-28 18:29:37	1	0.00
 2	206	1900.00	0.00	100.00	0.00	EA	\N	\N	A	\N	LOGMGR	2025-11-28 18:29:37	LOGMGR	2025-11-28 18:29:37	1	0.00
 2	214	6170.00	0.00	10.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	LOGMGR	2025-11-28 18:29:37	2	0.00
 2	217	799.00	0.00	1.00	0.00	EA	\N	\N	A	\N	LOGMGR	2025-11-28 18:29:38	LOGMGR	2025-11-28 18:29:38	1	0.00
+1	78	25.00	1.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	2	0.00
+2	29	350.00	0.00	150.00	0.00	EA	\N	\N	A	\N	LOGMGR	2025-12-01 11:03:12	LOGMGR	2025-12-01 11:03:12	1	0.00
+1	23	2.00	0.00	1.00	0.00	EA	\N	\N	A	\N	LOGMGR	2025-11-30 20:17:25	LOGMGR	2025-11-30 20:17:25	3	0.00
+2	78	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	LOGMGR	2025-12-01 11:03:13	LOGMGR	2025-12-01 11:03:13	1	0.00
+3	29	4780.00	2.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	2	0.00
+1	77	23.00	0.00	0.00	0.00	EA	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	LOGMGR	2025-11-30 20:17:26	8	0.00
+5	255	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	256	10.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	257	12.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	258	53.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	260	50.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	261	100.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	262	50.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	263	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	270	1871.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	271	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	412	166.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	413	36.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	272	2.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	213	20.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	275	49.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	392	20.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	414	191.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	415	108.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	416	2.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	417	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	418	162.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	276	50.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	277	60.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	278	20.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	279	4.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	280	20.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	281	40.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	217	50.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	283	2100.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	284	210.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	286	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	420	27.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	288	12.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	289	17.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	291	927.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	292	2016.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	293	1435.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	220	200.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	294	15.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	295	400.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	296	1721.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	297	80.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	298	2.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	300	24.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	301	20.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	421	3402.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	4	50.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	302	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	303	50.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	304	50.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	306	2.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	422	2093.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	423	100.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	424	100.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	425	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	426	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	427	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	428	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	221	43.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	429	225.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	445	2.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	308	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	309	2350.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	310	10.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	311	90.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	312	4030.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	314	4905.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	315	81405.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	7	21135.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	393	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	446	22.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	68	12.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	69	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	70	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	74	3.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	431	1000.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	316	52.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	318	336.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	320	280.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	324	74.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	325	420.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	326	602.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	328	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	330	253.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	331	36.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	332	36.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	394	582.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	333	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	334	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	335	49.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	336	2010.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	396	62.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	398	1904.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	329	335.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	337	1369.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	338	2748.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	449	40.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	450	21.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	451	65.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	452	25.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	453	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	454	14437.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	436	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	437	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	438	24.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	439	10.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	341	18.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	342	5.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	343	344.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	345	24.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	346	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	347	76.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	349	2587.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	356	1056.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	357	1200.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	358	1.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	360	75.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	359	75.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	361	300.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	362	1671.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	363	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	45	214.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	364	20.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	455	22.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	365	200.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	367	103.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	456	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	81	704.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	457	17.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	370	1727.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	371	2.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	372	12.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	404	180.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	405	759.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	407	430.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	408	100.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	409	8.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	373	17.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	374	1616.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	375	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	50	1491.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	443	30.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	51	1450.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	444	36.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	376	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	377	15.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	379	150.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	380	5228.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	381	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	384	7.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	385	41.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	386	2.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
+5	391	6.00	0.00	0.00	0.00	EA	\N	\N	A	\N	MLSS_IMPORT	2025-12-01 20:20:42	MLSS_IMPORT	2025-12-01 20:20:42	1	10.00
 \.
 
 
@@ -4108,6 +4305,23 @@ COPY public.inventory (inventory_id, item_id, usable_qty, reserved_qty, defectiv
 --
 
 COPY public.item (item_id, item_code, item_name, sku_code, category_id, item_desc, reorder_qty, default_uom_code, units_size_vary_flag, usage_desc, storage_desc, is_batched_flag, can_expire_flag, issuance_order, comments_text, status_code, create_by_id, create_dtime, update_by_id, update_dtime, version_nbr) FROM stdin;
+255	ADULTCLOTHIN	ADULT CLOTHING	ADULTCLOTHIN	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+256	ADULTWIPES	ADULT WIPES	ADULTWIPES	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+257	ALCOHOLWIPES	ALCOHOL WIPES	ALCOHOLWIPES	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+258	ALOEVERADRIN	ALOE VERA DRINK	ALOEVERADRIN	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+259	ALOEWATER	ALOE WATER	ALOEWATER	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+260	ALWAYSMAXIOV	ALWAYS MAXI OVER NIGHT WITH WING (6*27) CASES	ALWAYSMAXIOV	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+261	ALWAYSMAXISO	ALWAYS MAXI SOFT OVER NIGHT(12X8) CASES	ALWAYSMAXISO	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+262	ALWAYSPLINER	ALWAYS P/LINER 6X60 CASES	ALWAYSPLINER	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+263	ASSORTEDQSHI	ASSORTED Q-SHIRTS/T-SHIRTS	ASSORTEDQSHI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+264	BABYBODYSUIT	BABY BODY SUIT	BABYBODYSUIT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+265	BABYCAREKIT	BABY CARE KIT	BABYCAREKIT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+266	BABYCREAM	BABY CREAM	BABYCREAM	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+267	BABYPAMPERS	BABY PAMPERS	BABYPAMPERS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+268	BABYPOWDER	BABY POWDER	BABYPOWDER	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+269	BABYSWEATER	BABY SWEATER	BABYSWEATER	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+270	BAKEDBEANS	BAKED BEANS	BAKEDBEANS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+271	BANANACHIPSS	BANANA CHIPS (ST MARY) (5X15X39G)	BANANACHIPSS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
 1	HADR-0001	BOTTLE WATER (12 PER CASE)	SKU-000001	1	Bottle Water (12 per case)	10.00	EA	f	\N	\N	t	t	FIFO	\N	A	IMPORT	2025-11-28 17:06:02	IMPORT	2025-11-28 17:06:02	1
 2	HADR-0002	BOTTLE WATER (5 GAL )	SKU-000002	1	Bottle Water (5 Gal )	10.00	EA	f	\N	\N	t	t	FIFO	\N	A	IMPORT	2025-11-28 17:06:02	IMPORT	2025-11-28 17:06:02	1
 3	HADR-0003	CEREAL	SKU-000003	1	Cereal	10.00	EA	f	\N	\N	t	t	FIFO	\N	A	IMPORT	2025-11-28 17:06:02	IMPORT	2025-11-28 17:06:02	1
@@ -4359,6 +4573,195 @@ COPY public.item (item_id, item_code, item_name, sku_code, category_id, item_des
 249	HADR-0249	UTILITY KNIVES	SKU-000249	3	Utility Knives	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	IMPORT	2025-11-28 17:06:02	IMPORT	2025-11-28 17:06:02	1
 250	HADR-0250	WATER CONTAINERS	SKU-000250	3	Water Containers	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	IMPORT	2025-11-28 17:06:02	IMPORT	2025-11-28 17:06:02	1
 251	HADR-0251	WATER PURIFIER SYSTEM	SKU-000251	3	Water Purifier System	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	IMPORT	2025-11-28 17:06:02	IMPORT	2025-11-28 17:06:02	1
+272	BATTERIESDSI	BATTERIES, D SIZE, 48 X 1	BATTERIESDSI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+273	BATTERIESDSI1	BATTERIES, D-SIZE, 2X1	BATTERIESDSI1	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+274	BEDBASE	BED BASE	BEDBASE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+252	TARP25X40	25 X 40 TARPAULIN	TARP25X40	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	HADR_IMPORT	2025-12-01 20:00:53	HADR_IMPORT	2025-12-01 20:00:53	1
+253	SHELTERKITS	SHELTER  KITS	SHELTERKITS	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	HADR_IMPORT	2025-12-01 20:00:53	HADR_IMPORT	2025-12-01 20:00:53	1
+254	SOLSTRLAMP	SOLAR STREET LAMPS	SOLSTRLAMP	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	HADR_IMPORT	2025-12-01 20:00:53	HADR_IMPORT	2025-12-01 20:00:53	1
+275	BLACKBEAN	BLACK BEAN	BLACKBEAN	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+276	BLUECASTILER	BLUE CASTILE REPELLENT 30X110G	BLUECASTILER	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+277	BLUEPOWERCAR	BLUE POWER CARBOLIC WRAPPED 72X130G	BLUEPOWERCAR	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+278	BLUEPOWERCAS	BLUE POWER CASTILE COCONUT 30X110G	BLUEPOWERCAS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+279	BLUEPOWERIRI	BLUE POWER IRIE ASSORTED 30X110G	BLUEPOWERIRI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+280	BLUEPOWERMPA	BLUE POWER M/PASSION 30X110G	BLUEPOWERMPA	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+281	BLUEPOWERWRA	BLUE POWER WRAPPED 72X130G	BLUEPOWERWRA	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+282	BOTTLE	BOTTLE	BOTTLE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+283	CAREPACKAGES	CARE PACKAGES	CAREPACKAGES	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+284	CHICKENVIENN	CHICKEN VIENNA SAUSAGE	CHICKENVIENN	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+285	CHILDRENCHRI	CHILDREN CHRISTMAS SUIT	CHILDRENCHRI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+286	CHILDRENCLOT	CHILDREN CLOTHING	CHILDRENCLOT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+287	CLEANINGKITS	CLEANING KITS	CLEANINGKITS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+288	COMB	COMB	COMB	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+289	CONDENSEDCOC	CONDENSED COCONUT MILK	CONDENSEDCOC	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+290	CONQUEST	CONQUEST	CONQUEST	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+291	COOKINGOIL	COOKING OIL	COOKINGOIL	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+292	CORNBEEF	CORN BEEF	CORNBEEF	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+293	CORNMEAL	CORNMEAL	CORNMEAL	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+294	COUNTERFLOUR	COUNTER FLOUR 1LBS	COUNTERFLOUR	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+295	COUNTERPLUSF	COUNTER PLUS FLOUR	COUNTERPLUSF	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+296	CRACKERS	CRACKERS	CRACKERS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+297	CRACKERSNATI	CRACKERS, NATIONAL, 40X1	CRACKERSNATI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+298	CRANWATA600M	CRAN WATA 600ML 8*24	CRANWATA600M	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+299	CRANWATER	CRAN WATER	CRANWATER	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+300	CRESTCAVPROT	CREST CAV PRO T/P REG (24X5.7OZ) CASES	CRESTCAVPROT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+301	CRESTTARTPRO	CREST TART PROT C/MINT CASES	CRESTTARTPRO	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+302	CUPSOUP12X22	CUP SOUP (12X2) (25OZ)	CUPSOUP12X22	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+303	CURVESMAXISA	CURVES MAXI SANITARY NAPKIN	CURVESMAXISA	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+304	CURVESOVERNI	CURVES OVERNIGHT SANITARY NAPKIN	CURVESOVERNI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+305	CURVESSANITA	CURVES SANITARY NAPKINS	CURVESSANITA	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+306	DETERGENTSUD	DETERGENT (SUD SUD) (20X350G)	DETERGENTSUD	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+307	FLASHLIGHTS	FLASH LIGHTS	FLASHLIGHTS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+308	FLATSHEETQUE	FLAT SHEET QUEEN	FLATSHEETQUE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+309	FLOUR	FLOUR	FLOUR	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+310	FOAMMAT	FOAM MAT	FOAMMAT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+311	FOODPACKAGES	FOOD  PACKAGES	FOODPACKAGES	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+312	FOODPACAKGES	FOOD PACAKGES	FOODPACAKGES	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+313	FOODPACKAGE	FOOD PACKAGE	FOODPACKAGE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+314	FOODPACKAGEP	FOOD PACKAGE (PARTIAL)	FOODPACKAGEP	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+315	FOODPACKAGEP1	FOOD PACKAGE (PRODUCED)	FOODPACKAGEP1	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+316	HOUSEHOLDKIT	HOUSEHOLD KITS	HOUSEHOLDKIT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+317	JERRYCAN	JERRY CAN	JERRYCAN	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+318	JERRYCAN48X1	JERRY CAN, 48X1	JERRYCAN48X1	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+319	JERRYCANODPE	JERRY CAN, ODPEM	JERRYCANODPE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+320	JERRYCANWATE	JERRYCAN WATER	JERRYCANWATE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+321	KIDSPAMPERS	KIDS PAMPERS	KIDSPAMPERS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+322	LEDLIGHTS	LED LIGHTS	LEDLIGHTS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+323	LAMP	LAMP	LAMP	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+324	LANTERCHARGE	LANTER CHARGER	LANTERCHARGE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+325	LASCOBAKEDBE	LASCO BAKED BEAN	LASCOBAKEDBE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+326	LASCOFOODDRI	LASCO FOOD DRINK	LASCOFOODDRI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+327	LISHOUSDRINK	LISHOUS DRINK	LISHOUSDRINK	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+328	LOTIONASHLEY	LOTION ASHLEY	LOTIONASHLEY	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+329	MRE	MRE	MRE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+330	MACKERELINBR	MACKEREL IN BRINE	MACKERELINBR	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+331	MANNAPACK	MANNA PACK	MANNAPACK	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+332	MANNAPACK36X	MANNA PACK , 36 X 1	MANNAPACK36X	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+333	MAYSDARKSUGA	MAY'S DARK SUGAR	MAYSDARKSUGA	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+334	MAYSWHITESUG	MAY'S WHITE SUGAR	MAYSWHITESUG	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+335	MIXVEGETABLE	MIX VEGETABLE	MIXVEGETABLE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+336	MIXEDVEGETAB	MIXED VEGETABLES	MIXEDVEGETAB	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+337	OATS	OATS	OATS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+338	OIL	OIL	OIL	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+339	PAMPERS	PAMPERS	PAMPERS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+340	PEPSI	PEPSI	PEPSI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+341	PEPSIZEROSUG	PEPSI ZERO SUGAR 350ML	PEPSIZEROSUG	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+342	PEPSIZEROSUG1	PEPSI ZERO SUGAR 350ML*24	PEPSIZEROSUG1	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+343	PORRIDGEMIX	PORRIDGE MIX	PORRIDGEMIX	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+344	POTSET	POT SET	POTSET	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+345	POTSETS	POT SETS	POTSETS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+346	RAINCOATSADU	RAINCOATS, ADULTS	RAINCOATSADU	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+347	RAZOR	RAZOR	RAZOR	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+348	REPELLANT	REPELLANT	REPELLANT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+349	RICE	RICE	RICE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+350	ROLLMATS	ROLL MATS	ROLLMATS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+351	SALVATIONARM	SALVATION ARMY BREAKFAST BOX	SALVATIONARM	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+352	SALVATIONARM1	SALVATION ARMY BREAKFAST BOX, 30X1	SALVATIONARM1	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+353	SALVATIONARM2	SALVATION ARMY LUNCH BOX	SALVATIONARM2	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+354	SALVATIONARM3	SALVATION ARMY LUNCH BOX, 30X1	SALVATIONARM3	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+355	SALVATIONARM4	SALVATION ARMY LUNCH BOXES	SALVATIONARM4	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+356	SANITARYNAPK	SANITARY NAPKINS	SANITARYNAPK	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+357	SARDINE	SARDINE	SARDINE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+358	SARDINEBRUNS	SARDINE (BRUNSWICK) ( 50X106G)	SARDINEBRUNS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+359	SARDINEINTOM	SARDINE IN TOMATO	SARDINEINTOM	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+360	SARDINEINOIL	SARDINE IN OIL	SARDINEINOIL	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+361	SARDINEINWAT	SARDINE IN WATER	SARDINEINWAT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+362	SAUSAGE	SAUSAGE	SAUSAGE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+363	SCHWEPPES355	SCHWEPPES 355ML*24	SCHWEPPES355	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+364	SHOESSLIDES	SHOES (SLIDES),	SHOESSLIDES	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+365	SLEEPINGPADS	SLEEPING PADS	SLEEPINGPADS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+366	SNACKPACKAGE	SNACK PACKAGE	SNACKPACKAGE	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+367	SNACKPACKS	SNACK PACKS	SNACKPACKS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+368	SODA	SODA	SODA	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+369	SOLARLIGHTS	SOLAR LIGHTS	SOLARLIGHTS	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+370	SUGAR	SUGAR	SUGAR	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+371	SUGARWORTHYP	SUGAR (WORTHY PARK) (40X500G)	SUGARWORTHYP	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+372	SYRUPPINACOL	SYRUP - PINA COLADA	SYRUPPINACOL	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+373	TETLEYTEACHI	TETLEY TEA CHIA VANILLA	TETLEYTEACHI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+374	TINMACKEREL	TIN MACKEREL	TINMACKEREL	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+375	TIOLETPAPERB	TIOLET PAPER (BINGO GRANDE) (24X1)	TIOLETPAPERB	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+376	TOOTHPASTECO	TOOTHPASTE (COLGATE, TRIPLE ACTION)	TOOTHPASTECO	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+377	TURMERICTEA	TURMERIC TEA	TURMERICTEA	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+378	UPUPWETFLOOR	UP & UP WET FLOOR WIPES	UPUPWETFLOOR	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+379	VEGETABLEOIL	VEGETABLE OIL	VEGETABLEOIL	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+380	WATER	WATER	WATER	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+381	WATERWATAWAT	WATER (WATA, WATA) (24X600ML)	WATERWATAWAT	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+382	WATERCATHERI	WATER , CATHERINE PEAK	WATERCATHERI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+383	WATER15L	WATER 1.5L	WATER15L	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+384	WATERCONTAIN	WATER CONTAINER	WATERCONTAIN	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+385	WATERPURIFIC	WATER PURIFICATION SYSTEM	WATERPURIFIC	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+386	WATERWATA330	WATER WATA 330ML *24	WATERWATA330	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+387	WATERESSENTI	WATER, ESSENTIALS,WAITROSE, 8X 2LT	WATERESSENTI	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+388	WATERICOOL	WATER, I COOL	WATERICOOL	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+389	WATERICOOL1	WATER, ICOOL	WATERICOOL1	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+390	WIPES	WIPES	WIPES	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+391	WIPESADA	WIPES ADA	WIPESADA	1	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+392	BLANKETSDISA	BLANKETS, DISASTER	BLANKETSDISA	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+393	GASOLINECANS	GASOLINE CANS	GASOLINECANS	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+394	MATTRESS	MATTRESS	MATTRESS	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+395	MATTRESSDOUB	MATTRESS, DOUBLE	MATTRESSDOUB	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+396	MOSQUITONETS	MOSQUITO NETS	MOSQUITONETS	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+397	MOSQUITOREPE	MOSQUITO REPELLANT	MOSQUITOREPE	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+398	MOSQUITOSPRA	MOSQUITO SPRAY/REPELLANT	MOSQUITOSPRA	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+399	POTDINNERWAR	POT / DINNERWARE SETS	POTDINNERWAR	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+400	POTSETDINNER	POT SET / DINNERWARE	POTSETDINNER	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+401	STOVE	STOVE	STOVE	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+402	STOVES	STOVES	STOVES	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+403	TABLETOPSTOV	TABLETOP STOVE	TABLETOPSTOV	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+404	TARPARLIN	TARPARLIN	TARPARLIN	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+405	TARPAULIN	TARPAULIN	TARPAULIN	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+406	TARPAULIN4MX	TARPAULIN, 4MX5M	TARPAULIN4MX	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+407	TARPAULINS	TARPAULINS	TARPAULINS	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+408	TARPAULINS12	TARPAULINS, 12X16	TARPAULINS12	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+409	TENTS	TENTS	TENTS	3	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+410	BABYDIAPER	BABY DIAPER	BABYDIAPER	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+411	BABYDIAPERS	BABY DIAPERS	BABYDIAPERS	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+412	BATHSOAP	BATH SOAP	BATHSOAP	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+413	BATHSOAPROSE	BATH SOAP ROSE	BATHSOAPROSE	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+414	BLEACH	BLEACH	BLEACH	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+415	BLEACH2L	BLEACH 2L	BLEACH2L	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+416	BLEACH4	BLEACH 4%	BLEACH4	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+417	BLEACH8	BLEACH 8%	BLEACH8	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+418	BLEACH950ML	BLEACH 950ML	BLEACH950ML	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+419	BLEACHCLEANN	BLEACH, CLEAN N WHITE	BLEACHCLEANN	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+420	CLEANWHITEBL	CLEAN & WHITE BLEACH	CLEANWHITEBL	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+421	CUPSOAP	CUP SOAP	CUPSOAP	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+422	DIAPERS	DIAPERS	DIAPERS	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+423	DIAPERSLARGE	DIAPERS LARGE	DIAPERSLARGE	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+424	DIAPERSMEDIU	DIAPERS MEDIUM	DIAPERSMEDIU	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+425	DIAPERSNEWBO	DIAPERS NEW BORN	DIAPERSNEWBO	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+426	DIAPERSSIZE2	DIAPERS SIZE 2	DIAPERSSIZE2	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+427	DIAPERSSIZE3	DIAPERS SIZE 3	DIAPERSSIZE3	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+428	DIAPERSSIZE4	DIAPERS SIZE 4	DIAPERSSIZE4	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+429	DISINFECTANT	DISINFECTANT	DISINFECTANT	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+430	DISINFECTANT1	DISINFECTANT, CONQUEST, 1 LITRE	DISINFECTANT1	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+431	HANDSANITIZE	HAND SANITIZER	HANDSANITIZE	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+432	HYGIENEKIT	HYGIENE KIT	HYGIENEKIT	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+433	HYGIENEKITOD	HYGIENE KIT, ODPEM	HYGIENEKITOD	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+434	HYGIENEKITS	HYGIENE KITS	HYGIENEKITS	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+435	HYGIENEKITSU	HYGIENE KITS, UNICEF	HYGIENEKITSU	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+436	PAMPERSBDRYD	PAMPERS B-DRY DIAPERS S3 BAGS (2X52) CASES	PAMPERSBDRYD	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+437	PAMPERSBDRYD1	PAMPERS B-DRY DIAPERS S4 BAGS (2X46) CASES	PAMPERSBDRYD1	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+438	PAMPERSBDRYD2	PAMPERS B-DRY DIAPERS S5 BAGS (2X39) CASES	PAMPERSBDRYD2	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+439	PAPERTOWELS	PAPER TOWELS	PAPERTOWELS	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+440	SANITARYHYGI	SANITARY HYGIENE KIT	SANITARYHYGI	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+441	SANITARYHYGI1	SANITARY HYGIENE KITS	SANITARYHYGI1	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+442	SOAPPOWDER	SOAP POWDER	SOAPPOWDER	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+443	TISSUEIRIE	TISSUE, IRIE	TISSUEIRIE	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+444	TOOTHBRUSHAL	TOOTHBRUSH (ALEX)	TOOTHBRUSHAL	4	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+445	FLASHLIGHTSP	FLASHLIGHTS,POWER TORCH 2D, 50 X 1	FLASHLIGHTSP	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+446	GENERATOR	GENERATOR	GENERATOR	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+447	LANTERN	LANTERN	LANTERN	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+448	LANTERNS	LANTERNS	LANTERNS	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+449	PACKAGINGBAG	PACKAGING BAGS, 10X15	PACKAGINGBAG	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+450	PACKAGINGBAG1	PACKAGING BAGS, 18X30	PACKAGINGBAG1	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+451	PACKAGINGBAG2	PACKAGING BAGS, 20X30	PACKAGINGBAG2	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+452	PACKAGINGBAG3	PACKAGING BAGS, 29X36	PACKAGINGBAG3	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+453	PACKAGINGBAG4	PACKAGING BAGS, 9X14	PACKAGINGBAG4	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+454	PACKINGBAGS	PACKING BAGS	PACKINGBAGS	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+455	SLEEPINGBAGS	SLEEPING BAGS	SLEEPINGBAGS	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+456	SOLARLANTERN	SOLAR LANTERN	SOLARLANTERN	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
+457	SOLARLANTERN1	SOLAR LANTERNS	SOLARLANTERN1	5	GOODS	10.00	EA	f	\N	\N	t	f	FIFO	\N	A	MLSS_IMPORT	2025-12-01 20:20:29	MLSS_IMPORT	2025-12-01 20:20:29	1
 \.
 
 
@@ -4415,7 +4818,6 @@ COPY public.itembatch (batch_id, inventory_id, item_id, batch_no, batch_date, ex
 47	2	229	HADR-2-229	2025-11-28	\N	180.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 48	3	39	HADR-3-39	2025-11-28	\N	150.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 49	1	250	HADR-1-250	2025-11-28	\N	9.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
-50	3	29	HADR-3-29	2025-11-28	\N	4780.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 51	2	2	HADR-2-2	2025-11-28	\N	80.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 52	1	47	HADR-1-47	2025-11-28	\N	135.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 53	2	215	HADR-2-215	2025-11-28	\N	40.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
@@ -4466,7 +4868,6 @@ COPY public.itembatch (batch_id, inventory_id, item_id, batch_no, batch_date, ex
 98	3	209	HADR-3-209	2025-11-28	\N	8.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 99	3	50	HADR-3-50	2025-11-28	\N	141.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 100	2	60	HADR-2-60	2025-11-28	\N	1000.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
-101	1	78	HADR-1-78	2025-11-28	\N	25.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 102	2	183	HADR-2-183	2025-11-28	\N	15000.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 103	2	58	HADR-2-58	2025-11-28	\N	1000.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 104	2	214	HADR-2-214	2025-11-28	\N	5680.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
@@ -4483,11 +4884,17 @@ COPY public.itembatch (batch_id, inventory_id, item_id, batch_no, batch_date, ex
 115	3	37	HADR-3-37	2025-11-28	\N	334.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 116	1	197	HADR-1-197	2025-11-28	\N	164.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 117	2	84	HADR-2-84	2025-11-28	\N	150.0000	0.0000	0.0000	0.0000	PAIR	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
-118	1	77	HADR-1-77	2025-11-28	\N	25.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	1
 119	2	66	GEN-01	2025-11-25	\N	1.0000	0.0000	0.0000	0.0000	EA	\N	300000.00	\N	\N	A	\N	LOGMGR	2025-11-28 18:29:37	LOGMGR	2025-11-28 18:29:37	1
 120	2	206	TARP-01	2025-11-25	\N	1900.0000	0.0000	100.0000	0.0000	EA	\N	5000.00	\N	\N	A	\N	LOGMGR	2025-11-28 18:29:37	LOGMGR	2025-11-28 18:29:37	1
 121	2	214	BLA-01	2025-11-25	\N	490.0000	0.0000	10.0000	0.0000	EA	\N	1000.00	\N	\N	A	\N	LOGMGR	2025-11-28 18:29:37	LOGMGR	2025-11-28 18:29:37	1
 122	2	217	BUC-01	2025-11-25	\N	799.0000	0.0000	1.0000	0.0000	EA	\N	200.00	\N	\N	A	\N	LOGMGR	2025-11-28 18:29:37	LOGMGR	2025-11-28 18:29:37	1
+124	1	77	GEN-01	2025-11-30	\N	1.0000	0.0000	0.0000	0.0000	EA	\N	300000.00	\N	\N	A	\N	LOGMGR	2025-11-30 20:17:26	LOGMGR	2025-11-30 20:17:26	1
+123	1	23	DIA-01	2025-11-30	\N	2.0000	0.0000	1.0000	0.0000	EA	\N	300.00	\N	\N	A	\N	LOGMGR	2025-11-30 20:17:25	LOGMGR	2025-11-30 20:17:25	3
+101	1	78	HADR-1-78	2025-11-28	\N	25.0000	1.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	2
+50	3	29	HADR-3-29	2025-11-28	\N	4780.0000	2.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	2
+125	2	29	DIA-01	2025-12-01	\N	350.0000	0.0000	150.0000	0.0000	EA	\N	400.00	\N	\N	A	\N	LOGMGR	2025-12-01 11:03:12	LOGMGR	2025-12-01 11:03:12	1
+126	2	78	GEN-023	2025-12-01	\N	1.0000	0.0000	0.0000	0.0000	EA	\N	2500000.00	\N	\N	A	\N	LOGMGR	2025-12-01 11:03:12	LOGMGR	2025-12-01 11:03:12	1
+118	1	77	HADR-1-77	2025-11-28	\N	22.0000	0.0000	0.0000	0.0000	EA	\N	0.00	\N	\N	A	Seeded from HADR import	SYSTEM	2025-11-28 18:54:16	SYSTEM	2025-11-28 18:54:16	7
 \.
 
 
@@ -4525,9 +4932,17 @@ COPY public.location (location_id, inventory_id, location_desc, status_code, com
 --
 
 COPY public.notification (id, user_id, warehouse_id, reliefrqst_id, title, message, type, status, link_url, payload, is_archived, created_at) FROM stdin;
-5	8	\N	7	New Relief Request Submitted	Agency MONTEGO BAY RELIEF SHELTER submitted RR-000007 for event: Hurricane Melissa. Click to review eligibility.	reliefrqst_submitted	unread	/eligibility/review/7	\N	f	2025-11-29 13:55:02.186636
-7	7	\N	7	Relief Request Approved	RR-000007 from MONTEGO BAY RELIEF SHELTER (Event: Hurricane Melissa) approved by Alvin Junior. Click to prepare fulfillment package.	reliefrqst_approved	unread	/packaging/7/prepare	\N	f	2025-11-29 13:55:17.663859
-6	6	\N	7	Relief Request Approved	RR-000007 from MONTEGO BAY RELIEF SHELTER (Event: Hurricane Melissa) approved by Alvin Junior. Click to prepare fulfillment package.	reliefrqst_approved	read	/packaging/7/prepare	\N	f	2025-11-29 13:55:17.540768
+13	9	\N	8	Package Approved	Package for RR-000008 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready to be handed over to agency.	package_approved	read	/packaging/dispatch/awaiting	\N	f	2025-11-30 20:25:38.743036
+14	8	\N	9	New Relief Request Submitted	Agency MONTEGO BAY RELIEF SHELTER submitted RR-000009 for event: Hurricane Melissa. Click to review eligibility.	reliefrqst_submitted	read	/eligibility/review/9	\N	f	2025-12-01 07:58:56.45502
+16	7	\N	9	Relief Request Approved	RR-000009 from MONTEGO BAY RELIEF SHELTER (Event: Hurricane Melissa) approved by Alvin Junior. Click to prepare fulfillment package.	reliefrqst_approved	read	/packaging/9/prepare	\N	f	2025-12-01 07:59:23.438443
+19	9	\N	9	Package Approved	Package for RR-000009 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready to be handed over to agency.	package_approved	read	/packaging/dispatch/awaiting	\N	f	2025-12-01 08:00:30.613881
+18	7	\N	9	Package Approved	Package for RR-000009 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready for dispatch.	package_approved	read	/packaging/pending-fulfillment?filter=approved_for_dispatch	\N	f	2025-12-01 08:00:30.498759
+20	8	\N	10	New Relief Request Submitted	Agency MONTEGO BAY RELIEF SHELTER submitted RR-000010 for event: Hurricane Melissa. Click to review eligibility.	reliefrqst_submitted	read	/eligibility/review/10	\N	f	2025-12-01 08:06:26.278734
+22	7	\N	10	Relief Request Approved	RR-000010 from MONTEGO BAY RELIEF SHELTER (Event: Hurricane Melissa) approved by Alvin Junior. Click to prepare fulfillment package.	reliefrqst_approved	read	/packaging/10/prepare	\N	f	2025-12-01 08:06:42.500247
+24	8	\N	11	New Relief Request Submitted	Agency MONTEGO BAY RELIEF SHELTER submitted RR-000011 for event: Hurricane Melissa. Click to review eligibility.	reliefrqst_submitted	read	/eligibility/review/11	\N	f	2025-12-01 11:08:41.910781
+26	7	\N	11	Relief Request Approved	RR-000011 from MONTEGO BAY RELIEF SHELTER (Event: Hurricane Melissa) approved by Alvin Junior. Click to prepare fulfillment package.	reliefrqst_approved	read	/packaging/11/prepare	\N	f	2025-12-01 11:09:50.01878
+29	9	\N	11	Package Approved	Package for RR-000011 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready to be handed over to agency.	package_approved	unread	/packaging/dispatch/awaiting	\N	f	2025-12-01 11:14:30.388598
+28	7	\N	11	Package Approved	Package for RR-000011 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready for dispatch.	package_approved	read	/packaging/pending-fulfillment?filter=approved_for_dispatch	\N	f	2025-12-01 11:14:30.267447
 \.
 
 
@@ -4574,6 +4989,10 @@ COPY public.relief_request_fulfillment_lock (reliefrqst_id, fulfiller_user_id, f
 --
 
 COPY public.reliefpkg (reliefpkg_id, to_inventory_id, reliefrqst_id, start_date, dispatch_dtime, transport_mode, comments_text, status_code, create_by_id, create_dtime, update_by_id, update_dtime, verify_by_id, verify_dtime, version_nbr, received_by_id, received_dtime, agency_id, tracking_no, eligible_event_id) FROM stdin;
+2	1	9	2025-12-01	2025-12-01 08:00:30	\N	\N	D	LO	2025-12-01 08:00:06	MICHAEL	2025-12-01 08:01:03	LOGMGR	2025-12-01 08:00:30	4	MICHAEL	2025-12-01 08:01:03	2	5B3E438	\N
+1	1	8	2025-12-01	2025-11-30 20:25:37	\N	\N	D	LO	2025-11-30 20:24:13	MICHAEL	2025-12-01 08:01:17	LOGMGR	2025-11-30 20:25:37	4	MICHAEL	2025-12-01 08:01:17	2	ADEA1E8	\N
+3	1	10	2025-12-01	\N	\N	\N	P	LO	2025-12-01 08:07:24	LO	2025-12-01 08:07:24	__PENDING_LM__	2025-12-01 08:07:24	2	\N	\N	2	682BF1C	\N
+4	1	11	2025-12-01	2025-12-01 11:14:29	\N	\N	D	LO	2025-12-01 11:13:00	MICHAEL	2025-12-01 11:16:01	LOGMGR	2025-12-01 11:14:29	4	MICHAEL	2025-12-01 11:16:01	2	85263F7	\N
 \.
 
 
@@ -4582,6 +5001,12 @@ COPY public.reliefpkg (reliefpkg_id, to_inventory_id, reliefrqst_id, start_date,
 --
 
 COPY public.reliefpkg_item (reliefpkg_id, fr_inventory_id, batch_id, item_id, item_qty, uom_code, reason_text, create_by_id, create_dtime, update_by_id, update_dtime, version_nbr) FROM stdin;
+1	1	118	77	1.0000	EA	\N	LO	2025-11-30 20:24:13	LOGMGR	2025-11-30 20:25:37	2
+1	1	123	23	1.0000	EA	\N	LO	2025-11-30 20:24:13	LOGMGR	2025-11-30 20:25:37	2
+2	1	118	77	1.0000	EA	\N	LO	2025-12-01 08:00:06	LOGMGR	2025-12-01 08:00:29	2
+3	1	101	78	1.0000	EA	\N	LO	2025-12-01 08:07:24	LO	2025-12-01 08:07:24	1
+3	3	50	29	2.0000	EA	\N	LO	2025-12-01 08:07:24	LO	2025-12-01 08:07:24	1
+4	1	118	77	1.0000	EA	\N	LO	2025-12-01 11:13:01	LOGMGR	2025-12-01 11:14:29	2
 \.
 
 
@@ -4592,6 +5017,10 @@ COPY public.reliefpkg_item (reliefpkg_id, fr_inventory_id, batch_id, item_id, it
 COPY public.reliefrqst (reliefrqst_id, agency_id, request_date, urgency_ind, status_code, create_by_id, create_dtime, review_by_id, review_dtime, action_by_id, action_dtime, version_nbr, eligible_event_id, rqst_notes_text, review_notes_text, tracking_no, status_reason_desc, receive_by_id, receive_dtime) FROM stdin;
 6	2	2025-11-28	M	0	LOGMGR	2025-11-28 18:34:49	\N	\N	\N	\N	1	1		\N	9BEA52D	\N	\N	\N
 7	2	2025-11-29	M	3	LOGMGR	2025-11-29 10:02:15	ALVIN	2025-11-29 13:55:17	\N	\N	3	1		\N	A881203	\N	\N	\N
+8	2	2025-12-01	M	5	LOGMGR	2025-11-30 20:18:05	ALVIN	2025-11-30 20:19:54	LOGMGR	2025-11-30 20:25:38	5	1		\N	54EDAE6	\N	\N	\N
+9	2	2025-12-01	H	5	LO	2025-12-01 07:58:00	ALVIN	2025-12-01 07:59:23	LOGMGR	2025-12-01 08:00:30	5	1		\N	67DBEE1	\N	\N	\N
+10	2	2025-12-01	M	5	LO	2025-12-01 08:05:39	ALVIN	2025-12-01 08:06:42	LO	2025-12-01 08:07:24	4	1		\N	31AFBEF	\N	\N	\N
+11	2	2025-12-01	H	5	LOGMGR	2025-12-01 11:06:36	ALVIN	2025-12-01 11:09:49	LOGMGR	2025-12-01 11:14:30	5	1		\N	D7011D3	\N	\N	\N
 \.
 
 
@@ -4602,6 +5031,14 @@ COPY public.reliefrqst (reliefrqst_id, agency_id, request_date, urgency_ind, sta
 COPY public.reliefrqst_item (reliefrqst_id, item_id, request_qty, issue_qty, urgency_ind, rqst_reason_desc, required_by_date, status_code, status_reason_desc, action_by_id, action_dtime, version_nbr) FROM stdin;
 7	217	20.00	0.00	M		2025-12-01	R	\N	\N	\N	1
 7	224	10.00	0.00	M		\N	R	\N	\N	\N	1
+8	23	3.00	1.00	M		\N	P	\N	LOGMGR	2025-11-30 20:25:37	4
+8	77	1.00	1.00	M		\N	F	\N	LOGMGR	2025-11-30 20:25:37	4
+9	30	2.00	0.00	M		\N	U	\N	LOGMGR	2025-12-01 08:00:29	4
+9	77	1.00	1.00	M		\N	F	\N	LOGMGR	2025-12-01 08:00:29	4
+10	78	1.00	1.00	M		\N	F	\N	LO	2025-12-01 08:07:24	2
+10	29	2.00	2.00	M		\N	F	\N	LO	2025-12-01 08:07:24	2
+11	77	1.00	1.00	H	Needed because of no electricity	2025-12-05	F	\N	LOGMGR	2025-12-01 11:14:29	4
+11	123	50.00	0.00	M		\N	U	\N	LOGMGR	2025-12-01 11:14:29	4
 \.
 
 
@@ -6216,6 +6653,33 @@ COPY public.transaction (id, item_id, ttype, qty, warehouse_id, donor_id, event_
 1533	\N	I	10.00	5	\N	\N	\N	Location: JDF- St Elizabeth; Donor: GOJ	2025-11-25 00:00:00	MLSS_IMPORT
 1534	\N	I	4.00	5	\N	\N	\N	Location: JDF- St Elizabeth; Donor: GOJ	2025-11-25 00:00:00	MLSS_IMPORT
 1535	\N	R	6.00	5	\N	\N	\N	Donor: RVR ELITE SCIENCE	2025-11-06 00:00:00	MLSS_IMPORT
+1536	7	I	450.00	1	\N	\N	\N	Date: 2025-11-25; Location: KW; Source: Food & Water Row 3	2025-12-01 20:01:10.400703	HADR_IMPORT
+1537	252	R	710.00	2	\N	\N	\N	Date: 2025-11-25; Location: MG; Source: Shelter&NFI Row 23	2025-12-01 20:01:10.400703	HADR_IMPORT
+1538	220	R	80.00	4	\N	\N	\N	Date: 2025-11-25; Source: Shelter&NFI Row 30	2025-12-01 20:01:10.400703	HADR_IMPORT
+1539	9	I	60.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Food & Water Row 7	2025-12-01 20:01:10.400703	HADR_IMPORT
+1540	16	I	324000.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Food & Water Row 8	2025-12-01 20:01:10.400703	HADR_IMPORT
+1541	228	I	6.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 3	2025-12-01 20:01:10.400703	HADR_IMPORT
+1542	252	R	510.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 23	2025-12-01 20:01:10.400703	HADR_IMPORT
+1543	252	I	180.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 23	2025-12-01 20:01:10.400703	HADR_IMPORT
+1544	246	I	16.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 26	2025-12-01 20:01:10.400703	HADR_IMPORT
+1545	248	I	20.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 28	2025-12-01 20:01:10.400703	HADR_IMPORT
+1546	233	I	1500.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 29	2025-12-01 20:01:10.400703	HADR_IMPORT
+1547	223	I	62.00	1	\N	\N	\N	Date: 2025-11-26; Location: KW; Source: Shelter&NFI Row 31	2025-12-01 20:01:10.400703	HADR_IMPORT
+1548	213	I	600.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG, Mobay -5; Source: Shelter&NFI Row 36	2025-12-01 20:01:10.400703	HADR_IMPORT
+1549	213	I	600.00	3	\N	\N	\N	Date: 2025-11-26; Location: MG, Mobay -5; Source: Shelter&NFI Row 36	2025-12-01 20:01:10.400703	HADR_IMPORT
+1550	212	I	150.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 38	2025-12-01 20:01:10.400703	HADR_IMPORT
+1551	238	I	60.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 39	2025-12-01 20:01:10.400703	HADR_IMPORT
+1552	219	I	1220.00	4	\N	\N	\N	Date: 2025-11-26; Source: Shelter&NFI Row 41	2025-12-01 20:01:10.400703	HADR_IMPORT
+1553	243	I	40.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 43	2025-12-01 20:01:10.400703	HADR_IMPORT
+1554	214	R	180.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 44	2025-12-01 20:01:10.400703	HADR_IMPORT
+1555	226	I	40.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 59	2025-12-01 20:01:10.400703	HADR_IMPORT
+1556	227	I	40.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 60	2025-12-01 20:01:10.400703	HADR_IMPORT
+1557	244	I	30.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 61	2025-12-01 20:01:10.400703	HADR_IMPORT
+1558	253	R	500.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Shelter&NFI Row 63	2025-12-01 20:01:10.400703	HADR_IMPORT
+1559	34	I	100.00	1	\N	\N	\N	Date: 2025-11-26; Location: KW; Source: Hygiene and Sanitation Row 22	2025-12-01 20:01:10.400703	HADR_IMPORT
+1560	254	I	60.00	2	\N	\N	\N	Date: 2025-11-26; Location: MG; Source: Logistics & Engineering Equipme Row 28	2025-12-01 20:01:10.400703	HADR_IMPORT
+1561	7	I	1507.00	1	\N	\N	\N	Date: 2025-11-27; Location: KW; Source: Food & Water Row 3	2025-12-01 20:01:10.400703	HADR_IMPORT
+1562	200	R	70.00	4	\N	\N	\N	Date: 2025-11-28; Location:  ; Source: Shelter&NFI Row 19	2025-12-01 20:01:10.400703	HADR_IMPORT
 \.
 
 
@@ -6261,10 +6725,10 @@ PKG	Package	Package of items	IMPORT	2025-11-28 17:02:55	IMPORT	2025-11-28 17:02:
 --
 
 COPY public."user" (user_id, email, password_hash, first_name, last_name, full_name, is_active, organization, job_title, phone, timezone, language, notification_preferences, assigned_warehouse_id, last_login_at, create_dtime, update_dtime, username, password_algo, mfa_enabled, mfa_secret, failed_login_count, lock_until_at, password_changed_at, agency_id, status_code, version_nbr, user_name) FROM stdin;
+9	inventory.clerk@odpem.gov.jm	scrypt:32768:8:1$Hr1gHwnHLdSPjx1r$f220120d9e0c1ac9456e3bc02267af50c9b1365098b4682f6eb9aae6e67f3664764bca449213397fe4a9dc3c80daaae58194a87fcd6af00563201117112d0029	Michael	Graham	Michael Graham	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Inventory Clerk	+1 (876) 477-9023	America/Jamaica	en	\N	\N	2025-11-30 20:26:43.841592	2025-11-28 14:16:13.057061	2025-12-01 01:26:43.650709	\N	argon2id	f	\N	0	\N	\N	\N	A	3	MICHAEL
+7	logistics.officer@odpem.gov.jm	scrypt:32768:8:1$ZJCCJ0syZOwfavao$ee787b4a5ea473d90f4dd4205b718a1d2edb852d61e744b2a7accb5df495f337f0e2f77bcd4d20674960271e18c5c810f49d7f352fbb0a71ca91b1a1525e119f	Joseph	Green	Joseph Green	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Logistics Officer	+1 (876) 453-6782	America/Jamaica	en	\N	\N	2025-12-01 17:06:30.861165	2025-11-28 14:12:49.565255	2025-12-01 22:06:30.683623	\N	argon2id	f	\N	0	\N	\N	\N	A	3	LO
 5	admin@odpem.gov.jm	scrypt:32768:8:1$Zn0JRYPxqIDvBTv0$a18bee44ada63249574212da028788905b54907dd82a18b7912adb5414f56e26bf571a480e0ff425a80173b8158692d6c0c91b281be17e4eb78ad32961e069fd	System	Administrator	System Administrator	t	\N	System Administrator	+1 (	America/Jamaica	en	\N	\N	2025-11-28 14:10:55.898541	2025-11-28 18:20:28.212206	2025-11-28 19:10:55.704833	\N	scrypt	f	\N	0	\N	\N	\N	A	4	SYSADMIN
-7	logistics.officer@odpem.gov.jm	scrypt:32768:8:1$ZJCCJ0syZOwfavao$ee787b4a5ea473d90f4dd4205b718a1d2edb852d61e744b2a7accb5df495f337f0e2f77bcd4d20674960271e18c5c810f49d7f352fbb0a71ca91b1a1525e119f	Joseph	Green	Joseph Green	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Logistics Officer	+1 (876) 453-6782	America/Jamaica	en	\N	\N	\N	2025-11-28 14:12:49.565255	2025-11-28 14:12:49.56527	\N	argon2id	f	\N	0	\N	\N	\N	A	1	LO
-9	inventory.clerk@odpem.gov.jm	scrypt:32768:8:1$Hr1gHwnHLdSPjx1r$f220120d9e0c1ac9456e3bc02267af50c9b1365098b4682f6eb9aae6e67f3664764bca449213397fe4a9dc3c80daaae58194a87fcd6af00563201117112d0029	Michael	Graham	Michael Graham	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Inventory Clerk	+1 (876) 477-9023	America/Jamaica	en	\N	\N	2025-11-28 17:56:57.368856	2025-11-28 14:16:13.057061	2025-11-28 22:56:57.170497	\N	argon2id	f	\N	0	\N	\N	\N	A	2	MICHAEL
-6	logistics@odpem.gov.jm	scrypt:32768:8:1$PTQkAFCoJ2Mf2npg$6edf6a4664fcd6d22d08fa431158a691d7654a0910746e0f12a8490bc18553c59907454adab83a053ab23d6b7ac2229d38bcd3fc63daf6552c910f0e8a325127	Howard	Francis	Howard Francis	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Logistics Manager	+1 (876) 564-8587	America/Jamaica	en	\N	\N	2025-11-28 19:16:46.599193	2025-11-28 18:21:21.50833	2025-11-29 00:16:46.406131	\N	scrypt	f	\N	0	\N	\N	\N	A	5	LOGMGR
+6	logistics@odpem.gov.jm	scrypt:32768:8:1$PTQkAFCoJ2Mf2npg$6edf6a4664fcd6d22d08fa431158a691d7654a0910746e0f12a8490bc18553c59907454adab83a053ab23d6b7ac2229d38bcd3fc63daf6552c910f0e8a325127	Howard	Francis	Howard Francis	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Logistics Manager	+1 (876) 564-8587	America/Jamaica	en	\N	\N	2025-12-01 17:25:21.34629	2025-11-28 18:21:21.50833	2025-12-01 22:25:21.119248	\N	scrypt	f	\N	0	\N	\N	\N	A	8	LOGMGR
 8	director.general@odpem.gov.jm	scrypt:32768:8:1$uqyco3z4oHQ2bPIc$b63e534a7cc5ad9b353c49b0b9f5f298970e148d82c07919252ba2400741422c5c749b7594b19873a83abcd5314b33110707ccd4c2cc407bfa7ac8b756cc07d2	Alvin	Junior	Alvin Junior	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Director General	+1 (876) 789-0003	America/Jamaica	en	\N	\N	2025-11-29 13:52:38.847445	2025-11-28 14:14:57.05739	2025-11-29 18:52:38.643168	\N	argon2id	f	\N	0	\N	\N	\N	A	5	ALVIN
 \.
 
@@ -6386,7 +6850,7 @@ SELECT pg_catalog.setval('public.donation_doc_document_id_seq', 4, true);
 -- Name: donation_donation_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.donation_donation_id_seq', 20, true);
+SELECT pg_catalog.setval('public.donation_donation_id_seq', 23, true);
 
 
 --
@@ -6407,7 +6871,7 @@ SELECT pg_catalog.setval('public.event_event_id_seq', 1, true);
 -- Name: hadr_aid_movement_staging_staging_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.hadr_aid_movement_staging_staging_id_seq', 1535, true);
+SELECT pg_catalog.setval('public.hadr_aid_movement_staging_staging_id_seq', 2356, true);
 
 
 --
@@ -6421,7 +6885,7 @@ SELECT pg_catalog.setval('public.item_new_item_id_seq', 251, true);
 -- Name: itembatch_batch_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.itembatch_batch_id_seq', 122, true);
+SELECT pg_catalog.setval('public.itembatch_batch_id_seq', 126, true);
 
 
 --
@@ -6449,7 +6913,7 @@ SELECT pg_catalog.setval('public.location_location_id_seq', 1, false);
 -- Name: notification_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.notification_id_seq', 7, true);
+SELECT pg_catalog.setval('public.notification_id_seq', 29, true);
 
 
 --
@@ -6463,14 +6927,14 @@ SELECT pg_catalog.setval('public.permission_perm_id_seq', 5, true);
 -- Name: reliefpkg_reliefpkg_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.reliefpkg_reliefpkg_id_seq', 1, false);
+SELECT pg_catalog.setval('public.reliefpkg_reliefpkg_id_seq', 4, true);
 
 
 --
 -- Name: reliefrqst_reliefrqst_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.reliefrqst_reliefrqst_id_seq', 7, true);
+SELECT pg_catalog.setval('public.reliefrqst_reliefrqst_id_seq', 11, true);
 
 
 --
@@ -6484,7 +6948,7 @@ SELECT pg_catalog.setval('public.role_id_seq', 22, true);
 -- Name: transaction_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.transaction_id_seq', 1535, true);
+SELECT pg_catalog.setval('public.transaction_id_seq', 1562, true);
 
 
 --
@@ -8418,5 +8882,5 @@ ALTER TABLE ONLY public.xfreturn_item
 -- PostgreSQL database dump complete
 --
 
-\unrestrict dx8Uw7YEu2Vqlng6b2nur0FkfX3Y52Vjudg2pQitW99BX4Fv0fjzpmJcJjsSfVy
+\unrestrict NFEssRVveMDNgJwVxtRQhG6mGWd07hYaEYmBwOxNQsnET37KnL9rzjiJTujzWkw
 
