@@ -2106,11 +2106,6 @@ def get_item_batches(item_id):
                 current_allocations
             )
             
-            # Debug logging
-            print(f"DEBUG get_item_batches: item_id={item_id}, remaining_qty={remaining_qty}")
-            print(f"DEBUG get_item_batches: allocated_batch_ids={allocated_batch_ids}")
-            print(f"DEBUG get_item_batches: limited_batches count={len(limited_batches)}")
-            print(f"DEBUG get_item_batches: total_available={total_available}, shortfall={shortfall}")
             
             # Assign priority groups
             batch_groups = BatchAllocationService.assign_priority_groups(limited_batches, item)
@@ -2141,7 +2136,6 @@ def get_item_batches(item_id):
                     'priority_group': priority_group
                 }
                 result.append(batch_info)
-                print(f"DEBUG batch: {batch.batch_id} ({batch.batch_no}) - warehouse={batch_info['warehouse_name']}, expiry={batch_info['expiry_date']}, batch_date={batch_info['batch_date']}, available={available_qty}")
             
             return jsonify({
                 'item_id': item_id,

@@ -5,8 +5,21 @@ load_dotenv()
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
+def get_secret_key():
+    """Get SECRET_KEY from environment with secure fallback for development/testing only."""
+    secret_key = os.environ.get('SECRET_KEY')
+    if secret_key:
+        return secret_key
+    is_dev = os.environ.get('FLASK_DEBUG', '1') == '1'
+    is_test = os.environ.get('TESTING', 'False').lower() == 'true'
+    is_allow_dev_key = os.environ.get('ALLOW_DEV_SECRET_KEY', 'False').lower() == 'true'
+    if is_dev or is_test or is_allow_dev_key:
+        import secrets
+        return secrets.token_hex(32)
+    raise ValueError("SECRET_KEY environment variable must be set in production")
+
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dev-secret-key-change-in-production'
+    SECRET_KEY = get_secret_key()
     DATABASE_URL = os.environ.get('DATABASE_URL')
     SQLALCHEMY_DATABASE_URI = DATABASE_URL
     SQLALCHEMY_TRACK_MODIFICATIONS = False

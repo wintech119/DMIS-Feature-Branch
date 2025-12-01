@@ -20,6 +20,7 @@ from app.core.decorators import feature_required
 import os
 from werkzeug.utils import secure_filename
 import mimetypes
+from app.security.safe_path import safe_join
 
 donations_bp = Blueprint('donations', __name__, url_prefix='/donations')
 
@@ -481,7 +482,10 @@ def create_donation():
                 saved_files = []
                 try:
                     for doc_info in validated_docs:
-                        file_path = os.path.join(upload_folder, doc_info['unique_filename'])
+                        try:
+                            file_path = safe_join(upload_folder, doc_info['unique_filename'])
+                        except ValueError as path_err:
+                            raise ValueError(f"Invalid file path for document: {path_err}")
                         doc_info['file'].save(file_path)
                         saved_files.append(file_path)
                         
@@ -1576,7 +1580,10 @@ def verify_donation_detail(donation_id):
                 saved_files = []
                 try:
                     for doc_info in validated_docs:
-                        file_path = os.path.join(upload_folder, doc_info['unique_filename'])
+                        try:
+                            file_path = safe_join(upload_folder, doc_info['unique_filename'])
+                        except ValueError as path_err:
+                            raise ValueError(f"Invalid file path for document: {path_err}")
                         doc_info['file'].save(file_path)
                         saved_files.append(file_path)
                         
