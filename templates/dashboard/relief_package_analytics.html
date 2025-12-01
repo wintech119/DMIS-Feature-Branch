@@ -533,7 +533,7 @@ new Chart(destTypeCtx, {
             tooltip: {
                 callbacks: {
                     label: function(context) {
-                        const items = {{ destination_type_data.items | tojson }};
+                        const items = {{ destination_type_data['items'] | tojson }};
                         const total = context.dataset.data.reduce((a, b) => a + b, 0);
                         const percentage = total > 0 ? ((context.parsed / total) * 100).toFixed(1) : 0;
                         return [
