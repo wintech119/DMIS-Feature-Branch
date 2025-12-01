@@ -91,13 +91,37 @@ def add_csp_headers(response):
         
     Returns:
         Modified response with security headers
+        
+    Security Headers Applied:
+    - Content-Security-Policy: Nonce-based XSS protection with strict directives
+    - Strict-Transport-Security: HSTS with 1-year max-age and includeSubDomains
+    - X-Frame-Options: DENY for legacy browser clickjacking protection
+    - X-Content-Type-Options: nosniff to prevent MIME-type sniffing
+    - X-XSS-Protection: Legacy XSS filter (still useful for older browsers)
+    - Referrer-Policy: Controls referrer information leakage
+    - Permissions-Policy: Restricts browser features
     """
     response.headers['Content-Security-Policy'] = build_csp_header()
     
+    # HSTS - Enforce HTTPS for 1 year with subdomains
+    # Addresses: "Missing HSTS Header" finding
+    # Note: Only effective over HTTPS connections (ignored over HTTP)
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    
+    # Prevent MIME-type sniffing attacks
     response.headers['X-Content-Type-Options'] = 'nosniff'
+    
+    # Clickjacking protection for legacy browsers (CSP frame-ancestors is primary)
+    # Addresses: "Potential clickjacking on legacy browsers" finding
     response.headers['X-Frame-Options'] = 'DENY'
+    
+    # Legacy XSS filter (deprecated but still useful for older browsers)
     response.headers['X-XSS-Protection'] = '1; mode=block'
+    
+    # Control referrer information sent with requests
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    
+    # Restrict browser features/APIs
     response.headers['Permissions-Policy'] = 'geolocation=(), microphone=(), camera=()'
     
     return response

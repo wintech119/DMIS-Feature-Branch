@@ -1,0 +1,73 @@
+Now strengthen the HTTP security headers to address:
+
+Missing HSTS header
+
+Missing or permissive Content Security Policy
+
+Potential clickjacking on legacy browsers
+
+Constraints:
+
+Do not weaken existing CSP or header protections.
+
+Adjust carefully so that the existing DMIS UI, scripts, and styles still work.
+
+Step 1 – Find where headers are set
+
+Locate in the Flask app (likely drims_app.py or a core module):
+
+Any @app.after_request or before_request functions that set headers such as:
+
+Content-Security-Policy
+
+Strict-Transport-Security
+
+X-Frame-Options
+
+X-Content-Type-Options
+
+Referrer-Policy
+
+Show me the current header-setting code.
+
+Step 2 – Implement or tighten headers
+
+Update or add an after_request handler that ensures at least:
+
+response.headers.setdefault("Strict-Transport-Security", "max-age=31536000; includeSubDomains")  
+response.headers.setdefault("X-Frame-Options", "DENY")  
+response.headers.setdefault("X-Content-Type-Options", "nosniff")  
+response.headers.setdefault("Referrer-Policy", "no-referrer-when-downgrade")  
+
+
+For Content-Security-Policy (CSP):
+
+Start from the current CSP (if any).
+
+Tighten it while keeping the current app functional, for example:
+
+default-src 'self';  
+script-src 'self' 'unsafe-inline';   # ONLY if inline scripts currently exist  
+style-src 'self' 'unsafe-inline';    # ONLY if inline styles or Bootstrap CDN are used  
+img-src 'self' data:;  
+connect-src 'self';  
+frame-ancestors 'none';  
+
+
+Avoid completely blocking inline scripts/styles if the current templates rely on them; instead, document them for a future refactor to CSP nonces or hashes.
+
+Step 3 – Avoid regressions
+
+After setting/tightening CSP, ensure:
+
+All existing pages load without JS or CSS errors in the console.
+
+No core DMIS features break (logins, dashboards, donations, requests, etc.).
+
+If the strict CSP breaks something needed, slightly relax the relevant directive but do not revert to an overly permissive policy like default-src *.
+
+Provide the final after_request function and a brief explanation of:
+
+Which headers you added or changed.
+
+How this addresses the “Missing HSTS Header”, “Missing CSP”, “Permissive CSP”, and “Clickjacking” findings from the scan.
