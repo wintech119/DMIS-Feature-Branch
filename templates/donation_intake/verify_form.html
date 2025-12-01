@@ -200,23 +200,33 @@ input[type=number] {
                                     </div>
                                     <div class="col-md-3">
                                         <label for="batch_date_{{ ii.item_id }}" class="field-label">Batch Date</label>
-                                        <input type="text" 
-                                               class="form-control form-control-sm iso-date-picker batch-date" 
-                                               id="batch_date_{{ ii.item_id }}"
-                                               name="batch_date_{{ ii.item_id }}" 
-                                               value="{{ ii.batch_date.isoformat() if ii.batch_date else '' }}"
-                                               data-max-date="{{ today }}"
-                                               placeholder="YYYY-MM-DD">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" 
+                                                   class="form-control form-control-sm iso-date-picker batch-date" 
+                                                   id="batch_date_{{ ii.item_id }}"
+                                                   name="batch_date_{{ ii.item_id }}" 
+                                                   value="{{ ii.batch_date.isoformat() if ii.batch_date else '' }}"
+                                                   data-max-date="{{ today }}"
+                                                   placeholder="YYYY-MM-DD">
+                                            <span class="input-group-text bg-white" style="cursor: pointer;" onclick="document.getElementById('batch_date_{{ ii.item_id }}').focus()">
+                                                <i class="bi bi-calendar3"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="expiry_date_{{ ii.item_id }}" class="field-label">Expiry Date</label>
-                                        <input type="text" 
-                                               class="form-control form-control-sm iso-date-picker expiry-date" 
-                                               id="expiry_date_{{ ii.item_id }}"
-                                               name="expiry_date_{{ ii.item_id }}" 
-                                               value="{{ ii.expiry_date.isoformat() if ii.expiry_date else '' }}"
-                                               placeholder="YYYY-MM-DD"
-                                               {% if not ii.item.can_expire_flag %}disabled{% endif %}>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" 
+                                                   class="form-control form-control-sm iso-date-picker expiry-date" 
+                                                   id="expiry_date_{{ ii.item_id }}"
+                                                   name="expiry_date_{{ ii.item_id }}" 
+                                                   value="{{ ii.expiry_date.isoformat() if ii.expiry_date else '' }}"
+                                                   placeholder="YYYY-MM-DD"
+                                                   {% if not ii.item.can_expire_flag %}disabled{% endif %}>
+                                            <span class="input-group-text {% if not ii.item.can_expire_flag %}bg-light{% else %}bg-white{% endif %}" {% if ii.item.can_expire_flag %}style="cursor: pointer;" onclick="document.getElementById('expiry_date_{{ ii.item_id }}').focus()"{% endif %}>
+                                                <i class="bi bi-calendar3"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 
@@ -387,9 +397,31 @@ input[type=number] {
 {% block extra_scripts %}
 <script src="https://cdn.jsdelivr.net/npm/flatpickr" integrity="sha384-1a8Wi8gJdDPWfEWuJf7Z4p4C6aOqEYw6cqC7DFKfEWDnsjf/dz+pzzCz2fv1ZHzS" crossorigin="anonymous"></script>
 <script nonce="{{ csp_nonce() }}">
-flatpickr('.iso-date-picker', {
-    dateFormat: 'Y-m-d',
-    allowInput: true
+document.addEventListener('DOMContentLoaded', function() {
+    const dateInputs = document.querySelectorAll('.iso-date-picker');
+    dateInputs.forEach(function(input) {
+        if (input.disabled) return;
+        
+        const maxDate = input.getAttribute('data-max-date');
+        const minDate = input.getAttribute('data-min-date');
+        const isBatchDate = input.classList.contains('batch-date');
+        const isExpiryDate = input.classList.contains('expiry-date');
+        
+        const options = {
+            dateFormat: 'Y-m-d',
+            allowInput: true,
+            locale: { firstDayOfWeek: 1 }
+        };
+        
+        if (isBatchDate && maxDate) {
+            options.maxDate = maxDate;
+        }
+        if (isExpiryDate) {
+            options.minDate = 'today';
+        }
+        
+        flatpickr(input, options);
+    });
 });
 </script>
 <script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/verify-intake.js') }}"></script>

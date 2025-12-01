@@ -195,29 +195,39 @@ input[type=number] {
                                     </div>
                                     <div class="col-md-3">
                                         <label for="batch_date_{{ di.item_id }}" class="field-label">Batch Date</label>
-                                        <input type="text" 
-                                               class="form-control form-control-sm iso-date-picker batch-date batch-date-input" 
-                                               id="batch_date_{{ di.item_id }}"
-                                               name="batch_date_{{ di.item_id }}" 
-                                               data-item-id="{{ di.item_id }}"
-                                               data-is-batched="{{ 'true' if di.item.is_batched_flag else 'false' }}"
-                                               data-max-date="{{ today }}"
-                                               placeholder="YYYY-MM-DD"
-                                               {% if di.item.is_batched_flag %}required{% endif %}
-                                               data-validate="batch-pairing">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" 
+                                                   class="form-control form-control-sm iso-date-picker batch-date batch-date-input" 
+                                                   id="batch_date_{{ di.item_id }}"
+                                                   name="batch_date_{{ di.item_id }}" 
+                                                   data-item-id="{{ di.item_id }}"
+                                                   data-is-batched="{{ 'true' if di.item.is_batched_flag else 'false' }}"
+                                                   data-max-date="{{ today }}"
+                                                   placeholder="YYYY-MM-DD"
+                                                   {% if di.item.is_batched_flag %}required{% endif %}
+                                                   data-validate="batch-pairing">
+                                            <span class="input-group-text bg-white" style="cursor: pointer;" onclick="document.getElementById('batch_date_{{ di.item_id }}').focus()">
+                                                <i class="bi bi-calendar3"></i>
+                                            </span>
+                                        </div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="expiry_date_{{ di.item_id }}" class="field-label">Expiry Date</label>
-                                        <input type="text" 
-                                               class="form-control form-control-sm iso-date-picker expiry-date" 
-                                               id="expiry_date_{{ di.item_id }}"
-                                               name="expiry_date_{{ di.item_id }}" 
-                                               data-item-id="{{ di.item_id }}"
-                                               data-can-expire="{{ 'true' if di.item.can_expire_flag else 'false' }}"
-                                               data-min-date="{{ today }}"
-                                               placeholder="{% if di.item.can_expire_flag %}YYYY-MM-DD{% else %}Not applicable{% endif %}"
-                                               {% if di.item.can_expire_flag %}required{% else %}disabled{% endif %}
-                                               {% if not di.item.can_expire_flag %}class="form-control form-control-sm iso-date-picker expiry-date bg-light cursor-not-allowed"{% endif %}>
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" 
+                                                   class="form-control form-control-sm iso-date-picker expiry-date" 
+                                                   id="expiry_date_{{ di.item_id }}"
+                                                   name="expiry_date_{{ di.item_id }}" 
+                                                   data-item-id="{{ di.item_id }}"
+                                                   data-can-expire="{{ 'true' if di.item.can_expire_flag else 'false' }}"
+                                                   data-min-date="{{ today }}"
+                                                   placeholder="{% if di.item.can_expire_flag %}YYYY-MM-DD{% else %}Not applicable{% endif %}"
+                                                   {% if di.item.can_expire_flag %}required{% else %}disabled{% endif %}
+                                                   {% if not di.item.can_expire_flag %}class="form-control form-control-sm iso-date-picker expiry-date bg-light cursor-not-allowed"{% endif %}>
+                                            <span class="input-group-text {% if not di.item.can_expire_flag %}bg-light{% else %}bg-white{% endif %}" {% if di.item.can_expire_flag %}style="cursor: pointer;" onclick="document.getElementById('expiry_date_{{ di.item_id }}').focus()"{% endif %}>
+                                                <i class="bi bi-calendar3"></i>
+                                            </span>
+                                        </div>
                                         <div class="invalid-feedback expiry-error-{{ di.item_id }} d-none">
                                             <i class="bi bi-exclamation-circle"></i>
                                             <span class="expiry-error-text-{{ di.item_id }}"></span>
