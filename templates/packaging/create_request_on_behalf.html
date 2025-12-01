@@ -75,8 +75,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="request_date" class="form-label">Request Date <span class="text-danger">*</span></label>
-                                <input type="date" class="form-control" id="request_date" name="request_date" value="{{ today }}" required>
-                                <small class="text-muted">Date of the relief request (can be a future date)</small>
+                                <input type="date" class="form-control" id="request_date" name="request_date" value="{{ today }}" max="{{ today }}" required>
                             </div>
                         </div>
 
