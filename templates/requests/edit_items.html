@@ -397,28 +397,42 @@ if (itemSelect) {
     });
 }
 
-// Toggle justification requirement based on urgency selection
+// Toggle justification and required date requirement based on urgency selection
 const urgencySelect = document.getElementById('urgency_ind');
 if (urgencySelect) {
     urgencySelect.addEventListener('change', function() {
         const justificationField = document.getElementById('rqst_reason_desc');
         const requiredIndicator = document.getElementById('justification_required_indicator');
         const hint = document.getElementById('justification_hint');
+        const requiredByDateField = document.getElementById('required_by_date');
+        const requiredByDateLabel = requiredByDateField.closest('.col-md-6').querySelector('.form-label');
         
         if (this.value === 'H') {
+            // HIGH priority: Both justification and required date are REQUIRED
             justificationField.setAttribute('required', 'required');
-            requiredIndicator.classList.remove('d-none');
-            requiredIndicator.classList.add('d-inline');
-            hint.textContent = 'Required for High urgency items';
+            requiredIndicator.style.display = 'inline';
+            hint.textContent = 'Required for High priority items';
             hint.classList.remove('text-muted');
             hint.classList.add('text-danger');
+            
+            // Make required_by_date required
+            requiredByDateField.setAttribute('required', 'required');
+            if (requiredByDateLabel && !requiredByDateLabel.querySelector('.text-danger')) {
+                requiredByDateLabel.innerHTML = 'Required By Date <span class="text-danger">*</span>';
+            }
         } else {
+            // MEDIUM/LOW priority: Both are OPTIONAL
             justificationField.removeAttribute('required');
-            requiredIndicator.classList.remove('d-inline');
-            requiredIndicator.classList.add('d-none');
-            hint.textContent = 'Optional for Medium/Low urgency items';
+            requiredIndicator.style.display = 'none';
+            hint.textContent = 'Optional for Medium/Low priority items';
             hint.classList.remove('text-danger');
             hint.classList.add('text-muted');
+            
+            // Make required_by_date optional
+            requiredByDateField.removeAttribute('required');
+            if (requiredByDateLabel) {
+                requiredByDateLabel.innerHTML = 'Required By Date';
+            }
         }
     });
 }

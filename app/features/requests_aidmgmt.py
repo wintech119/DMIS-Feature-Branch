@@ -389,10 +389,14 @@ def edit_items(request_id):
                 flash('Quantity must be greater than zero', 'danger')
                 return redirect(url_for('requests.edit_items', request_id=request_id))
             
-            # Validate required_by_date based on urgency
-            if urgency_ind == 'H' and not required_by_date:
-                flash('High urgency items must have a "Required By Date"', 'danger')
-                return redirect(url_for('requests.edit_items', request_id=request_id))
+            # Validate required_by_date and justification based on urgency
+            if urgency_ind == 'H':
+                if not required_by_date:
+                    flash('High priority items require a "Required By Date"', 'danger')
+                    return redirect(url_for('requests.edit_items', request_id=request_id))
+                if not rqst_reason_desc:
+                    flash('High priority items require a justification', 'danger')
+                    return redirect(url_for('requests.edit_items', request_id=request_id))
             
             # Add or update item
             rr_service.add_or_update_request_item(
