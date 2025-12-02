@@ -86,3 +86,10 @@ The application employs a modular blueprint architecture with a database-first a
 - Bootstrap 5.3.3 CSS/JS
 - Bootstrap Icons 1.11.3
 - Flatpickr
+
+### DevSecOps Tools
+- **Bandit** - Python security linter (configured in `bandit.yml`)
+- **Semgrep** - Multi-language SAST scanner (configured in `semgrep.yml`)
+- **SAST Script** - `scripts/run_sast.sh` runs both scanners with severity gating
+- **GitHub Actions** - `.github/workflows/security-sast.yml` for CI/CD integration
+- **Security Documentation** - `SECURITY.md` for local scan instructions

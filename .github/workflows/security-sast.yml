@@ -1,0 +1,163 @@
+# =============================================================================
+# DMIS Security SAST Workflow
+# =============================================================================
+# This GitHub Actions workflow runs static application security testing (SAST)
+# on every push and pull request. It uses the scripts/run_sast.sh script which
+# executes Bandit and Semgrep to detect security vulnerabilities.
+#
+# The workflow will:
+#   - FAIL if Critical/High severity issues are found
+#   - WARN (but pass) for Medium/Low severity issues
+#   - Upload scan results as artifacts for review
+# =============================================================================
+
+name: Security SAST Scan
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - '**.py'
+      - 'templates/**'
+      - 'bandit.yml'
+      - 'semgrep.yml'
+      - 'scripts/run_sast.sh'
+      - '.github/workflows/security-sast.yml'
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - '**.py'
+      - 'templates/**'
+  # Allow manual trigger
+  workflow_dispatch:
+
+# Prevent concurrent runs on the same branch
+concurrency:
+  group: security-sast-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Main Security Scan Job
+  # ---------------------------------------------------------------------------
+  security-scan:
+    name: Security SAST Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install SAST tools
+        run: |
+          pip install bandit bandit-sarif-formatter semgrep
+
+      - name: Make script executable
+        run: chmod +x scripts/run_sast.sh
+
+      - name: Run SAST scan with reports
+        id: sast
+        run: |
+          # Run the unified SAST script with report generation
+          ./scripts/run_sast.sh --report || SAST_EXIT_CODE=$?
+          
+          # Capture exit code for later use
+          echo "exit_code=${SAST_EXIT_CODE:-0}" >> $GITHUB_OUTPUT
+          
+          # Don't fail yet - we want to upload artifacts first
+          exit 0
+
+      - name: Generate SARIF reports for GitHub Security tab
+        if: always()
+        run: |
+          # Generate Bandit SARIF
+          bandit -r app/ drims_app.py -c bandit.yml -f sarif -o bandit-results.sarif --exit-zero || true
+          
+          # Generate Semgrep SARIF
+          semgrep --config semgrep.yml --config p/python --config p/flask --sarif --output semgrep-results.sarif app/ drims_app.py || true
+
+      - name: Upload Bandit SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: bandit-results.sarif
+          category: bandit
+        continue-on-error: true
+
+      - name: Upload Semgrep SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: semgrep-results.sarif
+          category: semgrep
+        continue-on-error: true
+
+      - name: Upload scan artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-scan-results
+          path: |
+            security-reports/
+            bandit-results.sarif
+            semgrep-results.sarif
+          retention-days: 30
+
+      - name: Generate job summary
+        if: always()
+        run: |
+          echo "# Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f security-reports/bandit-report.json ]; then
+            echo "## Bandit Results" >> $GITHUB_STEP_SUMMARY
+            HIGH=$(grep -c '"severity": "HIGH"' security-reports/bandit-report.json 2>/dev/null || echo "0")
+            MEDIUM=$(grep -c '"severity": "MEDIUM"' security-reports/bandit-report.json 2>/dev/null || echo "0")
+            LOW=$(grep -c '"severity": "LOW"' security-reports/bandit-report.json 2>/dev/null || echo "0")
+            echo "- High: $HIGH" >> $GITHUB_STEP_SUMMARY
+            echo "- Medium: $MEDIUM" >> $GITHUB_STEP_SUMMARY
+            echo "- Low: $LOW" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ -f security-reports/semgrep-report.json ]; then
+            echo "## Semgrep Results" >> $GITHUB_STEP_SUMMARY
+            ERROR=$(grep -c '"severity": "ERROR"' security-reports/semgrep-report.json 2>/dev/null || echo "0")
+            WARNING=$(grep -c '"severity": "WARNING"' security-reports/semgrep-report.json 2>/dev/null || echo "0")
+            INFO=$(grep -c '"severity": "INFO"' security-reports/semgrep-report.json 2>/dev/null || echo "0")
+            echo "- Error: $ERROR" >> $GITHUB_STEP_SUMMARY
+            echo "- Warning: $WARNING" >> $GITHUB_STEP_SUMMARY
+            echo "- Info: $INFO" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "## Status" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.sast.outputs.exit_code }}" = "0" ]; then
+            echo ":white_check_mark: **PASSED** - No Critical/High severity issues found" >> $GITHUB_STEP_SUMMARY
+          else
+            echo ":x: **FAILED** - Critical/High severity issues detected" >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Check scan results
+        run: |
+          # Fail the workflow if the SAST scan found critical issues
+          if [ "${{ steps.sast.outputs.exit_code }}" != "0" ]; then
+            echo "::error::Security scan failed. Critical/High severity issues were detected."
+            echo "Please review the scan results in the Security tab and artifacts."
+            exit 1
+          fi
+          echo "Security scan passed successfully."
