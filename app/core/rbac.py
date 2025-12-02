@@ -6,6 +6,7 @@ from flask import flash, redirect, url_for, abort
 from flask_login import current_user
 from app.db import db
 from sqlalchemy import text
+from app.core import session_utils
 
 
 # =============================================================================
@@ -37,11 +38,11 @@ def role_required(*role_codes):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not current_user.is_authenticated:
+            if not session_utils.is_authenticated():
                 flash('Please log in to access this page.', 'warning')
                 return redirect(url_for('login'))
             
-            user_role_codes = [role.code for role in current_user.roles]
+            user_role_codes = session_utils.get_role_codes()
             
             if not any(code in user_role_codes for code in role_codes):
                 flash('You do not have permission to access this page.', 'danger')
@@ -67,11 +68,7 @@ def has_role(*role_codes):
     Returns:
         bool: True if user has any of the specified roles
     """
-    if not current_user.is_authenticated:
-        return False
-    
-    user_role_codes = [role.code for role in current_user.roles]
-    return any(code in user_role_codes for code in role_codes)
+    return session_utils.has_valid_role(*role_codes)
 
 
 def has_all_roles(*role_codes):
@@ -84,10 +81,10 @@ def has_all_roles(*role_codes):
     Returns:
         bool: True if user has all of the specified roles
     """
-    if not current_user.is_authenticated:
+    if not session_utils.is_authenticated():
         return False
     
-    user_role_codes = [role.code for role in current_user.roles]
+    user_role_codes = session_utils.get_role_codes()
     return all(code in user_role_codes for code in role_codes)
 
 
@@ -104,11 +101,11 @@ def agency_user_required(f):
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not current_user.is_authenticated:
+        if not session_utils.is_authenticated():
             flash('Please log in to access this page.', 'warning')
             return redirect(url_for('login'))
         
-        if not current_user.agency_id:
+        if not session_utils.get_agency_id():
             flash('This page is only accessible to agency users.', 'danger')
             abort(403)
         
@@ -123,9 +120,7 @@ def is_agency_user():
     Returns:
         bool: True if user is authenticated and has agency_id
     """
-    if not current_user.is_authenticated:
-        return False
-    return current_user.agency_id is not None
+    return session_utils.is_agency_user()
 
 
 def can_access_relief_request(relief_request):
@@ -143,7 +138,7 @@ def can_access_relief_request(relief_request):
     Returns:
         bool: True if user can access the request
     """
-    if not current_user.is_authenticated:
+    if not session_utils.is_authenticated():
         return False
     
     # Logistics Managers and Officers have access to all relief requests
@@ -155,7 +150,8 @@ def can_access_relief_request(relief_request):
         return True
     
     # Agency users can access their own agency's requests
-    if current_user.agency_id and relief_request.agency_id == current_user.agency_id:
+    user_agency_id = session_utils.get_agency_id()
+    if user_agency_id and relief_request.agency_id == user_agency_id:
         return True
     
     return False
@@ -171,14 +167,7 @@ def has_warehouse_access(warehouse_id):
     Returns:
         bool: True if user has access to the warehouse
     """
-    if not current_user.is_authenticated:
-        return False
-    
-    if has_role('SYSTEM_ADMINISTRATOR', 'LOGISTICS_MANAGER'):
-        return True
-    
-    user_warehouse_ids = [w.warehouse_id for w in current_user.warehouses]
-    return warehouse_id in user_warehouse_ids
+    return session_utils.has_warehouse_access(warehouse_id)
 
 
 def get_user_role_codes():
@@ -188,10 +177,7 @@ def get_user_role_codes():
     Returns:
         list: List of role code strings
     """
-    if not current_user.is_authenticated:
-        return []
-    
-    return [role.code for role in current_user.roles]
+    return session_utils.get_role_codes()
 
 
 def get_user_role_names():
@@ -201,10 +187,7 @@ def get_user_role_names():
     Returns:
         list: List of role name strings
     """
-    if not current_user.is_authenticated:
-        return []
-    
-    return [role.name for role in current_user.roles]
+    return session_utils.get_role_names()
 
 
 def is_admin():
@@ -273,7 +256,7 @@ def executive_required(f):
     """
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not current_user.is_authenticated:
+        if not session_utils.is_authenticated():
             flash('Please log in to access this page.', 'warning')
             return redirect(url_for('login'))
         
@@ -302,7 +285,7 @@ def can_view_reports():
     Returns:
         bool: True if user can view reports
     """
-    return current_user.is_authenticated
+    return session_utils.is_authenticated()
 
 
 def has_permission(resource, action):
@@ -316,25 +299,32 @@ def has_permission(resource, action):
     Returns:
         bool: True if user has the permission
     """
-    if not current_user.is_authenticated:
+    if not session_utils.is_authenticated():
         return False
     
-    # Get user's role IDs
-    user_role_ids = [role.id for role in current_user.roles]
+    # Validate resource and action parameters
+    if not isinstance(resource, str) or not resource.strip():
+        return False
+    if not isinstance(action, str) or not action.strip():
+        return False
     
-    if not user_role_ids:
+    # Get user's role IDs from current_user (validated roles)
+    user_role_codes = session_utils.get_role_codes()
+    if not user_role_codes:
         return False
     
     # Use SQLAlchemy ORM instead of raw SQL for database compatibility
-    from app.db.models import Permission, RolePermission
+    from app.db.models import Permission, RolePermission, Role
     
     # Query for permission through role_permission join using ORM
     permission_count = db.session.query(Permission).join(
         RolePermission, Permission.perm_id == RolePermission.perm_id
+    ).join(
+        Role, Role.id == RolePermission.role_id
     ).filter(
-        RolePermission.role_id.in_(user_role_ids),
-        Permission.resource == resource,
-        Permission.action == action
+        Role.code.in_(user_role_codes),
+        Permission.resource == resource.strip(),
+        Permission.action == action.strip()
     ).count()
     
     return permission_count > 0
@@ -356,7 +346,7 @@ def permission_required(resource, action):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not current_user.is_authenticated:
+            if not session_utils.is_authenticated():
                 flash('Please log in to access this page.', 'warning')
                 return redirect(url_for('login'))
             

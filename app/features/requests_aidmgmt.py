@@ -13,6 +13,7 @@ from app.db.models import ReliefRqst, ReliefRqstItem, Agency, Item, Event, UnitO
 from app.core.rbac import agency_user_required, is_admin, is_logistics_manager, is_logistics_officer, can_access_relief_request, is_director_level
 from app.core.decorators import feature_required
 from app.core.exceptions import OptimisticLockError
+from app.core import session_utils
 from app.services import relief_request_service as rr_service
 
 requests_bp = Blueprint('requests', __name__, url_prefix='/relief-requests')
@@ -44,6 +45,9 @@ def list_requests():
     # Check if user is in read-only mode (director-level executives)
     is_read_only = is_director_level()
     
+    # Get validated agency_id from session
+    user_agency_id = session_utils.get_agency_id()
+    
     # Base query with eager loading
     if is_logistics_manager() or is_logistics_officer() or is_director_level():
         # Logistics users and director-level executives see all requests
@@ -52,9 +56,9 @@ def list_requests():
             db.joinedload(ReliefRqst.items).joinedload(ReliefRqstItem.item).joinedload(Item.default_uom),
             db.joinedload(ReliefRqst.items).joinedload(ReliefRqstItem.item).joinedload(Item.category)
         )
-    elif current_user.agency_id:
+    elif user_agency_id:
         # Agency users see only their agency's requests
-        base_query = ReliefRqst.query.filter_by(agency_id=current_user.agency_id).options(
+        base_query = ReliefRqst.query.filter_by(agency_id=user_agency_id).options(
             db.joinedload(ReliefRqst.agency),
             db.joinedload(ReliefRqst.items).joinedload(ReliefRqstItem.item).joinedload(Item.default_uom),
             db.joinedload(ReliefRqst.items).joinedload(ReliefRqstItem.item).joinedload(Item.category)
@@ -120,13 +124,17 @@ def list_requests():
 @feature_required('relief_request_creation')
 def create_request():
     """Create new draft relief request for current user's agency or redirect Logistics users"""
+    # Get validated session data
+    user_agency_id = session_utils.get_agency_id()
+    user_email = session_utils.get_email()
+    
     # Redirect Logistics personnel (without agency) to the "create on behalf" route
     # Allow dual-role users with agency_id to use the normal flow for their own agency
-    if (is_logistics_manager() or is_logistics_officer()) and not current_user.agency_id:
+    if (is_logistics_manager() or is_logistics_officer()) and not user_agency_id:
         return redirect(url_for('packaging.create_request_on_behalf'))
     
     # Verify user has agency_id for this route
-    if not current_user.agency_id:
+    if not user_agency_id:
         flash('You must be associated with an agency to use this form. Use "Create on Behalf" instead.', 'warning')
         return redirect(url_for('packaging.create_request_on_behalf'))
     
@@ -144,11 +152,11 @@ def create_request():
             
             # Create draft request
             relief_request = rr_service.create_draft_request(
-                agency_id=current_user.agency_id,
+                agency_id=user_agency_id,
                 urgency_ind=urgency_ind,
                 eligible_event_id=eligible_event_id,
                 rqst_notes_text=rqst_notes_text,
-                user_email=current_user.email
+                user_email=user_email
             )
             
             db.session.commit()
@@ -423,7 +431,7 @@ def edit_items(request_id):
                 urgency_ind=urgency_ind,
                 rqst_reason_desc=rqst_reason_desc,
                 required_by_date=required_by_date,
-                user_email=current_user.email
+                user_email=session_utils.get_email()
             )
             
             db.session.commit()
@@ -535,7 +543,7 @@ def cancel_request(request_id):
         flash(f'Draft relief request #{request_id} has been cancelled and deleted.', 'info')
         
         # Redirect based on user type
-        if current_user.agency_id:
+        if session_utils.get_agency_id():
             # Agency users go to their requests list
             return redirect(url_for('requests.list_requests'))
         else:
@@ -571,7 +579,7 @@ def submit_request(request_id):
         success, message = rr_service.submit_request(
             reliefrqst_id=request_id,
             current_version=current_version,
-            user_email=current_user.email
+            user_email=session_utils.get_email()
         )
         
         if success:

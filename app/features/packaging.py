@@ -18,6 +18,7 @@ from app.db.models import (
     ReliefPkg, ReliefPkgItem, ReliefRqstItemStatus
 )
 from app.core.rbac import has_permission, permission_required
+from app.core import session_utils
 from app.services import relief_request_service as rr_service
 from app.services import item_status_service
 from app.services import inventory_reservation_service as reservation_service
@@ -221,13 +222,13 @@ def review_approval(reliefrqst_id):
                     raise ValueError('Cannot dispatch empty package. Please allocate items before dispatching or mark all items as unavailable.')
             
             # LM approval: set verify_by_id and verify_dtime
-            relief_pkg.verify_by_id = current_user.user_name
+            relief_pkg.verify_by_id = session_utils.get_user_name()
             relief_pkg.verify_dtime = jamaica_now()
             
             # Mark package as dispatched
             relief_pkg.status_code = rr_service.PKG_STATUS_DISPATCHED
             relief_pkg.dispatch_dtime = jamaica_now()
-            relief_pkg.update_by_id = current_user.user_name
+            relief_pkg.update_by_id = session_utils.get_user_name()
             relief_pkg.update_dtime = jamaica_now()
             relief_pkg.version_nbr += 1
             
@@ -237,7 +238,7 @@ def review_approval(reliefrqst_id):
                 raise ValueError(f'Inventory commit failed: {error_msg}')
             
             # Update relief request status
-            relief_request.action_by_id = current_user.user_name
+            relief_request.action_by_id = session_utils.get_user_name()
             relief_request.action_dtime = jamaica_now()
             relief_request.status_code = rr_service.STATUS_PART_FILLED
             relief_request.version_nbr += 1
@@ -255,7 +256,7 @@ def review_approval(reliefrqst_id):
                     agency_users = NotificationService.get_agency_active_users(relief_request.agency_id)
                 
                 all_recipients = lo_users + agency_users
-                approver_name = f"{current_user.first_name} {current_user.last_name}" if current_user.first_name else current_user.email.split('@')[0]
+                approver_name = session_utils.get_display_name()
                 
                 NotificationService.create_package_approved_notification(
                     relief_pkg=relief_pkg,
@@ -287,12 +288,12 @@ def review_approval(reliefrqst_id):
             relief_pkg.verify_by_id = None
             relief_pkg.verify_dtime = None
             relief_pkg.status_code = rr_service.PKG_STATUS_PENDING
-            relief_pkg.update_by_id = current_user.user_name
+            relief_pkg.update_by_id = session_utils.get_user_name()
             relief_pkg.update_dtime = jamaica_now()
             relief_pkg.version_nbr += 1
             
             # Record action on the relief request for audit trail
-            relief_request.action_by_id = current_user.user_name
+            relief_request.action_by_id = session_utils.get_user_name()
             relief_request.action_dtime = jamaica_now()
             relief_request.version_nbr += 1
             
@@ -338,7 +339,7 @@ def cancel_package(reliefpkg_id):
     
     try:
         # Call the service function to cancel the package with optimistic locking
-        success, error_msg = cancel_relief_package(reliefpkg_id, current_user.user_name)
+        success, error_msg = cancel_relief_package(reliefpkg_id, session_utils.get_user_name())
         
         if not success:
             db.session.rollback()
@@ -526,7 +527,7 @@ def _save_draft_approval(relief_request, relief_pkg, relief_request_version, pac
         
         # Keep package in pending status
         relief_pkg.status_code = rr_service.PKG_STATUS_PENDING
-        relief_pkg.update_by_id = current_user.user_name
+        relief_pkg.update_by_id = session_utils.get_user_name()
         relief_pkg.update_dtime = jamaica_now()
         relief_pkg.version_nbr += 1
         
@@ -653,13 +654,13 @@ def _approve_and_dispatch(relief_request, relief_pkg, relief_request_version, pa
             item.version_nbr += 1
         
         # LM approval: set verify_by_id and verify_dtime
-        relief_pkg.verify_by_id = current_user.user_name
+        relief_pkg.verify_by_id = session_utils.get_user_name()
         relief_pkg.verify_dtime = jamaica_now()
         
         # Mark package as dispatched
         relief_pkg.status_code = rr_service.PKG_STATUS_DISPATCHED
         relief_pkg.dispatch_dtime = jamaica_now()
-        relief_pkg.update_by_id = current_user.user_name
+        relief_pkg.update_by_id = session_utils.get_user_name()
         relief_pkg.update_dtime = jamaica_now()
         relief_pkg.version_nbr += 1
         
@@ -672,7 +673,7 @@ def _approve_and_dispatch(relief_request, relief_pkg, relief_request_version, pa
             raise ValueError(f'Inventory commit failed: {error_msg}')
         
         # Update relief request status
-        relief_request.action_by_id = current_user.user_name
+        relief_request.action_by_id = session_utils.get_user_name()
         relief_request.action_dtime = jamaica_now()
         relief_request.status_code = rr_service.STATUS_PART_FILLED
         relief_request.version_nbr += 1
@@ -690,7 +691,7 @@ def _approve_and_dispatch(relief_request, relief_pkg, relief_request_version, pa
                 agency_users = NotificationService.get_agency_active_users(relief_request.agency_id)
             
             all_recipients = lo_users + agency_users
-            approver_name = f"{current_user.first_name} {current_user.last_name}" if current_user.first_name else current_user.email.split('@')[0]
+            approver_name = session_utils.get_display_name()
             
             NotificationService.create_package_approved_notification(
                 relief_pkg=relief_pkg,
@@ -799,7 +800,7 @@ def submit_for_dispatch(reliefpkg_id):
         success, message = dispatch_service.submit_for_dispatch(
             reliefpkg_id=reliefpkg_id,
             lm_plan=lm_plan,
-            user_id=current_user.user_name,
+            user_id=session_utils.get_user_name(),
             package_version_nbr=package_version
         )
         
@@ -823,7 +824,7 @@ def submit_for_dispatch(reliefpkg_id):
                 agency_users = NotificationService.get_agency_active_users(relief_request.agency_id)
             
             all_recipients = lo_users + agency_users
-            approver_name = f"{current_user.first_name} {current_user.last_name}" if current_user.first_name else current_user.email.split('@')[0]
+            approver_name = session_utils.get_display_name()
             
             NotificationService.create_package_approved_notification(
                 relief_pkg=relief_pkg,
@@ -956,7 +957,7 @@ def create_request_on_behalf():
         try:
             # Agency users use their own agency; logistics users select from dropdown
             if is_agency:
-                agency_id = current_user.agency_id
+                agency_id = session_utils.get_agency_id()
                 if not agency_id:
                     flash('Your user account is not associated with an agency.', 'danger')
                     return redirect(url_for('packaging.create_request_on_behalf'))
@@ -990,7 +991,7 @@ def create_request_on_behalf():
                 urgency_ind=urgency_ind,
                 eligible_event_id=eligible_event_id,
                 rqst_notes_text=rqst_notes_text,
-                user_email=current_user.email
+                user_email=session_utils.get_email()
             )
             
             db.session.commit()
@@ -1009,7 +1010,7 @@ def create_request_on_behalf():
     
     # For agency users, get their agency; for logistics, get all agencies
     if is_agency:
-        user_agency = Agency.query.get(current_user.agency_id) if current_user.agency_id else None
+        user_agency = Agency.query.get(session_utils.get_agency_id()) if session_utils.get_agency_id() else None
         agencies = None  # Don't show agency selector for agency users
     else:
         user_agency = None
@@ -1041,7 +1042,7 @@ def pending_fulfillment():
         abort(403)
     
     filter_type = request.args.get('filter', 'awaiting')
-    current_user_name = current_user.user_name
+    current_user_name = session_utils.get_user_name()
     is_lm = is_logistics_manager()
     
     # Helper functions
@@ -1463,7 +1464,7 @@ def _save_draft(relief_request, relief_request_version, package_version):
         
         # Change request status to PART_FILLED to show in "Being Prepared" tab
         relief_request.status_code = rr_service.STATUS_PART_FILLED
-        relief_request.action_by_id = current_user.user_name
+        relief_request.action_by_id = session_utils.get_user_name()
         relief_request.action_dtime = jamaica_now()
         relief_request.version_nbr += 1
         
@@ -1543,7 +1544,7 @@ def _submit_for_approval(relief_request, relief_request_version, package_version
         
         # CRITICAL: If package is already PENDING, only allow the SAME user to update it (not a different LO)
         # This prevents LO #2 from submitting after LO #1 has already submitted
-        if was_already_pending and existing_pkg.create_by_id != current_user.user_name:
+        if was_already_pending and existing_pkg.create_by_id != session_utils.get_user_name():
             flash('This relief request has already been submitted to the Logistics Manager for approval by another user.', 'warning')
             return redirect(url_for('packaging.pending_fulfillment'))
         
@@ -1560,7 +1561,7 @@ def _submit_for_approval(relief_request, relief_request_version, package_version
         if pkg_version_before is not None and relief_pkg.version_nbr != pkg_version_before:
             # Package was modified by another user - they may have submitted it
             # Re-check the creator to see if it's a different LO
-            if relief_pkg.status_code == rr_service.PKG_STATUS_PENDING and relief_pkg.create_by_id != current_user.user_name:
+            if relief_pkg.status_code == rr_service.PKG_STATUS_PENDING and relief_pkg.create_by_id != session_utils.get_user_name():
                 flash('This relief request has already been submitted to the Logistics Manager for approval by another user.', 'warning')
                 db.session.rollback()
                 return redirect(url_for('packaging.pending_fulfillment'))
@@ -1572,13 +1573,13 @@ def _submit_for_approval(relief_request, relief_request_version, package_version
         relief_pkg.status_code = rr_service.PKG_STATUS_PENDING
         relief_pkg.verify_by_id = '__PENDING_LM__'  # Sentinel: submitted for LM approval
         relief_pkg.verify_dtime = jamaica_now()  # Mark submission time
-        relief_pkg.update_by_id = current_user.user_name
+        relief_pkg.update_by_id = session_utils.get_user_name()
         relief_pkg.update_dtime = jamaica_now()
         relief_pkg.version_nbr += 1
         
         # Change request status to PART_FILLED (submitted for approval)
         relief_request.status_code = rr_service.STATUS_PART_FILLED
-        relief_request.action_by_id = current_user.user_name
+        relief_request.action_by_id = session_utils.get_user_name()
         relief_request.action_dtime = jamaica_now()
         relief_request.version_nbr += 1
         
@@ -1607,7 +1608,7 @@ def _submit_for_approval(relief_request, relief_request_version, package_version
                 logger.info(f'Found {len(lm_users)} Logistics Manager(s) to notify for relief request #{relief_request.reliefrqst_id}')
                 
                 if lm_users:
-                    preparer_name = f"{current_user.first_name} {current_user.last_name}" if current_user.first_name else current_user.email.split('@')[0]
+                    preparer_name = session_utils.get_display_name()
                     notifications = NotificationService.create_package_ready_for_approval_notification(
                         relief_pkg=relief_pkg,
                         recipient_users=lm_users,
@@ -1660,13 +1661,13 @@ def _send_for_dispatch(relief_request, relief_request_version, package_version):
             raise ValueError('Failed to create relief package')
         
         # LM approval: set verify_by_id to current LM (bypasses LO approval step)
-        relief_pkg.verify_by_id = current_user.user_name
+        relief_pkg.verify_by_id = session_utils.get_user_name()
         relief_pkg.verify_dtime = jamaica_now()
         
         # Mark package as dispatched
         relief_pkg.status_code = rr_service.PKG_STATUS_DISPATCHED
         relief_pkg.dispatch_dtime = jamaica_now()
-        relief_pkg.update_by_id = current_user.user_name
+        relief_pkg.update_by_id = session_utils.get_user_name()
         relief_pkg.update_dtime = jamaica_now()
         
         # Flush to persist allocations
@@ -1678,7 +1679,7 @@ def _send_for_dispatch(relief_request, relief_request_version, package_version):
             raise ValueError(f'Inventory commit failed: {error_msg}')
         
         # Update relief request status
-        relief_request.action_by_id = current_user.user_name
+        relief_request.action_by_id = session_utils.get_user_name()
         relief_request.action_dtime = jamaica_now()
         relief_request.status_code = rr_service.STATUS_PART_FILLED
         relief_request.version_nbr += 1
@@ -1696,7 +1697,7 @@ def _send_for_dispatch(relief_request, relief_request_version, package_version):
             lm_users = NotificationService.get_active_users_by_role_codes(['LOGISTICS_MANAGER'])
             
             all_recipients = agency_users + lm_users
-            dispatcher_name = f"{current_user.first_name} {current_user.last_name}" if current_user.first_name else current_user.email.split('@')[0]
+            dispatcher_name = session_utils.get_display_name()
             
             NotificationService.create_package_dispatched_notification(
                 relief_pkg=relief_pkg,
@@ -1750,9 +1751,9 @@ def _process_allocations(relief_request, validate_complete=False):
             to_inventory_id=1,  # Placeholder, will be updated on dispatch
             start_date=date.today(),
             status_code='P',  # Preparing
-            create_by_id=current_user.user_name,
+            create_by_id=session_utils.get_user_name(),
             create_dtime=jamaica_now(),
-            update_by_id=current_user.user_name,
+            update_by_id=session_utils.get_user_name(),
             update_dtime=jamaica_now(),
             verify_by_id=None,  # NULL for drafts, set when submitted for approval
             received_by_id=None,  # NULL until package is received
@@ -1940,7 +1941,7 @@ def _process_allocations(relief_request, validate_complete=False):
         
         # Only set action_by_id when status is NOT 'R' (per constraint c_reliefrqst_item_7)
         if requested_status != 'R':
-            item.action_by_id = current_user.user_name
+            item.action_by_id = session_utils.get_user_name()
             item.action_dtime = jamaica_now()
         else:
             # When status is 'R', action_by_id must be NULL
@@ -1963,7 +1964,7 @@ def _process_allocations(relief_request, validate_complete=False):
                 pkg_item = existing_records_map[record_key]
                 pkg_item.item_qty = allocated_qty
                 pkg_item.uom_code = uom_code
-                pkg_item.update_by_id = current_user.user_name
+                pkg_item.update_by_id = session_utils.get_user_name()
                 pkg_item.update_dtime = jamaica_now()
                 pkg_item.version_nbr += 1
             else:
@@ -1975,9 +1976,9 @@ def _process_allocations(relief_request, validate_complete=False):
                     batch_id=batch_id,  # REQUIRED in new schema
                     item_qty=allocated_qty,  # Can be zero
                     uom_code=uom_code,
-                    create_by_id=current_user.user_name,
+                    create_by_id=session_utils.get_user_name(),
                     create_dtime=jamaica_now(),
-                    update_by_id=current_user.user_name,
+                    update_by_id=session_utils.get_user_name(),
                     update_dtime=jamaica_now(),
                     version_nbr=1
                 )
@@ -2271,7 +2272,7 @@ def awaiting_dispatch():
         abort(403)
     
     # Get user's assigned warehouses
-    user_warehouse_ids = [w.warehouse_id for w in current_user.warehouses]
+    user_warehouse_ids = session_utils.get_warehouse_ids()
     
     if not user_warehouse_ids:
         flash('You have not been assigned to any warehouses. Please contact your administrator.', 'warning')
@@ -2363,7 +2364,7 @@ def dispatch_details(reliefpkg_id):
         abort(403)
     
     # Get user's assigned warehouses
-    user_warehouse_ids = [w.warehouse_id for w in current_user.warehouses]
+    user_warehouse_ids = session_utils.get_warehouse_ids()
     
     if not user_warehouse_ids:
         flash('You have not been assigned to any warehouses.', 'warning')
@@ -2429,7 +2430,7 @@ def mark_handover(reliefpkg_id):
         abort(403)
     
     # Get user's assigned warehouses
-    user_warehouse_ids = [w.warehouse_id for w in current_user.warehouses]
+    user_warehouse_ids = session_utils.get_warehouse_ids()
     
     if not user_warehouse_ids:
         flash('You have not been assigned to any warehouses.', 'warning')
@@ -2459,9 +2460,9 @@ def mark_handover(reliefpkg_id):
     
     try:
         # Mark as received/handed over
-        relief_pkg.received_by_id = current_user.user_name
+        relief_pkg.received_by_id = session_utils.get_user_name()
         relief_pkg.received_dtime = jamaica_now()
-        relief_pkg.update_by_id = current_user.user_name
+        relief_pkg.update_by_id = session_utils.get_user_name()
         relief_pkg.update_dtime = jamaica_now()
         
         # Note: Status remains 'D' (Dispatched). We use received_dtime to track handover.

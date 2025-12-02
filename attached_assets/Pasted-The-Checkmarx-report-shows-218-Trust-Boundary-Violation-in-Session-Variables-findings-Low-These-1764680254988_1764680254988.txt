@@ -1,0 +1,119 @@
+The Checkmarx report shows 218 “Trust Boundary Violation in Session Variables” findings (Low). These usually mean that the code is trusting session[...] values or similar without re-validating them.
+
+Goal: Introduce safe, validated access to session data and remove direct trust in user-controlled or cross-tier values, without breaking any workflow.
+
+Constraints (unchanged):
+
+Do NOT alter the database schema.
+
+Do NOT break any existing donation, request, inventory, or packaging workflows.
+
+Do NOT weaken any existing security controls; only strengthen them.
+
+Step 1 – Find all direct session access
+
+Search the project for:
+
+session[
+
+flask.session[
+
+Any custom wrapper around session access.
+
+For each usage, classify:
+
+File + function/route name
+
+Session key used (e.g. "user_id", "role_code", "agency_id", "warehouse_id", etc.)
+
+Whether it is used to:
+
+(a) Identify the current user / role
+
+(b) Control business logic (e.g., filter by agency/warehouse)
+
+(c) Indirectly influence SQL queries or access checks
+
+Step 2 – Introduce a central helper for safe session access
+
+Implement a small helper module, e.g. app/core/session_utils.py, with functions like:
+
+from flask import session  
+ 
+def get_current_user_id():  
+    user_id = session.get("user_id")  
+    if not isinstance(user_id, int):  
+        # Invalidate / force logout or handle gracefully  
+        return None  
+    return user_id  
+ 
+def get_current_role_code():  
+    role_code = session.get("role_code")  
+    if not isinstance(role_code, str):  
+        return None  
+    # Optionally validate against a list of allowed roles  
+    return role_code  
+ 
+def get_current_agency_id():  
+    agency_id = session.get("agency_id")  
+    if agency_id is None:  
+        return None  
+    try:  
+        agency_id = int(agency_id)  
+    except (TypeError, ValueError):  
+        return None  
+    return agency_id  
+
+
+You can extend this pattern for other keys commonly used across DMIS.
+
+Step 3 – Replace direct session access where it matters
+
+For all sensitive uses (e.g., any place session values are:
+
+passed to SQL,
+
+used to filter what data is shown, or
+
+used in authorization decisions),
+replace session["key"] with calls to the helper functions, and:
+
+Apply type checks and default handling (e.g., redirect to login, abort 403, or show an error if required context is missing or malformed).
+
+Example refactor:
+
+Before:
+
+agency_id = session["agency_id"]  
+results = get_requests_for_agency(agency_id)  
+
+
+After:
+
+agency_id = get_current_agency_id()  
+if agency_id is None:  
+    # handle gracefully (e.g., abort or redirect)  
+    abort(403)  
+results = get_requests_for_agency(agency_id)  
+
+Step 4 – Avoid “session as general data store”
+
+If you find any places where arbitrary user data is stored in session and then reused later to build queries or logic, consider:
+
+Replace session-based value with a DB lookup using a stable primary key (user_id, agency_id, etc.).
+
+Or validate the value again before use (e.g., ensure an ID exists and belongs to the logged-in user).
+
+Step 5 – Preserve behaviour
+
+Ensure all existing screens still work (no unintended logouts or 403s).
+
+Only add validation / fallback, do not remove needed session keys.
+
+After modifications, summarise:
+
+Which files and keys were updated.
+
+Any new helper functions you created.
+
+Any edge cases where you chose to abort/redirect.

@@ -8,6 +8,7 @@ from functools import wraps
 from flask import abort, flash, redirect, url_for, request
 from flask_login import current_user
 from app.core.feature_registry import FeatureRegistry
+from app.core import session_utils
 
 
 def feature_required(feature_key):
@@ -31,7 +32,7 @@ def feature_required(feature_key):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not current_user.is_authenticated:
+            if not session_utils.is_authenticated():
                 flash('Please log in to access this page.', 'warning')
                 return redirect(url_for('login', next=request.url))
             
@@ -67,7 +68,7 @@ def any_feature_required(*feature_keys):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not current_user.is_authenticated:
+            if not session_utils.is_authenticated():
                 flash('Please log in to access this page.', 'warning')
                 return redirect(url_for('login', next=request.url))
             
@@ -106,7 +107,7 @@ def all_features_required(*feature_keys):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
-            if not current_user.is_authenticated:
+            if not session_utils.is_authenticated():
                 flash('Please log in to access this page.', 'warning')
                 return redirect(url_for('login', next=request.url))
             

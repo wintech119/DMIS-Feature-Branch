@@ -17,6 +17,7 @@ from app.services import relief_request_service as rr_service
 from app.services.dashboard_service import DashboardService
 from app.core.feature_registry import FeatureRegistry
 from app.core.rbac import has_role, role_required
+from app.core import session_utils
 from datetime import datetime, timedelta
 from collections import defaultdict
 from app.utils.timezone import now as jamaica_now
@@ -179,11 +180,17 @@ def agency_dashboard():
     # Query agency's requests
     from sqlalchemy.orm import joinedload
     
+    # Get validated agency_id from session
+    user_agency_id = session_utils.get_agency_id()
+    if not user_agency_id:
+        flash('You are not associated with an agency.', 'danger')
+        abort(403)
+    
     base_query = ReliefRqst.query.options(
         joinedload(ReliefRqst.items),
         joinedload(ReliefRqst.status),
         joinedload(ReliefRqst.eligible_event)
-    ).filter_by(agency_id=current_user.agency_id)
+    ).filter_by(agency_id=user_agency_id)
     
     # Apply filters
     if current_filter == 'draft':
@@ -368,7 +375,12 @@ def lo_dashboard():
         from flask import flash, redirect, url_for, abort
         abort(403)
     
-    current_user_name = current_user.user_name
+    # Get validated user_name from session
+    current_user_name = session_utils.get_user_name()
+    if not current_user_name:
+        flash('Invalid session. Please log in again.', 'danger')
+        abort(403)
+    
     now = jamaica_now()
     
     # Date ranges

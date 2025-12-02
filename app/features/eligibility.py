@@ -7,6 +7,7 @@ from flask_login import login_required, current_user
 
 from app.db import db
 from app.core.rbac import executive_required
+from app.core import session_utils
 from app.services import relief_request_service as rr_service
 
 eligibility_bp = Blueprint('eligibility', __name__, url_prefix='/eligibility')
@@ -132,7 +133,7 @@ def submit_decision(request_id):
             reliefrqst_id=request_id,
             decision=decision,
             reason=reason if decision == 'N' else None,
-            reviewer_email=current_user.email
+            reviewer_email=session_utils.get_email()
         )
         
         if success:
@@ -249,7 +250,7 @@ def api_submit_decision(request_id):
             reliefrqst_id=request_id,
             decision=decision,
             reason=reason if decision == 'N' else None,
-            reviewer_email=current_user.email
+            reviewer_email=session_utils.get_email()
         )
         
         if success:

@@ -17,6 +17,7 @@ from app.db.models import (Donation, DonationItem, DonationDoc, Donor, Event, Cu
                           Item, UnitOfMeasure, Country, Currency, ItemCostDef)
 from app.core.audit import add_audit_fields, add_verify_fields
 from app.core.decorators import feature_required
+from app.core import session_utils
 import os
 from werkzeug.utils import secure_filename
 import mimetypes
@@ -1009,7 +1010,7 @@ def add_donation_item(donation_id):
                 donation_item.verify_dtime = None
             else:
                 current_timestamp = jamaica_now()
-                donation_item.verify_by_id = current_user.user_name
+                donation_item.verify_by_id = session_utils.get_user_name()
                 donation_item.verify_dtime = current_timestamp
             
             db.session.add(donation_item)
@@ -1130,7 +1131,7 @@ def edit_donation_item(donation_id, item_id):
             # Verify fields are only populated for verified items (status='V')
             # They remain/become NULL for pending items (status='P')
             if status_code == 'V':
-                donation_item.verify_by_id = current_user.user_name
+                donation_item.verify_by_id = session_utils.get_user_name()
                 donation_item.verify_dtime = jamaica_now()
             else:
                 # Clear verify fields when status is 'P' (Pending)
@@ -1448,7 +1449,7 @@ def verify_donation_detail(donation_id):
             donation.status_code = 'V'
             
             add_audit_fields(donation, current_user, is_new=False)
-            donation.verify_by_id = current_user.user_name
+            donation.verify_by_id = session_utils.get_user_name()
             donation.verify_dtime = current_timestamp
             
             total_value = Decimal('0.00')
@@ -1482,7 +1483,7 @@ def verify_donation_detail(donation_id):
                     existing_item.comments_text = item_info['item_comments'].upper() if item_info['item_comments'] else None
                     existing_item.status_code = 'V'
                     add_audit_fields(existing_item, current_user, is_new=False)
-                    existing_item.verify_by_id = current_user.user_name
+                    existing_item.verify_by_id = session_utils.get_user_name()
                     existing_item.verify_dtime = current_timestamp
                 else:
                     donation_item = DonationItem()
@@ -1498,7 +1499,7 @@ def verify_donation_detail(donation_id):
                     donation_item.status_code = 'V'
                     donation_item.comments_text = item_info['item_comments'].upper() if item_info['item_comments'] else None
                     add_audit_fields(donation_item, current_user, is_new=True)
-                    donation_item.verify_by_id = current_user.user_name
+                    donation_item.verify_by_id = session_utils.get_user_name()
                     donation_item.verify_dtime = current_timestamp
                     db.session.add(donation_item)
             
