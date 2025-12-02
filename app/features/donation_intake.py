@@ -28,6 +28,7 @@ from decimal import Decimal, InvalidOperation
 from datetime import datetime, date, timedelta
 
 from app.db import db
+from app.security.audit_logger import log_data_event
 from app.utils.timezone import now as jamaica_now
 from app.db.models import (
     Donation, DonationItem, DonationIntake, DonationIntakeItem,
@@ -537,8 +538,34 @@ def _process_entry_submission(donation, warehouse, existing_intake, action):
         
         if action == 'save_draft':
             message = f'Draft saved for Donation #{donation.donation_id}'
+            log_data_event(
+                action='CREATE',
+                entity_type='donation_intake',
+                entity_id=f'{donation.donation_id}:{warehouse.warehouse_id}',
+                outcome='SUCCESS',
+                details={
+                    'donation_id': donation.donation_id,
+                    'warehouse_id': warehouse.warehouse_id,
+                    'item_count': len(intake_items_data),
+                    'status': 'I',
+                    'action': 'save_draft'
+                }
+            )
         else:
             message = f'Donation #{donation.donation_id} intake submitted for verification'
+            log_data_event(
+                action='CREATE',
+                entity_type='donation_intake',
+                entity_id=f'{donation.donation_id}:{warehouse.warehouse_id}',
+                outcome='SUCCESS',
+                details={
+                    'donation_id': donation.donation_id,
+                    'warehouse_id': warehouse.warehouse_id,
+                    'item_count': len(intake_items_data),
+                    'status': 'C',
+                    'action': 'submit_for_verification'
+                }
+            )
         
         return {'success': True, 'message': message, 'errors': []}
     
@@ -857,6 +884,20 @@ def _process_verification_submission(intake, donation, warehouse):
         add_audit_fields(donation, current_user, is_new=False)
         
         db.session.commit()
+        
+        log_data_event(
+            action='VERIFY',
+            entity_type='donation_intake',
+            entity_id=f'{donation.donation_id}:{warehouse.warehouse_id}',
+            outcome='SUCCESS',
+            details={
+                'donation_id': donation.donation_id,
+                'warehouse_id': warehouse.warehouse_id,
+                'warehouse_name': warehouse.warehouse_name,
+                'item_count': len(verified_items_data),
+                'donation_status_changed': 'V->P'
+            }
+        )
         
         message = f'Donation #{donation.donation_id} intake verified and inventory updated at {warehouse.warehouse_name}'
         return {'success': True, 'message': message, 'errors': []}

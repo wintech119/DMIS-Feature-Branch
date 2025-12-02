@@ -13,6 +13,7 @@ from sqlalchemy.orm.exc import StaleDataError
 
 from app.db import db
 from app.security.log_sanitizer import sanitize_for_log, sanitize_exception_for_log
+from app.security.audit_logger import log_data_event
 from app.utils.timezone import now as jamaica_now
 from app.db.models import (Donation, DonationItem, DonationDoc, Donor, Event, Custodian, 
                           Item, UnitOfMeasure, Country, Currency, ItemCostDef)
@@ -524,6 +525,19 @@ def create_donation():
             
             db.session.commit()
             
+            log_data_event(
+                action='CREATE',
+                entity_type='donation',
+                entity_id=donation.donation_id,
+                outcome='SUCCESS',
+                details={
+                    'item_count': len(item_data),
+                    'document_count': document_count,
+                    'total_value': str(tot_item_cost_value),
+                    'donor_id': donation.donor_id
+                }
+            )
+            
             flash(f'Donation #{donation.donation_id} created successfully with {len(item_data)} item(s) and {document_count} document(s).', 'success')
             return redirect(url_for('donations.view_donation', donation_id=donation.donation_id))
             
@@ -858,6 +872,20 @@ def edit_donation(donation_id):
             add_audit_fields(donation, current_user, is_new=False)
             
             db.session.commit()
+            
+            items_added_count = len([i for i in item_data if not i['is_existing']])
+            items_removed_count = len(items_to_delete)
+            log_data_event(
+                action='UPDATE',
+                entity_type='donation',
+                entity_id=donation.donation_id,
+                outcome='SUCCESS',
+                details={
+                    'items_added': items_added_count,
+                    'items_removed': items_removed_count,
+                    'total_value': str(tot_item_cost_value)
+                }
+            )
             
             flash(f'Donation #{donation.donation_id} updated successfully', 'success')
             return redirect(url_for('donations.view_donation', donation_id=donation.donation_id))
@@ -1630,6 +1658,19 @@ def verify_donation_detail(donation_id):
                     return render_template('donations/verify.html', **form_data)
             
             db.session.commit()
+            
+            log_data_event(
+                action='VERIFY',
+                entity_type='donation',
+                entity_id=donation_id,
+                outcome='SUCCESS',
+                details={
+                    'item_count': len(item_data),
+                    'total_value': str(tot_item_cost_value),
+                    'previous_status': 'E',
+                    'new_status': 'V'
+                }
+            )
             
             flash(f'Donation #{donation_id} verified successfully.', 'success')
             return redirect(url_for('donations.view_donation', donation_id=donation_id))

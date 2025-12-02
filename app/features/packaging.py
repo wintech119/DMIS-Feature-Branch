@@ -12,6 +12,7 @@ import uuid
 
 from app.db import db
 from app.security.log_sanitizer import sanitize_for_log, sanitize_exception_for_log
+from app.security.audit_logger import log_data_event
 from app.utils.timezone import now as jamaica_now
 from app.db.models import (
     ReliefRqst, ReliefRqstItem, Item, Warehouse, Inventory, ItemBatch,
@@ -341,6 +342,9 @@ def cancel_package(reliefpkg_id):
         abort(403)
     
     try:
+        relief_pkg = ReliefPkg.query.get(reliefpkg_id)
+        relief_request_id = relief_pkg.reliefrqst_id if relief_pkg else None
+        
         # Call the service function to cancel the package with optimistic locking
         success, error_msg = cancel_relief_package(reliefpkg_id, session_utils.get_user_name())
         
@@ -351,6 +355,17 @@ def cancel_package(reliefpkg_id):
         
         # Commit the transaction
         db.session.commit()
+        
+        log_data_event(
+            action='CANCEL',
+            entity_type='relief_package',
+            entity_id=reliefpkg_id,
+            outcome='SUCCESS',
+            details={
+                'relief_request_id': relief_request_id,
+                'reservations_released': True
+            }
+        )
         
         flash(f'Relief package #{reliefpkg_id} has been successfully cancelled. All reservations have been released.', 'success')
         return redirect(url_for('packaging.pending_approval'))
@@ -712,6 +727,20 @@ def _approve_and_dispatch(relief_request, relief_pkg, relief_request_version, pa
         
         db.session.commit()
         
+        log_data_event(
+            action='DISPATCH',
+            entity_type='relief_package',
+            entity_id=relief_pkg.reliefpkg_id,
+            outcome='SUCCESS',
+            details={
+                'relief_request_id': relief_request.reliefrqst_id,
+                'agency_id': relief_request.agency_id,
+                'workflow': 'approve_and_dispatch',
+                'previous_status': 'P',
+                'new_status': 'D'
+            }
+        )
+        
         flash(f'Relief request #{relief_request.reliefrqst_id} approved and dispatched to inventory clerk', 'success')
         return redirect(url_for('packaging.transaction_summary', reliefpkg_id=relief_pkg.reliefpkg_id))
         
@@ -805,6 +834,8 @@ def submit_for_dispatch(reliefpkg_id):
             return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_pkg.reliefrqst_id))
     
     # Execute Workflow C dispatch
+    relief_request_for_log = ReliefRqst.query.get(relief_pkg.reliefrqst_id)
+    
     try:
         success, message = dispatch_service.submit_for_dispatch(
             reliefpkg_id=reliefpkg_id,
@@ -822,15 +853,13 @@ def submit_for_dispatch(reliefpkg_id):
         try:
             from app.services.notification_service import NotificationService
             
-            relief_request = ReliefRqst.query.get(relief_pkg.reliefrqst_id)
-            
             # Notify logistics officers (inventory clerks)
             lo_users = NotificationService.get_active_users_by_role_codes(['LOGISTICS_OFFICER', 'INVENTORY_CLERK'])
             
             # Notify agency users
             agency_users = []
-            if relief_request and relief_request.agency_id:
-                agency_users = NotificationService.get_agency_active_users(relief_request.agency_id)
+            if relief_request_for_log and relief_request_for_log.agency_id:
+                agency_users = NotificationService.get_agency_active_users(relief_request_for_log.agency_id)
             
             all_recipients = lo_users + agency_users
             approver_name = session_utils.get_display_name()
@@ -847,6 +876,20 @@ def submit_for_dispatch(reliefpkg_id):
             logger.warning('Failed to send dispatch notification: %s', sanitize_exception_for_log(e))
         
         db.session.commit()
+        
+        log_data_event(
+            action='DISPATCH',
+            entity_type='relief_package',
+            entity_id=reliefpkg_id,
+            outcome='SUCCESS',
+            details={
+                'relief_request_id': relief_pkg.reliefrqst_id,
+                'agency_id': relief_request_for_log.agency_id if relief_request_for_log else None,
+                'workflow': 'submit_for_dispatch',
+                'previous_status': 'P',
+                'new_status': 'D'
+            }
+        )
         
         flash(f'Package #{reliefpkg_id} successfully submitted for dispatch.', 'success')
         return redirect(url_for('packaging.transaction_summary', reliefpkg_id=reliefpkg_id))
