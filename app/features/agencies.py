@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort, current_app
 from flask_login import login_required, current_user
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError
@@ -455,5 +455,6 @@ def deactivate_agency(agency_id):
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error deactivating agency: {str(e)}', 'danger')
+        current_app.logger.exception('Error deactivating agency')
+        flash('An unexpected error occurred. Please try again or contact support.', 'danger')
         return redirect(url_for('agencies.view_agency', agency_id=agency_id))

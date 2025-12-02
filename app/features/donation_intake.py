@@ -19,7 +19,7 @@ Date: 2025-11-18
 Updated: 2025-11-25 - Added Entry/Verification workflow separation
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_required, current_user
 from sqlalchemy import or_, and_
 from sqlalchemy.exc import IntegrityError
@@ -229,7 +229,8 @@ def intake_form(donation_id, inventory_id):
         
         except Exception as e:
             db.session.rollback()
-            flash(f'Error processing intake: {str(e)}', 'danger')
+            current_app.logger.exception('Error processing intake')
+            flash('An error occurred while processing the intake. Please try again or contact support.', 'danger')
     
     donation_items = _get_goods_items_for_donation(donation_id)
     
@@ -593,7 +594,8 @@ def verify_intake(donation_id, inventory_id):
             flash('This intake was modified by another user. Please refresh and try again.', 'danger')
         except Exception as e:
             db.session.rollback()
-            flash(f'Error verifying intake: {str(e)}', 'danger')
+            current_app.logger.exception('Error verifying intake')
+            flash('An error occurred while verifying the intake. Please try again or contact support.', 'danger')
     
     intake_items = DonationIntakeItem.query.filter_by(
         donation_id=donation_id,

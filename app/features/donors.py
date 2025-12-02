@@ -16,7 +16,7 @@ Business Rules:
 - Delete only allowed if no donations exist for this donor
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort, current_app
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime
@@ -240,12 +240,13 @@ def create():
             
         except IntegrityError as e:
             db.session.rollback()
+            current_app.logger.exception('Database integrity error creating donor')
             if 'donor_name' in str(e.orig):
                 flash('A donor with this name already exists', 'danger')
             elif 'donor_code' in str(e.orig):
                 flash('Donor code already exists', 'danger')
             else:
-                flash(f'Database error: {str(e)}', 'danger')
+                flash('A database constraint prevented saving this donor. Please check for duplicate values.', 'danger')
             
             countries = db.session.execute(
                 db.text("SELECT country_id, country_name FROM country ORDER BY country_name")
@@ -259,7 +260,8 @@ def create():
             )
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating donor: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating donor')
+            flash('An error occurred while creating the donor. Please try again or contact support.', 'danger')
             
             countries = db.session.execute(
                 db.text("SELECT country_id, country_name FROM country ORDER BY country_name")
@@ -365,10 +367,11 @@ def edit(donor_id):
             
         except IntegrityError as e:
             db.session.rollback()
+            current_app.logger.exception('Database integrity error updating donor')
             if 'donor_name' in str(e.orig):
                 flash('A donor with this name already exists', 'danger')
             else:
-                flash(f'Database error: {str(e)}', 'danger')
+                flash('A database constraint prevented saving this donor. Please check for duplicate values.', 'danger')
             
             countries = db.session.execute(
                 db.text("SELECT country_id, country_name FROM country ORDER BY country_name")
@@ -383,7 +386,8 @@ def edit(donor_id):
             )
         except Exception as e:
             db.session.rollback()
-            flash(f'Error updating donor: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating donor')
+            flash('An error occurred while updating the donor. Please try again or contact support.', 'danger')
             
             countries = db.session.execute(
                 db.text("SELECT country_id, country_name FROM country ORDER BY country_name")
@@ -439,5 +443,6 @@ def delete(donor_id):
         return redirect(url_for('donors.view', donor_id=donor_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error deleting donor: {str(e)}', 'danger')
+        current_app.logger.exception('Error deleting donor')
+        flash('An error occurred while deleting the donor. Please try again or contact support.', 'danger')
         return redirect(url_for('donors.view', donor_id=donor_id))

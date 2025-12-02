@@ -2,7 +2,7 @@
 Agency Relief Request Management (AIDMGMT Workflow)
 Allows agency users to prepare and submit relief requests for disaster response.
 """
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort, current_app
 from flask_login import login_required, current_user
 from datetime import datetime, date
 from decimal import Decimal
@@ -166,7 +166,8 @@ def create_request():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating request: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating relief request')
+            flash('An error occurred while creating the request. Please try again.', 'danger')
             return redirect(url_for('requests.create_request'))
     
     # GET request - show form
@@ -312,7 +313,8 @@ def edit_request(request_id):
             return redirect(url_for('requests.edit_request', request_id=request_id))
         except Exception as e:
             db.session.rollback()
-            flash(f'Error updating request: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating relief request')
+            flash('An error occurred while updating the request. Please try again.', 'danger')
     
     events = Event.query.filter_by(status_code='A').order_by(Event.start_date.desc()).all()
     
@@ -444,7 +446,8 @@ def edit_items(request_id):
             flash(str(e), 'danger')
         except Exception as e:
             db.session.rollback()
-            flash(f'Error adding item: {str(e)}', 'danger')
+            current_app.logger.exception('Error adding item to relief request')
+            flash('An error occurred while adding the item. Please try again.', 'danger')
     
     # GET request - show items and add form
     # Only show GOODS items for relief requests (exclude FUNDS items)
@@ -483,7 +486,8 @@ def delete_item(request_id, item_id):
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error deleting item: {str(e)}', 'danger')
+        current_app.logger.exception('Error deleting item from relief request')
+        flash('An error occurred while deleting the item. Please try again.', 'danger')
         return redirect(url_for('requests.edit_items', request_id=request_id))
 
 
@@ -512,7 +516,8 @@ def save_draft(request_id):
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error saving draft: {str(e)}', 'danger')
+        current_app.logger.exception('Error saving draft relief request')
+        flash('An error occurred while saving the draft. Please try again.', 'danger')
         return redirect(url_for('requests.edit_items', request_id=request_id))
 
 
@@ -552,7 +557,8 @@ def cancel_request(request_id):
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error cancelling request: {str(e)}', 'danger')
+        current_app.logger.exception('Error cancelling relief request')
+        flash('An error occurred while cancelling the request. Please try again.', 'danger')
         return redirect(url_for('requests.view_request', request_id=request_id))
 
 
@@ -597,5 +603,6 @@ def submit_request(request_id):
         return redirect(url_for('requests.view_request', request_id=request_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error submitting request: {str(e)}', 'danger')
+        current_app.logger.exception('Error submitting relief request')
+        flash('An error occurred while submitting the request. Please try again.', 'danger')
         return redirect(url_for('requests.view_request', request_id=request_id))

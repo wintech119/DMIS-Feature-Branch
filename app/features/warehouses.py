@@ -22,7 +22,7 @@ Validation Rules:
 - When status='A', reason_desc must be null
 - Optimistic locking via version_nbr
 """
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_required, current_user
 from datetime import datetime
 from sqlalchemy import or_, and_
@@ -273,7 +273,8 @@ def create_warehouse():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating warehouse: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating warehouse')
+            flash('An error occurred while creating the warehouse. Please try again or contact support.', 'danger')
             
             parishes = Parish.query.order_by(Parish.parish_name).all()
             custodians = Custodian.query.order_by(Custodian.custodian_name).all()
@@ -373,7 +374,8 @@ def edit_warehouse(warehouse_id):
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error updating warehouse: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating warehouse')
+            flash('An error occurred while updating the warehouse. Please try again or contact support.', 'danger')
             
             parishes = Parish.query.order_by(Parish.parish_name).all()
             custodians = Custodian.query.order_by(Custodian.custodian_name).all()
@@ -433,5 +435,6 @@ def delete_warehouse(warehouse_id):
         return redirect(url_for('warehouses.view_warehouse', warehouse_id=warehouse_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error deleting warehouse: {str(e)}', 'danger')
+        current_app.logger.exception('Error deleting warehouse')
+        flash('An error occurred while deleting the warehouse. Please try again or contact support.', 'danger')
         return redirect(url_for('warehouses.view_warehouse', warehouse_id=warehouse_id))

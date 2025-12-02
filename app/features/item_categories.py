@@ -18,7 +18,7 @@ Validation Rules:
 Delete Rules:
 - Cannot delete if referenced by any items (referential integrity)
 """
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_required, current_user
 from datetime import datetime
 from sqlalchemy import or_, and_
@@ -198,7 +198,8 @@ def create_category():
                                  errors={})
         except Exception as e:
             db.session.rollback()
-            flash(f'An unexpected error occurred: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating item category')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             return render_template('item_categories/create.html', 
                                  form_data=display_data,
                                  errors={})
@@ -287,7 +288,8 @@ def edit_category(category_id):
                                  errors={})
         except Exception as e:
             db.session.rollback()
-            flash(f'An unexpected error occurred: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating item category')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             return render_template('item_categories/edit.html', 
                                  category=category,
                                  form_data=display_data,
@@ -324,5 +326,6 @@ def delete_category(category_id):
         return redirect(url_for('item_categories.list_categories'))
     except Exception as e:
         db.session.rollback()
-        flash(f'Failed to delete category: {str(e)}', 'danger')
+        current_app.logger.exception('Error deleting item category')
+        flash('Failed to delete category. Please try again or contact support.', 'danger')
         return redirect(url_for('item_categories.view_category', category_id=category_id))

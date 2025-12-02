@@ -19,7 +19,7 @@ Validation Rules:
 - Active events must not have closed_date or reason_desc
 - Optimistic locking via version_nbr
 """
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_required, current_user
 from datetime import date, datetime
 from sqlalchemy import or_
@@ -229,7 +229,8 @@ def create_event():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating event: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating event')
+            flash('An error occurred while creating the event. Please try again or contact support.', 'danger')
             return render_template(
                 'events/create.html',
                 event_types=EVENT_TYPES,
@@ -329,7 +330,8 @@ def edit_event(event_id):
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error updating event: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating event')
+            flash('An error occurred while updating the event. Please try again or contact support.', 'danger')
             return render_template(
                 'events/edit.html',
                 event=event,
@@ -401,7 +403,8 @@ def close_event(event_id):
         return redirect(url_for('events.view_event', event_id=event_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error closing event: {str(e)}', 'danger')
+        current_app.logger.exception('Error closing event')
+        flash('An error occurred while closing the event. Please try again or contact support.', 'danger')
         return redirect(url_for('events.view_event', event_id=event_id))
 
 
@@ -427,5 +430,6 @@ def delete_event(event_id):
         return redirect(url_for('events.view_event', event_id=event_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error deleting event: {str(e)}', 'danger')
+        current_app.logger.exception('Error deleting event')
+        flash('An error occurred while deleting the event. Please try again or contact support.', 'danger')
         return redirect(url_for('events.view_event', event_id=event_id))

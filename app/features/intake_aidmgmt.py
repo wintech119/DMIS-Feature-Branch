@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_required, current_user
 from sqlalchemy import func
 from datetime import datetime, date
@@ -187,7 +187,8 @@ def create_intake():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating intake: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating intake')
+            flash('An error occurred while creating the intake. Please try again or contact support.', 'danger')
             return redirect(url_for('intake.create_intake'))
     
     dispatched_packages = ReliefPkg.query.filter_by(status_code='D').all()

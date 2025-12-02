@@ -515,7 +515,8 @@ def create_donation():
                         except OSError:
                             pass
                     db.session.rollback()
-                    flash(f'Failed to save document: {str(save_error)}', 'danger')
+                    current_app.logger.exception('Failed to save document')
+                    flash('Failed to save document. Please try again or contact support.', 'danger')
                     form_data = _get_donation_form_data()
                     form_data['form_data'] = request.form
                     return render_template('donations/create.html', **form_data)
@@ -527,7 +528,8 @@ def create_donation():
             
         except ValueError as e:
             db.session.rollback()
-            flash(f'Validation error: {str(e)}', 'danger')
+            current_app.logger.exception('Validation error creating donation')
+            flash('Validation error. Please check your input and try again.', 'danger')
             form_data = _get_donation_form_data()
             form_data['form_data'] = request.form
             return render_template('donations/create.html', **form_data)
@@ -550,7 +552,8 @@ def create_donation():
             return render_template('donations/create.html', **form_data)
         except Exception as e:
             db.session.rollback()
-            flash(f'Unexpected error: {str(e)}', 'danger')
+            current_app.logger.exception('Unexpected error creating donation')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             form_data = _get_donation_form_data()
             form_data['form_data'] = request.form
             return render_template('donations/create.html', **form_data)
@@ -864,11 +867,13 @@ def edit_donation(donation_id):
             return redirect(url_for('donations.edit_donation', donation_id=donation_id))
         except IntegrityError as e:
             db.session.rollback()
-            flash(f'Database error: {str(e)}', 'danger')
+            current_app.logger.exception('Database error editing donation')
+            flash('A database error occurred. Please check your input and try again.', 'danger')
             return redirect(url_for('donations.edit_donation', donation_id=donation_id))
         except Exception as e:
             db.session.rollback()
-            flash(f'Unexpected error: {str(e)}', 'danger')
+            current_app.logger.exception('Unexpected error editing donation')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             return redirect(url_for('donations.edit_donation', donation_id=donation_id))
     
     # GET request - load form with existing data
@@ -925,7 +930,8 @@ def delete_donation(donation_id):
         return redirect(url_for('donations.list_donations'))
     except IntegrityError as e:
         db.session.rollback()
-        flash(f'Cannot delete donation: {str(e)}', 'danger')
+        current_app.logger.exception('Cannot delete donation')
+        flash('Cannot delete donation due to existing dependencies.', 'danger')
         return redirect(url_for('donations.view_donation', donation_id=donation_id))
 
 
@@ -1151,7 +1157,8 @@ def edit_donation_item(donation_id, item_id):
                                   item_id=item_id))
         except IntegrityError as e:
             db.session.rollback()
-            flash(f'Database error: {str(e)}', 'danger')
+            current_app.logger.exception('Database error editing donation item')
+            flash('A database error occurred. Please check your input and try again.', 'danger')
             return redirect(url_for('donations.edit_donation_item', 
                                   donation_id=donation_id, 
                                   item_id=item_id))
@@ -1189,7 +1196,8 @@ def delete_donation_item(donation_id, item_id):
         return redirect(url_for('donations.view_donation', donation_id=donation_id))
     except IntegrityError as e:
         db.session.rollback()
-        flash(f'Cannot delete item: {str(e)}', 'danger')
+        current_app.logger.exception('Cannot delete donation item')
+        flash('Cannot delete item due to existing dependencies.', 'danger')
         return redirect(url_for('donations.view_donation', donation_id=donation_id))
 
 
@@ -1613,7 +1621,8 @@ def verify_donation_detail(donation_id):
                         except OSError:
                             pass
                     db.session.rollback()
-                    flash(f'Failed to save document: {str(save_error)}', 'danger')
+                    current_app.logger.exception('Failed to save document during verification')
+                    flash('Failed to save document. Please try again or contact support.', 'danger')
                     form_data = _get_donation_form_data()
                     form_data['donation'] = donation
                     form_data['form_data'] = request.form
@@ -1641,7 +1650,8 @@ def verify_donation_detail(donation_id):
             return render_template('donations/verify.html', **form_data)
         except Exception as e:
             db.session.rollback()
-            flash(f'An unexpected error occurred: {str(e)}', 'danger')
+            current_app.logger.exception('Unexpected error verifying donation')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             form_data = _get_donation_form_data()
             form_data['donation'] = donation
             form_data['form_data'] = request.form

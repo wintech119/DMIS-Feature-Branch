@@ -2,7 +2,7 @@
 Eligibility Approval Workflow
 Allows Directors (PEOD, DDG, DG) to review and approve/deny relief requests
 """
-from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, abort
+from flask import Blueprint, render_template, request, jsonify, flash, redirect, url_for, abort, current_app
 from flask_login import login_required, current_user
 
 from app.db import db
@@ -146,7 +146,8 @@ def submit_decision(request_id):
             
     except Exception as e:
         db.session.rollback()
-        flash(f'Error submitting decision: {str(e)}', 'danger')
+        current_app.logger.exception('Error submitting eligibility decision')
+        flash('An error occurred while submitting your decision. Please try again or contact support.', 'danger')
         return redirect(url_for('eligibility.review_request', request_id=request_id))
 
 

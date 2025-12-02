@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
+from flask import Blueprint, render_template, request, redirect, url_for, flash, abort, current_app
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import StaleDataError
@@ -175,7 +175,8 @@ def create():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating custodian: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating custodian')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             parishes = Parish.query.order_by(Parish.parish_name).all()
             return render_template(
                 'custodians/create.html',
@@ -264,7 +265,8 @@ def edit(custodian_id):
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error updating custodian: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating custodian')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             parishes = Parish.query.order_by(Parish.parish_name).all()
             return render_template(
                 'custodians/edit.html',
@@ -304,5 +306,6 @@ def delete(custodian_id):
         return redirect(url_for('custodians.view', custodian_id=custodian_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error deleting custodian: {str(e)}', 'danger')
+        current_app.logger.exception('Error deleting custodian')
+        flash('An unexpected error occurred. Please try again or contact support.', 'danger')
         return redirect(url_for('custodians.view', custodian_id=custodian_id))

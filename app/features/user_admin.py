@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
 from app.db.models import db, User, Role, UserRole, UserWarehouse, Warehouse, Agency, Custodian
@@ -240,7 +240,8 @@ def create():
         
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating user: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating user')
+            flash('An error occurred while creating the user. Please try again or contact support.', 'danger')
             agencies = Agency.query.filter_by(status_code='A').order_by(Agency.agency_name).all()
             custodians = Custodian.query.order_by(Custodian.custodian_name).all()
             return render_template('user_admin/create.html',
@@ -540,7 +541,8 @@ def edit(user_id):
         except Exception as e:
             db.session.rollback()
             db.session.refresh(user)
-            flash(f'Error updating user: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating user')
+            flash('An error occurred while updating the user. Please try again or contact support.', 'danger')
             agencies = Agency.query.filter_by(status_code='A').order_by(Agency.agency_name).all()
             custodians = Custodian.query.order_by(Custodian.custodian_name).all()
             roles = get_assignable_roles(current_user)

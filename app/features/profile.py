@@ -5,7 +5,7 @@ Allows users to view and edit their own profiles with role-specific
 information and features display.
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.db.models import db, User
@@ -84,7 +84,8 @@ def edit_profile():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error updating profile: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating profile')
+            flash('An error occurred while updating your profile. Please try again.', 'danger')
             return redirect(url_for('profile.edit_profile'))
     
     # GET request - show edit form
@@ -149,7 +150,8 @@ def change_password():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error changing password: {str(e)}', 'danger')
+            current_app.logger.exception('Error changing password')
+            flash('An error occurred while changing your password. Please try again.', 'danger')
             return redirect(url_for('profile.change_password'))
     
     # GET request - show change password form
@@ -190,7 +192,8 @@ def preferences():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error updating preferences: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating preferences')
+            flash('An error occurred while updating your preferences. Please try again.', 'danger')
             return redirect(url_for('profile.preferences'))
     
     # GET request - show preferences form

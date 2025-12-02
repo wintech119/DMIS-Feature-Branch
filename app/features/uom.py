@@ -13,7 +13,7 @@ Features:
 - Status-based filtering (Active/Inactive)
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, current_app
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import StaleDataError
@@ -191,7 +191,8 @@ def create_uom():
                                  errors={})
         except Exception as e:
             db.session.rollback()
-            flash(f'An unexpected error occurred: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating unit of measure')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             return render_template('uom/create.html', 
                                  form_data=display_data,
                                  errors={})
@@ -281,7 +282,8 @@ def edit_uom(uom_code):
                                  errors={})
         except Exception as e:
             db.session.rollback()
-            flash(f'An unexpected error occurred: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating unit of measure')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             return render_template('uom/edit.html', 
                                  uom=uom,
                                  form_data=display_data,
@@ -319,7 +321,8 @@ def delete_uom(uom_code):
         return redirect(url_for('uom.view_uom', uom_code=uom_code))
     except Exception as e:
         db.session.rollback()
-        flash(f'An unexpected error occurred: {str(e)}', 'danger')
+        current_app.logger.exception('Error deleting unit of measure')
+        flash('An unexpected error occurred. Please try again or contact support.', 'danger')
         return redirect(url_for('uom.view_uom', uom_code=uom_code))
 
 def check_uom_references(uom_code):

@@ -2,7 +2,7 @@
 Relief Request Packaging Blueprint
 Allows Logistics Officers/Managers to prepare relief packages from approved requests
 """
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort, current_app
 from flask_login import login_required, current_user
 from datetime import datetime, date, timedelta
 from decimal import Decimal
@@ -276,7 +276,8 @@ def review_approval(reliefrqst_id):
             
         except (OptimisticLockError, ValueError) as e:
             db.session.rollback()
-            flash(str(e), 'danger')
+            current_app.logger.warning(f'Validation error in approve action: {str(e)}')
+            flash('A validation error occurred. Please refresh the page and try again.', 'danger')
             return redirect(url_for('packaging.review_approval', reliefrqst_id=reliefrqst_id))
     
     elif action == 'reject':
@@ -303,7 +304,8 @@ def review_approval(reliefrqst_id):
             return redirect(url_for('packaging.pending_approval'))
         except (OptimisticLockError, ValueError) as e:
             db.session.rollback()
-            flash(str(e), 'danger')
+            current_app.logger.warning(f'Validation error in reject action: {str(e)}')
+            flash('A validation error occurred. Please refresh the page and try again.', 'danger')
             return redirect(url_for('packaging.review_approval', reliefrqst_id=reliefrqst_id))
     
     else:
@@ -559,15 +561,18 @@ def _save_draft_approval(relief_request, relief_pkg, relief_request_version, pac
         
     except OptimisticLockError as e:
         db.session.rollback()
-        flash(str(e), 'warning')
+        current_app.logger.warning(f'Concurrency conflict in save draft: {str(e)}')
+        flash('This record was modified by another user. Please refresh the page and try again.', 'warning')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
     except ValueError as e:
         db.session.rollback()
-        flash(str(e), 'danger')
+        current_app.logger.warning(f'Validation error in save draft: {str(e)}')
+        flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error saving draft: {str(e)}', 'danger')
+        current_app.logger.exception('Error saving draft in approval')
+        flash('An error occurred while saving the draft. Please try again.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
 
 
@@ -711,15 +716,18 @@ def _approve_and_dispatch(relief_request, relief_pkg, relief_request_version, pa
         
     except ValueError as e:
         db.session.rollback()
-        flash(str(e), 'danger')
+        current_app.logger.warning(f'Validation error approving package: {str(e)}')
+        flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
     except OptimisticLockError as e:
         db.session.rollback()
-        flash(f'Concurrency conflict: {str(e)} Please refresh the page and try again.', 'danger')
+        current_app.logger.warning(f'Concurrency conflict approving package: {str(e)}')
+        flash('This record was modified by another user. Please refresh the page and try again.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error approving package: {str(e)}', 'danger')
+        current_app.logger.exception('Error approving package')
+        flash('An error occurred while approving the package. Please try again.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
 
 
@@ -1002,7 +1010,8 @@ def create_request_on_behalf():
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating request: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating request on behalf')
+            flash('An error occurred while creating the request. Please try again.', 'danger')
             return redirect(url_for('packaging.create_request_on_behalf'))
     
     # GET request - show form
@@ -1496,15 +1505,18 @@ def _save_draft(relief_request, relief_request_version, package_version):
         
     except OptimisticLockError as e:
         db.session.rollback()
-        flash(str(e), 'warning')
+        current_app.logger.warning(f'Concurrency conflict saving draft: {str(e)}')
+        flash('This record was modified by another user. Please refresh the page and try again.', 'warning')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
     except ValueError as e:
         db.session.rollback()
-        flash(str(e), 'danger')
+        current_app.logger.warning(f'Validation error saving draft: {str(e)}')
+        flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
     except Exception as e:
         db.session.rollback()
-        flash(f'Error saving draft: {str(e)}', 'danger')
+        current_app.logger.exception('Error saving draft in preparation')
+        flash('An error occurred while saving the draft. Please try again.', 'danger')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
 
 
@@ -1629,7 +1641,8 @@ def _submit_for_approval(relief_request, relief_request_version, package_version
         
     except ValueError as e:
         db.session.rollback()
-        flash(str(e), 'danger')
+        current_app.logger.warning(f'Validation error submitting for approval: {str(e)}')
+        flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
 
 
@@ -1717,7 +1730,8 @@ def _send_for_dispatch(relief_request, relief_request_version, package_version):
         
     except ValueError as e:
         db.session.rollback()
-        flash(str(e), 'danger')
+        current_app.logger.warning(f'Validation error sending for dispatch: {str(e)}')
+        flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
 
 
@@ -2028,7 +2042,8 @@ def cancel_preparation(reliefrqst_id):
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error canceling preparation: {str(e)}', 'danger')
+        current_app.logger.exception('Error canceling preparation')
+        flash('An error occurred while canceling the preparation. Please try again.', 'danger')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=reliefrqst_id))
 
 
@@ -2187,7 +2202,8 @@ def get_item_batches(item_id):
             })
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        current_app.logger.exception('Error fetching item batches')
+        return jsonify({'error': 'An error occurred while fetching batch data. Please try again.'}), 500
 
 
 @packaging_bp.route('/api/item/<int:item_id>/auto-allocate', methods=['POST'])
@@ -2230,7 +2246,8 @@ def auto_allocate_item(item_id):
         })
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        current_app.logger.exception('Error auto-allocating item batches')
+        return jsonify({'error': 'An error occurred during auto-allocation. Please try again.'}), 500
 
 
 @packaging_bp.route('/api/batch/<int:batch_id>')
@@ -2252,7 +2269,8 @@ def get_batch_details(batch_id):
         return jsonify(batch_details)
         
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        current_app.logger.exception('Error fetching batch details')
+        return jsonify({'error': 'An error occurred while fetching batch details. Please try again.'}), 500
 
 
 # ==================== INVENTORY CLERK DISPATCH ROUTES ====================
@@ -2511,7 +2529,8 @@ def mark_handover(reliefpkg_id):
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error marking handover: {str(e)}', 'danger')
+        current_app.logger.exception('Error marking handover')
+        flash('An error occurred while marking the handover. Please try again.', 'danger')
         return redirect(url_for('packaging.dispatch_details', reliefpkg_id=reliefpkg_id))
 
 

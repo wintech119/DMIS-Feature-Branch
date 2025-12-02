@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_required, current_user
 from app.db import db
 from app.db.models import AgencyAccountRequest, AgencyAccountRequestAudit, Agency, User
@@ -64,7 +64,8 @@ def create_request():
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error submitting request: {str(e)}', 'danger')
+        current_app.logger.exception('Error submitting account request')
+        flash('An error occurred while submitting your request. Please try again or contact support.', 'danger')
         return redirect(url_for('account_requests.submit_form'))
 
 @account_requests_bp.route('/', methods=['GET'])
@@ -145,7 +146,8 @@ def start_review(request_id):
         flash('This request was modified by another user. Please refresh and try again.', 'warning')
     except Exception as e:
         db.session.rollback()
-        flash(f'Error updating request: {str(e)}', 'danger')
+        current_app.logger.exception('Error updating account request')
+        flash('An error occurred while updating the request. Please try again.', 'danger')
     
     return redirect(url_for('account_requests.view_request', request_id=request_id))
 
@@ -184,7 +186,8 @@ def approve_request(request_id):
         flash('This request was modified by another user. Please refresh and try again.', 'warning')
     except Exception as e:
         db.session.rollback()
-        flash(f'Error approving request: {str(e)}', 'danger')
+        current_app.logger.exception('Error approving account request')
+        flash('An error occurred while approving the request. Please try again.', 'danger')
     
     return redirect(url_for('account_requests.view_request', request_id=request_id))
 
@@ -227,7 +230,8 @@ def deny_request(request_id):
         flash('This request was modified by another user. Please refresh and try again.', 'warning')
     except Exception as e:
         db.session.rollback()
-        flash(f'Error denying request: {str(e)}', 'danger')
+        current_app.logger.exception('Error denying account request')
+        flash('An error occurred while denying the request. Please try again.', 'danger')
     
     return redirect(url_for('account_requests.view_request', request_id=request_id))
 

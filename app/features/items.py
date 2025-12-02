@@ -8,7 +8,7 @@ Full CRUD operations for relief items with:
 - No physical deletes (inactivation only)
 - Stock/transaction checks before inactivation
 """
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, current_app
 from flask_login import login_required, current_user
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import StaleDataError
@@ -338,14 +338,16 @@ def create_item():
             elif 'uk_item_3' in error_msg or 'sku_code' in error_msg:
                 flash(f'SKU Code "{sku_code_raw.upper()}" is already in use', 'danger')
             else:
-                flash(f'Database error: {str(e.orig)}', 'danger')
+                current_app.logger.exception('Database error creating item')
+                flash('A database error occurred. Please check your input and try again.', 'danger')
             categories = ItemCategory.query.filter_by(status_code='A').order_by(ItemCategory.category_desc).all()
             uoms = UnitOfMeasure.query.order_by(UnitOfMeasure.uom_desc).all()
             return render_template('items/create.html', categories=categories, uoms=uoms)
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error creating item: {str(e)}', 'danger')
+            current_app.logger.exception('Error creating item')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             categories = ItemCategory.query.filter_by(status_code='A').order_by(ItemCategory.category_desc).all()
             uoms = UnitOfMeasure.query.order_by(UnitOfMeasure.uom_desc).all()
             return render_template('items/create.html', categories=categories, uoms=uoms)
@@ -469,14 +471,16 @@ def edit_item(item_id):
             elif 'uk_item_3' in error_msg or 'sku_code' in error_msg:
                 flash(f'SKU Code "{sku_code_raw.upper()}" is already in use', 'danger')
             else:
-                flash(f'Database error: {str(e.orig)}', 'danger')
+                current_app.logger.exception('Database error updating item')
+                flash('A database error occurred. Please check your input and try again.', 'danger')
             categories = ItemCategory.query.filter_by(status_code='A').order_by(ItemCategory.category_desc).all()
             uoms = UnitOfMeasure.query.order_by(UnitOfMeasure.uom_desc).all()
             return render_template('items/edit.html', item=item, categories=categories, uoms=uoms)
             
         except Exception as e:
             db.session.rollback()
-            flash(f'Error updating item: {str(e)}', 'danger')
+            current_app.logger.exception('Error updating item')
+            flash('An unexpected error occurred. Please try again or contact support.', 'danger')
             categories = ItemCategory.query.filter_by(status_code='A').order_by(ItemCategory.category_desc).all()
             uoms = UnitOfMeasure.query.order_by(UnitOfMeasure.uom_desc).all()
             return render_template('items/edit.html', item=item, categories=categories, uoms=uoms)
@@ -517,7 +521,8 @@ def inactivate_item(item_id):
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error inactivating item: {str(e)}', 'danger')
+        current_app.logger.exception('Error inactivating item')
+        flash('An unexpected error occurred. Please try again or contact support.', 'danger')
         return redirect(url_for('items.view_item', item_id=item_id))
 
 @items_bp.route('/<int:item_id>/activate', methods=['POST'])
@@ -542,5 +547,6 @@ def activate_item(item_id):
         
     except Exception as e:
         db.session.rollback()
-        flash(f'Error activating item: {str(e)}', 'danger')
+        current_app.logger.exception('Error activating item')
+        flash('An unexpected error occurred. Please try again or contact support.', 'danger')
         return redirect(url_for('items.view_item', item_id=item_id))
