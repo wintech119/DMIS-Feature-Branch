@@ -90,6 +90,9 @@ The application employs a modular blueprint architecture with a database-first a
 ### DevSecOps Tools
 - **Bandit** - Python security linter (configured in `bandit.yml`)
 - **Semgrep** - Multi-language SAST scanner (configured in `semgrep.yml`)
-- **SAST Script** - `scripts/run_sast.sh` runs both scanners with severity gating
-- **GitHub Actions** - `.github/workflows/security-sast.yml` for CI/CD integration
-- **Security Documentation** - `SECURITY.md` for local scan instructions
+- **pip-audit** - Python dependency vulnerability scanner (PyPI advisory database)
+- **safety** - Python dependency checker (Safety DB)
+- **SAST Script** - `scripts/run_sast.sh` runs code scanners with severity gating
+- **Dependency Script** - `scripts/run_dep_scan.sh` runs dependency scanners with conservative severity classification
+- **GitHub Actions** - `.github/workflows/security-sast.yml` for CI/CD integration (SAST + dependency scans)
+- **Security Documentation** - `SECURITY.md` for vulnerability policy and local scan instructions
