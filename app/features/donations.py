@@ -12,6 +12,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm.exc import StaleDataError
 
 from app.db import db
+from app.security.log_sanitizer import sanitize_for_log, sanitize_exception_for_log
 from app.utils.timezone import now as jamaica_now
 from app.db.models import (Donation, DonationItem, DonationDoc, Donor, Event, Custodian, 
                           Item, UnitOfMeasure, Country, Currency, ItemCostDef)
@@ -536,7 +537,7 @@ def create_donation():
         except IntegrityError as e:
             db.session.rollback()
             error_message = str(e.orig) if hasattr(e, 'orig') else str(e)
-            current_app.logger.error(f"Donation create IntegrityError: {error_message}")
+            current_app.logger.error("Donation create IntegrityError: %s", sanitize_exception_for_log(e))
             
             # Check if it's a duplicate donation item error
             if ('pk_donation_item' in error_message or 
@@ -545,7 +546,7 @@ def create_donation():
                 flash('Duplicate item detected. Each item can only be added once per donation. Please check your items and try again.', 'danger')
             else:
                 flash(f'Unable to create donation due to a database constraint. Please check your input and try again.', 'danger')
-                current_app.logger.error(f"Full IntegrityError details: {str(e)}")
+                current_app.logger.error("Full IntegrityError details: %s", sanitize_exception_for_log(e))
             
             form_data = _get_donation_form_data()
             form_data['form_data'] = request.form

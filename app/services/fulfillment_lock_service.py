@@ -95,7 +95,10 @@ def release_lock(reliefrqst_id: int, user_id: int, force: bool = False, release_
         success, error_msg = reservation_service.release_all_reservations(reliefrqst_id)
         if not success:
             # Log error but continue with lock release
-            print(f"Warning: Failed to release reservations for request {reliefrqst_id}: {error_msg}")
+            import logging
+            from app.security.log_sanitizer import sanitize_for_log
+            logger = logging.getLogger(__name__)
+            logger.warning("Failed to release reservations for request %s: %s", sanitize_for_log(reliefrqst_id), sanitize_for_log(error_msg))
     
     db.session.delete(lock)
     db.session.commit()

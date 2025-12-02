@@ -14,8 +14,8 @@ All sensitive parameters MUST be submitted via POST request body only.
 from flask import request, g
 from functools import wraps
 import logging
+from app.security.log_sanitizer import sanitize_for_log
 
-# Configure logging for security events
 logger = logging.getLogger(__name__)
 
 # Define sensitive parameter names that should NEVER appear in query strings
@@ -161,8 +161,10 @@ def sanitize_query_string(query_args):
         if is_sensitive_parameter(key):
             removed_params.append(key)
             logger.warning(
-                f"Blocked sensitive parameter in query string: {key} "
-                f"(IP: {request.remote_addr}, Path: {request.path})"
+                "Blocked sensitive parameter in query string: %s (IP: %s, Path: %s)",
+                sanitize_for_log(key),
+                sanitize_for_log(request.remote_addr),
+                sanitize_for_log(request.path)
             )
         else:
             sanitized[key] = value
@@ -200,13 +202,13 @@ def strip_sensitive_query_params():
                 sensitive_found.append(param_name)
         
         if sensitive_found:
-            # Log security event (don't log the actual values!)
             logger.warning(
-                f"SECURITY VIOLATION: Sensitive parameters blocked in query string - "
-                f"Parameters: {', '.join(sensitive_found)} | "
-                f"IP: {request.remote_addr} | "
-                f"Path: {request.path} | "
-                f"Method: {request.method}"
+                "SECURITY VIOLATION: Sensitive parameters blocked in query string - "
+                "Parameters: %s | IP: %s | Path: %s | Method: %s",
+                sanitize_for_log(', '.join(sensitive_found)),
+                sanitize_for_log(request.remote_addr),
+                sanitize_for_log(request.path),
+                sanitize_for_log(request.method)
             )
             
             # Store blocked parameters for potential security auditing
@@ -265,11 +267,12 @@ def require_post_for_sensitive_data(f):
             
             if sensitive_in_query:
                 logger.warning(
-                    f"SECURITY: Attempted to pass sensitive data via GET query string - "
-                    f"Route: {request.endpoint} | "
-                    f"Parameters: {', '.join(sensitive_in_query)} | "
-                    f"IP: {request.remote_addr} | "
-                    f"User: {getattr(request, 'user', 'Anonymous')}"
+                    "SECURITY: Attempted to pass sensitive data via GET query string - "
+                    "Route: %s | Parameters: %s | IP: %s | User: %s",
+                    sanitize_for_log(request.endpoint),
+                    sanitize_for_log(', '.join(sensitive_in_query)),
+                    sanitize_for_log(request.remote_addr),
+                    sanitize_for_log(getattr(request, 'user', 'Anonymous'))
                 )
                 
                 # Store for potential audit logging
@@ -321,10 +324,11 @@ def validate_post_only_submission(form_fields):
         )
         
         logger.error(
-            f"SECURITY VIOLATION: Sensitive POST fields found in query string - "
-            f"Fields: {', '.join(sensitive_in_query)} | "
-            f"Route: {request.endpoint} | "
-            f"IP: {request.remote_addr}"
+            "SECURITY VIOLATION: Sensitive POST fields found in query string - "
+            "Fields: %s | Route: %s | IP: %s",
+            sanitize_for_log(', '.join(sensitive_in_query)),
+            sanitize_for_log(request.endpoint),
+            sanitize_for_log(request.remote_addr)
         )
         
         return False, error_msg

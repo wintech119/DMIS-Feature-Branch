@@ -7,6 +7,7 @@ import sys
 from flask import render_template, request
 from werkzeug.exceptions import HTTPException
 from flask_wtf.csrf import CSRFError
+from app.security.log_sanitizer import sanitize_for_log, sanitize_url_for_log
 
 
 def configure_logging(app):
@@ -68,25 +69,37 @@ def register_error_handlers(app):
     @app.errorhandler(400)
     def bad_request_error(error):
         """Handle 400 Bad Request errors"""
-        app.logger.warning(f'Bad Request: {request.url} - {error}')
+        app.logger.warning(
+            'Bad Request: %s - %s',
+            sanitize_url_for_log(request.url),
+            sanitize_for_log(str(error), max_length=200)
+        )
         return render_template('errors/400.html'), 400
     
     @app.errorhandler(403)
     def forbidden_error(error):
         """Handle 403 Forbidden errors"""
-        app.logger.warning(f'Forbidden Access: {request.url} - User: {getattr(request, "user", "Anonymous")}')
+        app.logger.warning(
+            'Forbidden Access: %s - User: %s',
+            sanitize_url_for_log(request.url),
+            sanitize_for_log(getattr(request, "user", "Anonymous"))
+        )
         return render_template('errors/403.html'), 403
     
     @app.errorhandler(404)
     def not_found_error(error):
         """Handle 404 Not Found errors"""
-        app.logger.warning(f'Page Not Found: {request.url}')
+        app.logger.warning('Page Not Found: %s', sanitize_url_for_log(request.url))
         return render_template('errors/404.html'), 404
     
     @app.errorhandler(405)
     def method_not_allowed_error(error):
         """Handle 405 Method Not Allowed errors"""
-        app.logger.warning(f'Method Not Allowed: {request.method} {request.url}')
+        app.logger.warning(
+            'Method Not Allowed: %s %s',
+            sanitize_for_log(request.method),
+            sanitize_url_for_log(request.url)
+        )
         return render_template('errors/405.html'), 405
     
     @app.errorhandler(CSRFError)
@@ -104,10 +117,11 @@ def register_error_handlers(app):
             Tuple of (error template, 403 status code)
         """
         app.logger.warning(
-            f'CSRF validation failed: {request.url} - '
-            f'Method: {request.method} - '
-            f'IP: {request.remote_addr} - '
-            f'User-Agent: {request.headers.get("User-Agent", "Unknown")}'
+            'CSRF validation failed: %s - Method: %s - IP: %s - User-Agent: %s',
+            sanitize_url_for_log(request.url),
+            sanitize_for_log(request.method),
+            sanitize_for_log(request.remote_addr),
+            sanitize_for_log(request.headers.get("User-Agent", "Unknown"), max_length=100)
         )
         return render_template('errors/403.html',
                              error_message="Invalid or missing security token. Please try again."), 403
@@ -120,7 +134,7 @@ def register_error_handlers(app):
         Critical: Logs full stack trace server-side
         Shows generic error page to users
         """
-        app.logger.error(f'Internal Server Error: {request.url}', exc_info=True)
+        app.logger.error('Internal Server Error: %s', sanitize_url_for_log(request.url), exc_info=True)
         
         from app.db import db
         try:
@@ -145,13 +159,18 @@ def register_error_handlers(app):
             Tuple of (error template, HTTP status code)
         """
         if isinstance(error, HTTPException):
-            app.logger.warning(f'HTTP Exception: {error.code} - {request.url}')
+            app.logger.warning(
+                'HTTP Exception: %s - %s',
+                sanitize_for_log(error.code),
+                sanitize_url_for_log(request.url)
+            )
             return error
         
         app.logger.error(
-            f'Unhandled Exception: {request.url}\n'
-            f'Exception Type: {type(error).__name__}\n'
-            f'Exception Message: {str(error)}',
+            'Unhandled Exception: %s - Type: %s - Message: %s',
+            sanitize_url_for_log(request.url),
+            sanitize_for_log(type(error).__name__),
+            sanitize_for_log(str(error), max_length=300),
             exc_info=True
         )
         

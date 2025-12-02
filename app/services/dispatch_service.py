@@ -24,6 +24,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import func
 
 from app.db import db
+from app.security.log_sanitizer import sanitize_for_log, sanitize_exception_for_log
 from app.db.models import (
     ReliefPkg, ReliefPkgItem, ItemBatch, Inventory, 
     ReliefRqst, ReliefRqstItem
@@ -141,17 +142,23 @@ def submit_for_dispatch(
         return False, str(e)
     except SQLAlchemyError as e:
         db.session.rollback()
-        # Log full error for debugging but return sanitized message to user
         import logging
         logger = logging.getLogger(__name__)
-        logger.error(f"Database error during dispatch for package {reliefpkg_id}: {str(e)}")
+        logger.error(
+            "Database error during dispatch for package %s: %s",
+            sanitize_for_log(reliefpkg_id),
+            sanitize_exception_for_log(e)
+        )
         return False, "A system error occurred during dispatch. Please try again or contact support."
     except Exception as e:
         db.session.rollback()
-        # Log unexpected errors but never expose details to users
         import logging
         logger = logging.getLogger(__name__)
-        logger.error(f"Unexpected error during dispatch for package {reliefpkg_id}: {str(e)}")
+        logger.error(
+            "Unexpected error during dispatch for package %s: %s",
+            sanitize_for_log(reliefpkg_id),
+            sanitize_exception_for_log(e)
+        )
         return False, "An unexpected error occurred. Please try again or contact support."
 
 

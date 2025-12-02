@@ -4,6 +4,7 @@ Provides additional validation beyond CSRF tokens
 """
 from flask import request, current_app, abort
 from urllib.parse import urlparse
+from app.security.log_sanitizer import sanitize_for_log
 
 
 def validate_origin_referer():
@@ -58,13 +59,13 @@ def validate_origin_referer():
             
             if origin_normalized not in allowed_origins:
                 current_app.logger.warning(
-                    f"CSRF Origin validation failed: "
-                    f"expected one of {allowed_origins}, got {origin_normalized}"
+                    "CSRF Origin validation failed: expected one of %s, got %s",
+                    sanitize_for_log(str(allowed_origins)),
+                    sanitize_for_log(origin_normalized)
                 )
                 abort(403, description="Invalid request origin")
             return True
         
-        # Fallback to Referer header
         referer = request.headers.get('Referer')
         if referer:
             parsed_referer = urlparse(referer)
@@ -72,15 +73,13 @@ def validate_origin_referer():
             
             if referer_origin not in allowed_origins:
                 current_app.logger.warning(
-                    f"CSRF Referer validation failed: "
-                    f"expected one of {allowed_origins}, got {referer_origin}"
+                    "CSRF Referer validation failed: expected one of %s, got %s",
+                    sanitize_for_log(str(allowed_origins)),
+                    sanitize_for_log(referer_origin)
                 )
                 abort(403, description="Invalid request referer")
             return True
         
-        # For AJAX requests over HTTPS, missing Origin/Referer is suspicious
-        # But don't fail hard - Flask-WTF will catch missing CSRF token anyway
-        # This is just defense-in-depth
         if request.is_secure and request.is_json:
             current_app.logger.info(
                 "CSRF validation: Missing Origin/Referer for HTTPS AJAX request "

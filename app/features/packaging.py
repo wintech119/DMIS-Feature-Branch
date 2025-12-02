@@ -11,6 +11,7 @@ from sqlalchemy.orm import joinedload
 import uuid
 
 from app.db import db
+from app.security.log_sanitizer import sanitize_for_log, sanitize_exception_for_log
 from app.utils.timezone import now as jamaica_now
 from app.db.models import (
     ReliefRqst, ReliefRqstItem, Item, Warehouse, Inventory, ItemBatch,
@@ -267,7 +268,7 @@ def review_approval(reliefrqst_id):
                 # Don't fail dispatch if notification fails
                 import logging
                 logger = logging.getLogger(__name__)
-                logger.warning(f'Failed to send approval notification: {str(e)}')
+                logger.warning('Failed to send approval notification: %s', sanitize_exception_for_log(e))
             
             db.session.commit()
             
@@ -276,7 +277,7 @@ def review_approval(reliefrqst_id):
             
         except (OptimisticLockError, ValueError) as e:
             db.session.rollback()
-            current_app.logger.warning(f'Validation error in approve action: {str(e)}')
+            current_app.logger.warning('Validation error in approve action: %s', sanitize_exception_for_log(e))
             flash('A validation error occurred. Please refresh the page and try again.', 'danger')
             return redirect(url_for('packaging.review_approval', reliefrqst_id=reliefrqst_id))
     
@@ -304,7 +305,7 @@ def review_approval(reliefrqst_id):
             return redirect(url_for('packaging.pending_approval'))
         except (OptimisticLockError, ValueError) as e:
             db.session.rollback()
-            current_app.logger.warning(f'Validation error in reject action: {str(e)}')
+            current_app.logger.warning('Validation error in reject action: %s', sanitize_exception_for_log(e))
             flash('A validation error occurred. Please refresh the page and try again.', 'danger')
             return redirect(url_for('packaging.review_approval', reliefrqst_id=reliefrqst_id))
     
@@ -360,7 +361,7 @@ def cancel_package(reliefpkg_id):
         # Log the error for debugging
         import logging
         logger = logging.getLogger(__name__)
-        logger.error(f'Unexpected error in cancel_package route: {str(e)}', exc_info=True)
+        logger.error('Unexpected error in cancel_package route: %s', sanitize_exception_for_log(e), exc_info=True)
         
         # Show user-friendly error message
         flash('An unexpected error occurred while canceling the package. Please contact system administrator if this persists.', 'danger')
@@ -561,12 +562,12 @@ def _save_draft_approval(relief_request, relief_pkg, relief_request_version, pac
         
     except OptimisticLockError as e:
         db.session.rollback()
-        current_app.logger.warning(f'Concurrency conflict in save draft: {str(e)}')
+        current_app.logger.warning('Concurrency conflict in save draft: %s', sanitize_exception_for_log(e))
         flash('This record was modified by another user. Please refresh the page and try again.', 'warning')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
     except ValueError as e:
         db.session.rollback()
-        current_app.logger.warning(f'Validation error in save draft: {str(e)}')
+        current_app.logger.warning('Validation error in save draft: %s', sanitize_exception_for_log(e))
         flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
     except Exception as e:
@@ -707,7 +708,7 @@ def _approve_and_dispatch(relief_request, relief_pkg, relief_request_version, pa
             # Don't fail dispatch if notification fails
             import logging
             logger = logging.getLogger(__name__)
-            logger.warning(f'Failed to send approval notification: {str(e)}')
+            logger.warning('Failed to send approval notification: %s', sanitize_exception_for_log(e))
         
         db.session.commit()
         
@@ -716,12 +717,12 @@ def _approve_and_dispatch(relief_request, relief_pkg, relief_request_version, pa
         
     except ValueError as e:
         db.session.rollback()
-        current_app.logger.warning(f'Validation error approving package: {str(e)}')
+        current_app.logger.warning('Validation error approving package: %s', sanitize_exception_for_log(e))
         flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
     except OptimisticLockError as e:
         db.session.rollback()
-        current_app.logger.warning(f'Concurrency conflict approving package: {str(e)}')
+        current_app.logger.warning('Concurrency conflict approving package: %s', sanitize_exception_for_log(e))
         flash('This record was modified by another user. Please refresh the page and try again.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_request.reliefrqst_id))
     except Exception as e:
@@ -843,7 +844,7 @@ def submit_for_dispatch(reliefpkg_id):
             # Don't fail dispatch if notification fails
             import logging
             logger = logging.getLogger(__name__)
-            logger.warning(f'Failed to send dispatch notification: {str(e)}')
+            logger.warning('Failed to send dispatch notification: %s', sanitize_exception_for_log(e))
         
         db.session.commit()
         
@@ -854,7 +855,7 @@ def submit_for_dispatch(reliefpkg_id):
         db.session.rollback()
         import logging
         logger = logging.getLogger(__name__)
-        logger.error(f'Error in submit_for_dispatch: {str(e)}', exc_info=True)
+        logger.error('Error in submit_for_dispatch: %s', sanitize_exception_for_log(e), exc_info=True)
         # Sanitized error message - never expose raw exception details to users
         flash('An error occurred while submitting the package for dispatch. Please try again or contact support.', 'danger')
         return redirect(url_for('packaging.approve_package', reliefrqst_id=relief_pkg.reliefrqst_id))
@@ -1505,12 +1506,12 @@ def _save_draft(relief_request, relief_request_version, package_version):
         
     except OptimisticLockError as e:
         db.session.rollback()
-        current_app.logger.warning(f'Concurrency conflict saving draft: {str(e)}')
+        current_app.logger.warning('Concurrency conflict saving draft: %s', sanitize_exception_for_log(e))
         flash('This record was modified by another user. Please refresh the page and try again.', 'warning')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
     except ValueError as e:
         db.session.rollback()
-        current_app.logger.warning(f'Validation error saving draft: {str(e)}')
+        current_app.logger.warning('Validation error saving draft: %s', sanitize_exception_for_log(e))
         flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
     except Exception as e:
@@ -1617,7 +1618,7 @@ def _submit_for_approval(relief_request, relief_request_version, package_version
                 logger = logging.getLogger(__name__)
                 
                 lm_users = NotificationService.get_active_users_by_role_codes(['LOGISTICS_MANAGER'])
-                logger.info(f'Found {len(lm_users)} Logistics Manager(s) to notify for relief request #{relief_request.reliefrqst_id}')
+                logger.info('Found %s Logistics Manager(s) to notify for relief request #%s', len(lm_users), sanitize_for_log(relief_request.reliefrqst_id))
                 
                 if lm_users:
                     preparer_name = session_utils.get_display_name()
@@ -1626,13 +1627,13 @@ def _submit_for_approval(relief_request, relief_request_version, package_version
                         recipient_users=lm_users,
                         preparer_name=preparer_name
                     )
-                    logger.info(f'Created {len(notifications)} notification(s) for LM approval of relief request #{relief_request.reliefrqst_id}')
+                    logger.info('Created %s notification(s) for LM approval of relief request #%s', len(notifications), sanitize_for_log(relief_request.reliefrqst_id))
                 else:
-                    logger.warning(f'No Logistics Managers found to notify for relief request #{relief_request.reliefrqst_id}')
+                    logger.warning('No Logistics Managers found to notify for relief request #%s', sanitize_for_log(relief_request.reliefrqst_id))
             except Exception as e:
                 import logging
                 logger = logging.getLogger(__name__)
-                logger.error(f'Failed to send LM approval notification: {str(e)}', exc_info=True)
+                logger.error('Failed to send LM approval notification: %s', sanitize_exception_for_log(e), exc_info=True)
         
         db.session.commit()
         
@@ -1641,7 +1642,7 @@ def _submit_for_approval(relief_request, relief_request_version, package_version
         
     except ValueError as e:
         db.session.rollback()
-        current_app.logger.warning(f'Validation error submitting for approval: {str(e)}')
+        current_app.logger.warning('Validation error submitting for approval: %s', sanitize_exception_for_log(e))
         flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
 
@@ -1721,7 +1722,7 @@ def _send_for_dispatch(relief_request, relief_request_version, package_version):
             # Don't fail dispatch if notification fails
             import logging
             logger = logging.getLogger(__name__)
-            logger.warning(f'Failed to send dispatch notification: {str(e)}')
+            logger.warning('Failed to send dispatch notification: %s', sanitize_exception_for_log(e))
         
         db.session.commit()
         
@@ -1730,7 +1731,7 @@ def _send_for_dispatch(relief_request, relief_request_version, package_version):
         
     except ValueError as e:
         db.session.rollback()
-        current_app.logger.warning(f'Validation error sending for dispatch: {str(e)}')
+        current_app.logger.warning('Validation error sending for dispatch: %s', sanitize_exception_for_log(e))
         flash('A validation error occurred. Please check your input and try again.', 'danger')
         return redirect(url_for('packaging.prepare_package', reliefrqst_id=relief_request.reliefrqst_id))
 
@@ -2522,7 +2523,7 @@ def mark_handover(reliefpkg_id):
             # Log error but don't fail the handover
             import logging
             logger = logging.getLogger(__name__)
-            logger.warning(f'Failed to send handover notification: {str(e)}')
+            logger.warning('Failed to send handover notification: %s', sanitize_exception_for_log(e))
         
         flash(f'Package successfully marked as handed over to {relief_pkg.relief_request.agency.agency_name if relief_pkg.relief_request.agency else "agency"}.', 'success')
         return redirect(url_for('packaging.awaiting_dispatch', filter='completed'))

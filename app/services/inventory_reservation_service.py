@@ -16,6 +16,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import func
 from app.db import db
 from app.db.models import Inventory, ReliefPkgItem, ItemBatch
+from app.security.log_sanitizer import sanitize_exception_for_log
 
 
 def get_current_reservations(reliefrqst_id: int) -> Dict[Tuple[int, int], Decimal]:
@@ -585,9 +586,8 @@ def cancel_relief_package(reliefpkg_id: int, current_user_name: str) -> Tuple[bo
                 'Please refresh the page and try again.'
             )
         
-        # Log the actual error for debugging
         from flask import current_app
-        current_app.logger.error(f'Database error during package cancellation: {str(e)}', exc_info=True)
+        current_app.logger.error('Database error during package cancellation: %s', sanitize_exception_for_log(e), exc_info=True)
         
         return False, (
             'Cancellation failed due to a database error. '
@@ -597,9 +597,8 @@ def cancel_relief_package(reliefpkg_id: int, current_user_name: str) -> Tuple[bo
     except Exception as e:
         db.session.rollback()
         
-        # Log the actual error for debugging
         from flask import current_app
-        current_app.logger.error(f'Unexpected error during package cancellation: {str(e)}', exc_info=True)
+        current_app.logger.error('Unexpected error during package cancellation: %s', sanitize_exception_for_log(e), exc_info=True)
         
         return False, (
             'An unexpected error occurred during cancellation. '
