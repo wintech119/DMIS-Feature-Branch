@@ -14,12 +14,21 @@ This document describes how to run security scans on the DMIS (Disaster Manageme
 
 ## Security Scanning Tools
 
-DMIS uses the following static application security testing (SAST) tools:
+DMIS uses the following security scanning tools:
+
+### Code Analysis (SAST)
 
 | Tool | Purpose | Configuration |
 |------|---------|---------------|
 | **Bandit** | Python security linter | `bandit.yml` |
 | **Semgrep** | Multi-language SAST scanner | `semgrep.yml` |
+
+### Dependency Scanning
+
+| Tool | Purpose | Configuration |
+|------|---------|---------------|
+| **pip-audit** | Python package vulnerability scanner | Uses PyPI advisory database |
+| **safety** | Python dependency checker | Uses Safety DB |
 
 ### What They Detect
 
@@ -32,6 +41,47 @@ DMIS uses the following static application security testing (SAST) tools:
 - **Path Traversal** - Unvalidated file paths
 - **Open Redirect** - Unvalidated redirect URLs
 - **SSRF** - Unvalidated outbound requests
+- **Vulnerable Dependencies** - Known CVEs in third-party packages
+
+---
+
+## Vulnerability Management Policy
+
+### Critical/High Severity Vulnerabilities
+
+**Policy:** Must be remediated or justified before any release.
+
+- All Critical and High severity findings must be resolved before code can be merged to protected branches
+- If a vulnerability cannot be fixed immediately (e.g., no patch available), a documented risk exception is required
+- Risk exceptions must include: vulnerability details, affected component, mitigation measures, and remediation timeline
+
+### Medium/Low Severity Vulnerabilities
+
+**Policy:** May be accepted temporarily with documented risk exception.
+
+- Should be prioritized in upcoming sprints
+- Track in the project's issue tracker with security label
+- Review quarterly to ensure remediation progress
+
+### Dependency Vulnerabilities
+
+**Policy:** No deployment with known Critical/High CVEs in dependencies.
+
+- Update vulnerable packages to patched versions when available
+- If no patch exists, evaluate alternative packages or implement compensating controls
+- Document any temporary exceptions with a clear remediation plan
+
+**Note on Conservative Classification:**
+
+The dependency scanner uses a conservative approach to severity classification:
+- Vulnerabilities with explicit CVSS scores are classified accurately
+- Vulnerabilities without parseable severity data default to **HIGH**
+- This ensures no Critical/High CVE slips through the gate
+
+If you believe a vulnerability is incorrectly classified as HIGH when it should be MEDIUM/LOW:
+1. Review the original advisory for explicit severity information
+2. If confirmed as lower severity, document and proceed with a risk exception
+3. Consider contributing severity data back to the upstream vulnerability database
 
 ---
 
@@ -47,20 +97,66 @@ pip install bandit semgrep
 
 ### Quick Scan (Recommended)
 
-Run the automated SAST script:
+Run the automated security scripts:
 
 ```bash
-# Make the script executable (first time only)
-chmod +x scripts/run_sast.sh
+# Make scripts executable (first time only)
+chmod +x scripts/run_sast.sh scripts/run_dep_scan.sh
 
-# Run full security scan
+# Run SAST code analysis
 ./scripts/run_sast.sh
 
-# Quick scan (high severity only)
+# Run dependency vulnerability scan
+./scripts/run_dep_scan.sh
+
+# Quick mode (high severity only)
 ./scripts/run_sast.sh --quick
 
-# Generate HTML/JSON reports
+# Generate reports
 ./scripts/run_sast.sh --report
+./scripts/run_dep_scan.sh --report
+```
+
+### Dependency Scanning
+
+```bash
+# Install scanning tools
+pip install pip-audit safety
+
+# Run automated dependency scan
+./scripts/run_dep_scan.sh
+
+# Scan installed environment
+./scripts/run_dep_scan.sh --env
+
+# Generate JSON reports
+./scripts/run_dep_scan.sh --report
+```
+
+### Manual pip-audit
+
+```bash
+# Scan requirements.txt
+pip-audit -r requirements.txt
+
+# Scan installed packages
+pip-audit
+
+# JSON output
+pip-audit -r requirements.txt --format json -o pip-audit-report.json
+```
+
+### Manual safety Check
+
+```bash
+# Scan requirements.txt
+safety check -r requirements.txt
+
+# Scan installed packages
+safety check
+
+# JSON output
+safety check -r requirements.txt --output json > safety-report.json
 ```
 
 ### Manual Bandit Scan
@@ -118,21 +214,33 @@ The `.github/workflows/security-sast.yml` workflow automatically runs on:
 - Pull requests to protected branches
 - Manual workflow dispatch
 
+**Workflow Jobs:**
+
+| Job | Purpose | Exit Behavior |
+|-----|---------|---------------|
+| `sast-scan` | Code analysis (Bandit, Semgrep) | Fails on Critical/High code issues |
+| `dependency-scan` | Package vulnerabilities (pip-audit, safety) | Fails on Critical/High CVEs |
+| `security-gate` | Final check | Fails if any scan failed |
+
 **Workflow Behavior:**
-- **FAIL** if Critical/High severity issues are detected
+- **FAIL** if Critical/High severity issues are detected (code or dependencies)
 - **PASS** with warnings for Medium/Low issues
 - Results are uploaded to GitHub Security tab (SARIF format)
 - Artifacts available for download
 
 ### Running Locally Before Push
 
-Always run scans before pushing:
+Always run both scans before pushing:
 
 ```bash
+# Code analysis
 ./scripts/run_sast.sh
+
+# Dependency vulnerabilities
+./scripts/run_dep_scan.sh
 ```
 
-If the scan fails (exit code 1), fix the issues before pushing.
+If either scan fails (exit code 1), fix the issues before pushing.
 
 ---
 
