@@ -237,6 +237,7 @@ def login():
                 from app.utils.timezone import now as jamaica_now
                 user.last_login_at = jamaica_now()
                 user.failed_login_count = 0
+                user.login_count = (user.login_count or 0) + 1
                 db.session.commit()
                 login_user(user)
                 

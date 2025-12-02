@@ -37,6 +37,7 @@ class User(UserMixin, db.Model):
     mfa_enabled = db.Column(db.Boolean, nullable=False, default=False)
     mfa_secret = db.Column(db.String(64))
     failed_login_count = db.Column(db.SmallInteger, nullable=False, default=0)
+    login_count = db.Column(db.Integer, nullable=False, default=0)
     lock_until_at = db.Column(db.DateTime)
     password_changed_at = db.Column(db.DateTime)
     
@@ -88,10 +89,6 @@ class User(UserMixin, db.Model):
         """IP address placeholder (not in database)"""
         return None
     
-    @property
-    def login_count(self):
-        """Login count placeholder (not in database)"""
-        return 0
     
     @property
     def lockout_reason(self):
