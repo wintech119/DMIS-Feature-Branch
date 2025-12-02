@@ -21,8 +21,6 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-.env
-.venv
 instance/
 .webassets-cache
 .pytest_cache/
@@ -30,5 +28,38 @@ instance/
 htmlcov/
 *.log
 
+# Environment and secrets - NEVER commit these
+.env
+.env.*
+!.env.example
+.venv
+*.pem
+*.key
+secrets/
+.secrets/
+credentials/
+config.local.py
+settings.local.py
+
 # Uploaded files
 uploads/
+
+# Security scan reports (may contain sensitive paths)
+security-reports/
+*.sarif
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Deployment artifacts
+deploy/*.conf
+!deploy/*.example
+!deploy/*.example.conf

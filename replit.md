@@ -96,3 +96,10 @@ The application employs a modular blueprint architecture with a database-first a
 - **Dependency Script** - `scripts/run_dep_scan.sh` runs dependency scanners with conservative severity classification
 - **GitHub Actions** - `.github/workflows/security-sast.yml` for CI/CD integration (SAST + dependency scans)
 - **Security Documentation** - `SECURITY.md` for vulnerability policy and local scan instructions
+
+### Configuration & Deployment
+- **Configuration Module** - `settings.py` with environment-driven settings (DMIS_ prefix)
+- **Environment Template** - `.env.example` for local development setup
+- **NGINX Template** - `deploy/nginx.conf.example` for production reverse proxy
+- **Production-Safe Defaults** - DEBUG=false by default, SECRET_KEY required in production
+- **Environment Variables**: `DMIS_SECRET_KEY`, `DMIS_DATABASE_URL`, `DMIS_DEBUG`, `DMIS_TESTING`, `DMIS_UPLOAD_FOLDER`, `DMIS_LOG_TO_STDOUT` (legacy names supported for backward compatibility)

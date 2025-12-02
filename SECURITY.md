@@ -287,6 +287,60 @@ DMIS implements the following security controls:
 
 ---
 
+## Configuration Hardening
+
+### Environment Variables
+
+DMIS uses environment variables for all sensitive configuration. Variables support the `DMIS_` prefix with fallback to legacy names for backward compatibility.
+
+| Variable | Purpose | Default |
+|----------|---------|---------|
+| `DMIS_SECRET_KEY` | Flask session encryption key | Required in production |
+| `DMIS_DATABASE_URL` | PostgreSQL connection string | Required |
+| `DMIS_DEBUG` | Enable debug mode | `false` |
+| `DMIS_TESTING` | Enable testing mode | `false` |
+| `DMIS_UPLOAD_FOLDER` | File upload directory | `./uploads/donations` |
+| `DMIS_LOG_TO_STDOUT` | Log to stdout instead of file | `false` |
+
+**Security Notes:**
+- `DMIS_DEBUG` defaults to `false` - production-safe by default
+- `DMIS_SECRET_KEY` is required in production (error if missing)
+- Never commit `.env` files with real credentials
+- See `.env.example` for a complete template
+
+### Secrets Management
+
+1. **Local Development**: Use `.env` file (not committed to version control)
+2. **Replit**: Use the Secrets tab in the Replit interface
+3. **Production**: Use environment variables or secrets manager
+
+Files excluded from version control (`.gitignore`):
+- `.env`, `.env.*` (except `.env.example`)
+- `*.pem`, `*.key`
+- `secrets/`, `credentials/`
+- `config.local.py`, `settings.local.py`
+
+### Production Deployment
+
+For production deployment behind NGINX:
+
+1. Use the template at `deploy/nginx.conf.example`
+2. Configure TLS with Let's Encrypt certificates
+3. Enable HSTS (1 year max-age with includeSubDomains)
+4. Run DMIS via Gunicorn (not Flask dev server):
+   ```bash
+   gunicorn --bind 127.0.0.1:8000 --workers 4 wsgi:app
+   ```
+
+See `deploy/nginx.conf.example` for complete NGINX configuration including:
+- TLS 1.2+ with modern cipher suites
+- Proxy headers (X-Forwarded-For, X-Forwarded-Proto)
+- Rate limiting configuration
+- Static file serving
+- Security header additions (complementing app headers)
+
+---
+
 ## Reporting Security Issues
 
 If you discover a security vulnerability in DMIS:
