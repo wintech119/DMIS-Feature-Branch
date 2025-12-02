@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict NFEssRVveMDNgJwVxtRQhG6mGWd07hYaEYmBwOxNQsnET37KnL9rzjiJTujzWkw
+\restrict HXFqFMmLz1MKr9VP8GVOzOcNnZ8YASKU26nBeFHA1iH6QZvgYlBci9iv7ofuIJL
 
 -- Dumped from database version 16.10 (0374078)
 -- Dumped by pg_dump version 16.10
@@ -1913,6 +1913,7 @@ CREATE TABLE public."user" (
     status_code character(1) DEFAULT 'A'::bpchar NOT NULL,
     version_nbr integer DEFAULT 1 NOT NULL,
     user_name character varying(20) NOT NULL,
+    login_count integer DEFAULT 0 NOT NULL,
     CONSTRAINT c_user_status_code CHECK ((status_code = ANY (ARRAY['A'::bpchar, 'I'::bpchar, 'L'::bpchar])))
 );
 
@@ -6724,12 +6725,12 @@ PKG	Package	Package of items	IMPORT	2025-11-28 17:02:55	IMPORT	2025-11-28 17:02:
 -- Data for Name: user; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-COPY public."user" (user_id, email, password_hash, first_name, last_name, full_name, is_active, organization, job_title, phone, timezone, language, notification_preferences, assigned_warehouse_id, last_login_at, create_dtime, update_dtime, username, password_algo, mfa_enabled, mfa_secret, failed_login_count, lock_until_at, password_changed_at, agency_id, status_code, version_nbr, user_name) FROM stdin;
-9	inventory.clerk@odpem.gov.jm	scrypt:32768:8:1$Hr1gHwnHLdSPjx1r$f220120d9e0c1ac9456e3bc02267af50c9b1365098b4682f6eb9aae6e67f3664764bca449213397fe4a9dc3c80daaae58194a87fcd6af00563201117112d0029	Michael	Graham	Michael Graham	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Inventory Clerk	+1 (876) 477-9023	America/Jamaica	en	\N	\N	2025-11-30 20:26:43.841592	2025-11-28 14:16:13.057061	2025-12-01 01:26:43.650709	\N	argon2id	f	\N	0	\N	\N	\N	A	3	MICHAEL
-7	logistics.officer@odpem.gov.jm	scrypt:32768:8:1$ZJCCJ0syZOwfavao$ee787b4a5ea473d90f4dd4205b718a1d2edb852d61e744b2a7accb5df495f337f0e2f77bcd4d20674960271e18c5c810f49d7f352fbb0a71ca91b1a1525e119f	Joseph	Green	Joseph Green	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Logistics Officer	+1 (876) 453-6782	America/Jamaica	en	\N	\N	2025-12-01 17:06:30.861165	2025-11-28 14:12:49.565255	2025-12-01 22:06:30.683623	\N	argon2id	f	\N	0	\N	\N	\N	A	3	LO
-5	admin@odpem.gov.jm	scrypt:32768:8:1$Zn0JRYPxqIDvBTv0$a18bee44ada63249574212da028788905b54907dd82a18b7912adb5414f56e26bf571a480e0ff425a80173b8158692d6c0c91b281be17e4eb78ad32961e069fd	System	Administrator	System Administrator	t	\N	System Administrator	+1 (	America/Jamaica	en	\N	\N	2025-11-28 14:10:55.898541	2025-11-28 18:20:28.212206	2025-11-28 19:10:55.704833	\N	scrypt	f	\N	0	\N	\N	\N	A	4	SYSADMIN
-6	logistics@odpem.gov.jm	scrypt:32768:8:1$PTQkAFCoJ2Mf2npg$6edf6a4664fcd6d22d08fa431158a691d7654a0910746e0f12a8490bc18553c59907454adab83a053ab23d6b7ac2229d38bcd3fc63daf6552c910f0e8a325127	Howard	Francis	Howard Francis	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Logistics Manager	+1 (876) 564-8587	America/Jamaica	en	\N	\N	2025-12-01 17:25:21.34629	2025-11-28 18:21:21.50833	2025-12-01 22:25:21.119248	\N	scrypt	f	\N	0	\N	\N	\N	A	8	LOGMGR
-8	director.general@odpem.gov.jm	scrypt:32768:8:1$uqyco3z4oHQ2bPIc$b63e534a7cc5ad9b353c49b0b9f5f298970e148d82c07919252ba2400741422c5c749b7594b19873a83abcd5314b33110707ccd4c2cc407bfa7ac8b756cc07d2	Alvin	Junior	Alvin Junior	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Director General	+1 (876) 789-0003	America/Jamaica	en	\N	\N	2025-11-29 13:52:38.847445	2025-11-28 14:14:57.05739	2025-11-29 18:52:38.643168	\N	argon2id	f	\N	0	\N	\N	\N	A	5	ALVIN
+COPY public."user" (user_id, email, password_hash, first_name, last_name, full_name, is_active, organization, job_title, phone, timezone, language, notification_preferences, assigned_warehouse_id, last_login_at, create_dtime, update_dtime, username, password_algo, mfa_enabled, mfa_secret, failed_login_count, lock_until_at, password_changed_at, agency_id, status_code, version_nbr, user_name, login_count) FROM stdin;
+9	inventory.clerk@odpem.gov.jm	scrypt:32768:8:1$Hr1gHwnHLdSPjx1r$f220120d9e0c1ac9456e3bc02267af50c9b1365098b4682f6eb9aae6e67f3664764bca449213397fe4a9dc3c80daaae58194a87fcd6af00563201117112d0029	Michael	Graham	Michael Graham	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Inventory Clerk	+1 (876) 477-9023	America/Jamaica	en	\N	\N	2025-11-30 20:26:43.841592	2025-11-28 14:16:13.057061	2025-12-01 01:26:43.650709	\N	argon2id	f	\N	0	\N	\N	\N	A	3	MICHAEL	0
+7	logistics.officer@odpem.gov.jm	scrypt:32768:8:1$ZJCCJ0syZOwfavao$ee787b4a5ea473d90f4dd4205b718a1d2edb852d61e744b2a7accb5df495f337f0e2f77bcd4d20674960271e18c5c810f49d7f352fbb0a71ca91b1a1525e119f	Joseph	Green	Joseph Green	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Logistics Officer	+1 (876) 453-6782	America/Jamaica	en	\N	\N	2025-12-01 17:06:30.861165	2025-11-28 14:12:49.565255	2025-12-01 22:06:30.683623	\N	argon2id	f	\N	0	\N	\N	\N	A	3	LO	0
+5	admin@odpem.gov.jm	scrypt:32768:8:1$Zn0JRYPxqIDvBTv0$a18bee44ada63249574212da028788905b54907dd82a18b7912adb5414f56e26bf571a480e0ff425a80173b8158692d6c0c91b281be17e4eb78ad32961e069fd	System	Administrator	System Administrator	t	\N	System Administrator	+1 (	America/Jamaica	en	\N	\N	2025-11-28 14:10:55.898541	2025-11-28 18:20:28.212206	2025-11-28 19:10:55.704833	\N	scrypt	f	\N	0	\N	\N	\N	A	4	SYSADMIN	0
+6	logistics@odpem.gov.jm	scrypt:32768:8:1$PTQkAFCoJ2Mf2npg$6edf6a4664fcd6d22d08fa431158a691d7654a0910746e0f12a8490bc18553c59907454adab83a053ab23d6b7ac2229d38bcd3fc63daf6552c910f0e8a325127	Howard	Francis	Howard Francis	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Logistics Manager	+1 (876) 564-8587	America/Jamaica	en	\N	\N	2025-12-02 11:11:34.668072	2025-11-28 18:21:21.50833	2025-12-02 16:11:34.466213	\N	scrypt	f	\N	0	\N	\N	\N	A	17	LOGMGR	0
+8	director.general@odpem.gov.jm	scrypt:32768:8:1$uqyco3z4oHQ2bPIc$b63e534a7cc5ad9b353c49b0b9f5f298970e148d82c07919252ba2400741422c5c749b7594b19873a83abcd5314b33110707ccd4c2cc407bfa7ac8b756cc07d2	Alvin	Junior	Alvin Junior	t	OFFICE OF DISASTER PREPAREDNESS AND EMERGENCY MANAGEMENT (ODPEM)	Director General	+1 (876) 789-0003	America/Jamaica	en	\N	\N	2025-12-02 08:34:04.440673	2025-11-28 14:14:57.05739	2025-12-02 13:34:04.24585	\N	argon2id	f	\N	0	\N	\N	\N	A	7	ALVIN	0
 \.
 
 
@@ -6934,7 +6935,7 @@ SELECT pg_catalog.setval('public.reliefpkg_reliefpkg_id_seq', 4, true);
 -- Name: reliefrqst_reliefrqst_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.reliefrqst_reliefrqst_id_seq', 11, true);
+SELECT pg_catalog.setval('public.reliefrqst_reliefrqst_id_seq', 12, true);
 
 
 --
@@ -8882,5 +8883,5 @@ ALTER TABLE ONLY public.xfreturn_item
 -- PostgreSQL database dump complete
 --
 
-\unrestrict NFEssRVveMDNgJwVxtRQhG6mGWd07hYaEYmBwOxNQsnET37KnL9rzjiJTujzWkw
+\unrestrict HXFqFMmLz1MKr9VP8GVOzOcNnZ8YASKU26nBeFHA1iH6QZvgYlBci9iv7ofuIJL
 
