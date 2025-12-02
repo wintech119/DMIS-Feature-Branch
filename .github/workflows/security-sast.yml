@@ -1,0 +1,268 @@
+# =============================================================================
+# DMIS Security Scanning Workflow
+# =============================================================================
+# This GitHub Actions workflow runs comprehensive security testing including:
+#   - Static Application Security Testing (SAST) with Bandit and Semgrep
+#   - Dependency vulnerability scanning with pip-audit and safety
+#
+# The workflow will:
+#   - FAIL if Critical/High severity issues are found
+#   - WARN (but pass) for Medium/Low severity issues
+#   - Upload scan results as artifacts for review
+# =============================================================================
+
+name: Security Scan
+
+on:
+  push:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - '**.py'
+      - 'templates/**'
+      - 'requirements.txt'
+      - 'bandit.yml'
+      - 'semgrep.yml'
+      - 'scripts/run_sast.sh'
+      - 'scripts/run_dep_scan.sh'
+      - '.github/workflows/security-sast.yml'
+  pull_request:
+    branches:
+      - main
+      - master
+      - develop
+    paths:
+      - '**.py'
+      - 'templates/**'
+      - 'requirements.txt'
+  # Allow manual trigger
+  workflow_dispatch:
+
+# Prevent concurrent runs on the same branch
+concurrency:
+  group: security-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # SAST Security Scan (Code Analysis)
+  # ---------------------------------------------------------------------------
+  sast-scan:
+    name: SAST Code Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    
+    outputs:
+      exit_code: ${{ steps.sast.outputs.exit_code }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install SAST tools
+        run: |
+          pip install bandit bandit-sarif-formatter semgrep
+
+      - name: Make script executable
+        run: chmod +x scripts/run_sast.sh
+
+      - name: Run SAST scan with reports
+        id: sast
+        run: |
+          # Run the unified SAST script with report generation
+          ./scripts/run_sast.sh --report || SAST_EXIT_CODE=$?
+          
+          # Capture exit code for later use
+          echo "exit_code=${SAST_EXIT_CODE:-0}" >> $GITHUB_OUTPUT
+          
+          # Don't fail yet - we want to upload artifacts first
+          exit 0
+
+      - name: Generate SARIF reports for GitHub Security tab
+        if: always()
+        run: |
+          # Generate Bandit SARIF
+          bandit -r app/ drims_app.py -c bandit.yml -f sarif -o bandit-results.sarif --exit-zero || true
+          
+          # Generate Semgrep SARIF
+          semgrep --config semgrep.yml --config p/python --config p/flask --sarif --output semgrep-results.sarif app/ drims_app.py || true
+
+      - name: Upload Bandit SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: bandit-results.sarif
+          category: bandit
+        continue-on-error: true
+
+      - name: Upload Semgrep SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: semgrep-results.sarif
+          category: semgrep
+        continue-on-error: true
+
+      - name: Upload SAST artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sast-results
+          path: |
+            security-reports/bandit-report.*
+            security-reports/semgrep-report.*
+            bandit-results.sarif
+            semgrep-results.sarif
+          retention-days: 30
+
+  # ---------------------------------------------------------------------------
+  # Dependency Vulnerability Scan
+  # ---------------------------------------------------------------------------
+  dependency-scan:
+    name: Dependency Scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    
+    outputs:
+      exit_code: ${{ steps.deps.outputs.exit_code }}
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install project dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install security scanning tools
+        run: |
+          pip install pip-audit safety
+
+      - name: Make script executable
+        run: chmod +x scripts/run_dep_scan.sh
+
+      - name: Run dependency vulnerability scan
+        id: deps
+        run: |
+          # Run the dependency scan script with report generation
+          ./scripts/run_dep_scan.sh --report || DEP_EXIT_CODE=$?
+          
+          # Capture exit code for later use
+          echo "exit_code=${DEP_EXIT_CODE:-0}" >> $GITHUB_OUTPUT
+          
+          # Don't fail yet - we want to upload artifacts first
+          exit 0
+
+      - name: Upload dependency scan artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-scan-results
+          path: |
+            security-reports/pip-audit-report.json
+            security-reports/safety-report.json
+          retention-days: 30
+
+      - name: Generate dependency summary
+        if: always()
+        run: |
+          echo "## Dependency Scan Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f security-reports/pip-audit-report.json ]; then
+            echo "### pip-audit" >> $GITHUB_STEP_SUMMARY
+            VULN_COUNT=$(python3 -c "
+import json
+try:
+    with open('security-reports/pip-audit-report.json') as f:
+        data = json.load(f)
+    vulns = data if isinstance(data, list) else data.get('dependencies', [])
+    total = sum(len(p.get('vulns', [])) for p in vulns)
+    print(total)
+except:
+    print('0')
+" 2>/dev/null || echo "0")
+            echo "- Vulnerabilities found: $VULN_COUNT" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Status" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.deps.outputs.exit_code }}" = "0" ]; then
+            echo ":white_check_mark: **PASSED** - No Critical/High dependency vulnerabilities" >> $GITHUB_STEP_SUMMARY
+          else
+            echo ":x: **FAILED** - Critical/High dependency vulnerabilities detected" >> $GITHUB_STEP_SUMMARY
+          fi
+
+  # ---------------------------------------------------------------------------
+  # Security Summary (Final Gate)
+  # ---------------------------------------------------------------------------
+  security-gate:
+    name: Security Gate
+    runs-on: ubuntu-latest
+    needs: [sast-scan, dependency-scan]
+    if: always()
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: all-results
+        continue-on-error: true
+
+      - name: Generate final summary
+        run: |
+          echo "# Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Scan Type | Status |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+          
+          # SAST Status
+          if [ "${{ needs.sast-scan.outputs.exit_code }}" = "0" ]; then
+            echo "| SAST (Code) | :white_check_mark: Passed |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| SAST (Code) | :x: Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          # Dependency Status
+          if [ "${{ needs.dependency-scan.outputs.exit_code }}" = "0" ]; then
+            echo "| Dependencies | :white_check_mark: Passed |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| Dependencies | :x: Failed |" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Policy" >> $GITHUB_STEP_SUMMARY
+          echo "- Critical/High vulnerabilities must be remediated before release" >> $GITHUB_STEP_SUMMARY
+          echo "- Medium/Low may be accepted with documented risk exception" >> $GITHUB_STEP_SUMMARY
+
+      - name: Check SAST results
+        if: needs.sast-scan.outputs.exit_code != '0'
+        run: |
+          echo "::error::SAST scan failed. Critical/High code vulnerabilities detected."
+          exit 1
+
+      - name: Check dependency results
+        if: needs.dependency-scan.outputs.exit_code != '0'
+        run: |
+          echo "::error::Dependency scan failed. Critical/High dependency vulnerabilities detected."
+          exit 1
+
+      - name: Security gate passed
+        run: |
+          echo "All security scans passed successfully."
+          echo "::notice::Security gate passed - no Critical/High vulnerabilities found."
