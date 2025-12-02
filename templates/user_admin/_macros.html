@@ -6,6 +6,10 @@
         <span class="status-badge locked">
             <i class="bi bi-lock-fill"></i> Locked
         </span>
+    {% elif status == 'unlocked' %}
+        <span class="text-success">
+            <i class="bi bi-unlock-fill"></i> Unlocked
+        </span>
     {% elif status == 'pending' %}
         <span class="status-badge pending">
             <i class="bi bi-clock-fill"></i> Pending

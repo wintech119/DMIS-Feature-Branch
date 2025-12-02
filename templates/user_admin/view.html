@@ -256,7 +256,7 @@
                             <h3 class="info-card-title">Authentication & Access</h3>
                         </div>
                         {{ info_row('Multi-Factor Authentication', badge=mfa_status_badge(user.mfa_enabled, user.mfa_secret is not none), icon='shield-check') }}
-                        {{ info_row('Account Lock Status', badge=status_badge('locked') if user.is_locked else '<span class="text-success"><i class="bi bi-unlock-fill"></i> Unlocked</span>', icon='lock') }}
+                        {{ info_row('Account Lock Status', badge=status_badge('locked' if user.is_locked else 'unlocked'), icon='lock') }}
                         {{ info_row('Failed Login Attempts', user.failed_login_attempts or '0', icon='exclamation-triangle') }}
                         {{ info_row('Last Password Change', user.password_changed_dtime.strftime('%Y-%m-%d') if user.password_changed_dtime else 'Never', icon='key') }}
                     </div>
