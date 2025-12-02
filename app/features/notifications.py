@@ -149,6 +149,7 @@ def api_clear_all():
 
 @notifications_bp.route('/api/delete/<int:notification_id>', methods=['POST'])
 @login_required
+@limit_api
 def api_delete_notification(notification_id):
     """JSON API: Delete a specific notification"""
     success = NotificationService.delete_notification(notification_id, current_user.user_id)
@@ -160,6 +161,7 @@ def api_delete_notification(notification_id):
 
 @notifications_bp.route('/api/mark-read/<int:notification_id>', methods=['POST'])
 @login_required
+@limit_api
 def api_mark_read(notification_id):
     """JSON API: Mark a single notification as read"""
     success = NotificationService.mark_as_read(notification_id, current_user.user_id)

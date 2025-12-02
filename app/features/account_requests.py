@@ -10,6 +10,7 @@ from app.security.rate_limiting import limiter
 account_requests_bp = Blueprint('account_requests', __name__, url_prefix='/account-requests')
 
 @account_requests_bp.route('/submit', methods=['GET'])
+@limiter.limit("10 per minute")
 def submit_form():
     return render_template('account_requests/submit.html')
 

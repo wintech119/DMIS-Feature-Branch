@@ -341,6 +341,82 @@ See `deploy/nginx.conf.example` for complete NGINX configuration including:
 
 ---
 
+## API Security (OWASP API Top 10)
+
+DMIS implements the following API security controls based on the OWASP API Security Top 10:
+
+### Rate Limiting (API4:2023 - Unrestricted Resource Consumption)
+
+| Endpoint Category | Limit | Implementation |
+|-------------------|-------|----------------|
+| Login | 5 requests/minute | Brute-force protection |
+| Exports (CSV, PDF) | 3 requests/hour | Prevents resource abuse |
+| Reports | 10 requests/minute | Balances usability and protection |
+| Analytics Dashboards | 10 requests/minute | Expensive query protection |
+| Bulk Operations | 5 requests/minute | Notification clear-all, etc. |
+| Public Endpoints | 5 requests/minute | Account request submissions |
+
+**Configuration:**
+- Module: `app/security/rate_limiting.py`
+- Backend: In-memory storage (Redis recommended for production multi-instance)
+- Key Function: User ID for authenticated users, IP address for anonymous
+
+**Rate Limit Headers:**
+```
+X-RateLimit-Limit: 10
+X-RateLimit-Remaining: 9
+X-RateLimit-Reset: 1234567890
+Retry-After: 60
+```
+
+### CORS Configuration (API7:2023 - Security Misconfiguration)
+
+| Setting | Value | Purpose |
+|---------|-------|---------|
+| Allowed Origins | ODPEM/JAMICTA subdomains | Domain allowlist |
+| Credentials | Enabled for allowed origins only | Cookie/session support |
+| Allowed Methods | GET, POST, PUT, DELETE | Standard REST methods |
+| Max Age | 600 seconds | Preflight caching |
+
+**Configuration:**
+- Module: `app/security/cors_config.py`
+- Pattern: `*.odpem.gov.jm`, `*.jamicta.gov.jm`
+- No wildcards for credential-bearing requests
+
+### External API Consumption (API10:2023 - Unsafe Consumption of APIs)
+
+The `SafeApiClient` utility provides secure external API consumption:
+
+| Protection | Implementation |
+|------------|----------------|
+| Domain Allowlist | Currency API domains only |
+| Timeouts | 10s connect, 30s read |
+| Retry Logic | Exponential backoff (3 attempts) |
+| Response Validation | Content-Type, size limits |
+| Response Sanitization | Control character removal |
+
+**Usage:**
+```python
+from app.security.safe_api_client import SafeApiClient
+
+client = SafeApiClient()
+response = client.get('https://api.exchangerate.com/v1/rates')
+```
+
+### Additional API Protections
+
+| OWASP Risk | Control | Implementation |
+|------------|---------|----------------|
+| API1 - BOLA | Authorization checks | `@role_required` decorator, user_id verification |
+| API2 - Auth | Flask-Login session | Secure cookies, session timeout |
+| API3 - Property Access | Output filtering | Response models, no internal fields exposed |
+| API5 - Function Auth | RBAC | Role hierarchy, feature registry |
+| API6 - Mass Assignment | WTForms validation | Explicit field whitelists |
+| API8 - Security Misconfiguration | CSP, HSTS | Strict security headers |
+| API9 - Inventory Management | Rate limiting | All endpoints protected |
+
+---
+
 ## Reporting Security Issues
 
 If you discover a security vulnerability in DMIS:

@@ -9,7 +9,7 @@ from io import StringIO
 import logging
 from app.utils.timezone import now as jamaica_now
 from app.core.rbac import executive_required
-from app.security.rate_limiting import limit_expensive
+from app.security.rate_limiting import limit_export, limit_reports
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +22,7 @@ def index():
 
 @reports_bp.route('/inventory_summary')
 @login_required
+@limit_reports
 def inventory_summary():
     summary = db.session.query(
         Warehouse.warehouse_name,
@@ -42,7 +43,7 @@ def inventory_summary():
 
 @reports_bp.route('/inventory_summary/export')
 @login_required
-@limit_expensive
+@limit_export
 def export_inventory():
     summary = db.session.query(
         Warehouse.warehouse_name,
@@ -79,7 +80,7 @@ def export_inventory():
 
 @reports_bp.route('/donations_summary')
 @login_required
-@limit_expensive
+@limit_reports
 def donations_summary():
     # Calculate total value from DonationIntakeItem (quantity * unit value)
     donations = db.session.query(
@@ -112,7 +113,7 @@ def donations_summary():
 @reports_bp.route('/funds_donations')
 @login_required
 @executive_required
-@limit_expensive
+@limit_reports
 def funds_donations():
     """
     Funds Donations Report - Read-only report for ODPEM Executives.

@@ -92,6 +92,8 @@ limiter = Limiter(
 RATE_LIMIT_AUTH = os.getenv('DMIS_RATE_LIMIT_AUTH', '5 per minute')
 RATE_LIMIT_STANDARD = os.getenv('DMIS_RATE_LIMIT_STANDARD', '100 per minute')
 RATE_LIMIT_EXPENSIVE = os.getenv('DMIS_RATE_LIMIT_EXPENSIVE', '10 per minute')
+RATE_LIMIT_EXPORT = os.getenv('DMIS_RATE_LIMIT_EXPORT', '3 per hour')
+RATE_LIMIT_REPORTS = os.getenv('DMIS_RATE_LIMIT_REPORTS', '10 per minute')
 RATE_LIMIT_BULK = os.getenv('DMIS_RATE_LIMIT_BULK', '5 per minute')
 RATE_LIMIT_API = os.getenv('DMIS_RATE_LIMIT_API', '60 per minute')
 
@@ -130,13 +132,42 @@ def limit_expensive(f):
     
     Applies moderate rate limiting (10/minute by default) to prevent
     abuse of resource-intensive endpoints like:
-    - Report generation
-    - Data exports
-    - Complex searches
     - Dashboard analytics
+    - Complex searches
     """
     @wraps(f)
     @limiter.limit(RATE_LIMIT_EXPENSIVE, error_message="Too many requests. Please wait before generating another report.")
+    def decorated_function(*args, **kwargs):
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def limit_export(f):
+    """
+    Rate limiter decorator for export operations.
+    
+    Applies strict rate limiting (3/hour by default) to prevent
+    abuse of data export endpoints like:
+    - CSV exports
+    - PDF generation
+    - Large data downloads
+    """
+    @wraps(f)
+    @limiter.limit(RATE_LIMIT_EXPORT, error_message="Export limit reached. You can generate up to 3 exports per hour.")
+    def decorated_function(*args, **kwargs):
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+def limit_reports(f):
+    """
+    Rate limiter decorator for report view endpoints.
+    
+    Applies moderate rate limiting (10/minute by default) to prevent
+    abuse of report viewing and generation endpoints.
+    """
+    @wraps(f)
+    @limiter.limit(RATE_LIMIT_REPORTS, error_message="Too many report requests. Please wait before viewing another report.")
     def decorated_function(*args, **kwargs):
         return f(*args, **kwargs)
     return decorated_function
