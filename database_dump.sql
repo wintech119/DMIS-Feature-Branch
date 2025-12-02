@@ -2174,6 +2174,7 @@ ALTER TABLE ONLY public.xfreturn ALTER COLUMN xfreturn_id SET DEFAULT nextval('p
 --
 
 COPY public.agency (agency_id, agency_name, address1_text, address2_text, parish_code, contact_name, phone_no, email_text, create_by_id, create_dtime, update_by_id, update_dtime, version_nbr, agency_type, ineligible_event_id, status_code, warehouse_id) FROM stdin;
+2	MONTEGO BAY RELIEF SHELTER	Main Street	\N	08	WINSTON BOWEN	+1 (876) 455-6323	\N	LOGMGR	2025-11-28 18:32:12	LOGMGR	2025-11-28 18:32:12	1	SHELTER	\N	A	\N
 \.
 
 
@@ -2376,6 +2377,9 @@ COPY public.distribution_package_item (id, package_id, item_id, quantity, notes)
 --
 
 COPY public.dnintake (donation_id, inventory_id, intake_date, comments_text, status_code, create_by_id, create_dtime, update_by_id, update_dtime, verify_by_id, verify_dtime, version_nbr) FROM stdin;
+20	2	2025-11-25	\N	V	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:36	LOGMGR	2025-11-28 18:29:36	2
+22	1	2025-11-30	\N	V	LOGMGR	2025-11-30 20:16:46	LOGMGR	2025-11-30 20:17:25	LOGMGR	2025-11-30 20:17:25	2
+23	2	2025-12-01	\N	V	LOGMGR	2025-12-01 11:02:16	LOGMGR	2025-12-01 11:03:12	LOGMGR	2025-12-01 11:03:12	3
 \.
 
 
@@ -2384,6 +2388,14 @@ COPY public.dnintake (donation_id, inventory_id, intake_date, comments_text, sta
 --
 
 COPY public.dnintake_item (donation_id, inventory_id, item_id, batch_no, batch_date, expiry_date, uom_code, avg_unit_value, usable_qty, defective_qty, expired_qty, ext_item_cost, status_code, comments_text, create_by_id, create_dtime, update_by_id, update_dtime, version_nbr) FROM stdin;
+20	2	66	GEN-01	2025-11-25	\N	EA	300000.00	1.00	0.00	0.00	300000.00	V	\N	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:36	2
+20	2	206	TARP-01	2025-11-25	\N	EA	5000.00	1900.00	100.00	0.00	10000000.00	V	\N	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:37	2
+20	2	214	BLA-01	2025-11-25	\N	EA	1000.00	490.00	10.00	0.00	500000.00	V	\N	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:37	2
+20	2	217	BUC-01	2025-11-25	\N	EA	200.00	799.00	1.00	0.00	160000.00	V	\N	LOGMGR	2025-11-28 18:28:39	LOGMGR	2025-11-28 18:29:37	2
+22	1	23	DIA-01	2025-11-30	\N	EA	300.00	3.00	1.00	0.00	1200.00	V	\N	LOGMGR	2025-11-30 20:16:46	LOGMGR	2025-11-30 20:17:25	2
+22	1	77	GEN-01	2025-11-30	\N	EA	300000.00	1.00	0.00	0.00	300000.00	V	\N	LOGMGR	2025-11-30 20:16:46	LOGMGR	2025-11-30 20:17:25	2
+23	2	29	DIA-01	2025-12-01	\N	EA	400.00	350.00	150.00	0.00	200000.00	V	\N	LOGMGR	2025-12-01 11:02:17	LOGMGR	2025-12-01 11:03:12	2
+23	2	78	GEN-023	2025-12-01	\N	EA	2500000.00	1.00	0.00	0.00	2500000.00	V	\N	LOGMGR	2025-12-01 11:02:17	LOGMGR	2025-12-01 11:03:12	2
 \.
 
 
@@ -2392,6 +2404,10 @@ COPY public.dnintake_item (donation_id, inventory_id, item_id, batch_no, batch_d
 --
 
 COPY public.donation (donation_id, donor_id, donation_desc, origin_country_id, origin_address1_text, origin_address2_text, event_id, custodian_id, received_date, tot_item_cost, storage_cost, haulage_cost, other_cost, other_cost_desc, status_code, comments_text, create_by_id, create_dtime, update_by_id, update_dtime, verify_by_id, verify_dtime, version_nbr) FROM stdin;
+20	2	CARE PACKAGE #1	124	\N	\N	1	2	2025-11-24	3000000.00	14000.00	20000.00	5000.00	LABOUR COST	P	\N	LOGMGR	2025-11-28 18:19:31	LOGMGR	2025-11-28 18:29:38	LOGMGR	2025-11-28 18:22:51	4
+21	2	CARE PACKAGE 11	124	\N	\N	1	2	2025-11-30	1000000.00	0.00	0.00	0.00	\N	V	\N	LOGMGR	2025-11-30 19:18:35	LOGMGR	2025-11-30 19:18:59	LOGMGR	2025-11-30 19:18:59	3
+22	2	CARE PACKAGE 10	124	\N	\N	1	2	2025-12-01	14500000.00	7500.00	4000.00	0.00	\N	P	\N	LOGMGR	2025-11-30 20:14:36	LOGMGR	2025-11-30 20:17:26	LOGMGR	2025-11-30 20:15:28	4
+23	2	CARE PACKAGE 99	124	\N	\N	1	2	2025-12-01	3000000.00	7500.00	15000.00	0.00	\N	P	THIS IS COMING FROM IMF.	LOGMGR	2025-12-01 10:55:06	LOGMGR	2025-12-01 11:03:13	LOGMGR	2025-12-01 10:57:23	4
 \.
 
 
@@ -2408,6 +2424,15 @@ COPY public.donation_doc (document_id, donation_id, document_type, document_desc
 --
 
 COPY public.donation_item (donation_id, item_id, donation_type, item_qty, item_cost, uom_code, currency_code, location_name, status_code, comments_text, create_by_id, create_dtime, update_by_id, update_dtime, verify_by_id, verify_dtime, version_nbr) FROM stdin;
+20	66	GOODS	1.00	300000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-28 18:19:32	LOGMGR	2025-11-28 18:22:51	LOGMGR	2025-11-28 18:22:51	2
+20	206	GOODS	2000.00	5000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-28 18:19:32	LOGMGR	2025-11-28 18:22:51	LOGMGR	2025-11-28 18:22:51	2
+20	214	GOODS	500.00	1000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-28 18:19:32	LOGMGR	2025-11-28 18:22:51	LOGMGR	2025-11-28 18:22:51	2
+20	217	GOODS	800.00	200.00	EA	\N	KW	V	\N	LOGMGR	2025-11-28 18:22:52	LOGMGR	2025-11-28 18:22:52	LOGMGR	2025-11-28 18:22:51	1
+21	206	GOODS	80.00	2000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-30 19:18:35	LOGMGR	2025-11-30 19:18:59	LOGMGR	2025-11-30 19:18:59	2
+22	23	GOODS	4.00	300.00	EA	\N	KW	V	\N	LOGMGR	2025-11-30 20:14:36	LOGMGR	2025-11-30 20:15:28	LOGMGR	2025-11-30 20:15:28	2
+22	77	GOODS	1.00	300000.00	EA	\N	KW	V	\N	LOGMGR	2025-11-30 20:14:36	LOGMGR	2025-11-30 20:15:28	LOGMGR	2025-11-30 20:15:28	2
+23	29	GOODS	500.00	400.00	EA	\N	DONATION RECEIVED	V	\N	LOGMGR	2025-12-01 10:55:06	LOGMGR	2025-12-01 10:57:23	LOGMGR	2025-12-01 10:57:23	2
+23	78	GOODS	1.00	2500000.00	EA	\N	KW	V	\N	LOGMGR	2025-12-01 10:57:23	LOGMGR	2025-12-01 10:57:23	LOGMGR	2025-12-01 10:57:23	1
 \.
 
 
@@ -2416,6 +2441,8 @@ COPY public.donation_item (donation_id, item_id, donation_type, item_qty, item_c
 --
 
 COPY public.donor (donor_id, donor_name, org_type_desc, address1_text, address2_text, country_id, phone_no, email_text, create_by_id, create_dtime, update_by_id, update_dtime, version_nbr, donor_code) FROM stdin;
+1	UNITED STATES AGENCY FOR INTERNATIONAL DEVELOPMENT	Government Agency	1300 Pennsylvania Avenue NW	Washington, DC 20004	840	+1-202-712-0000	info@usaid.gov	system	2025-11-28 22:55:54	system	2025-11-28 22:55:54	0	USAID
+2	JAMAICA RED CROSS	Non-Profit Organization	76 Arnold Road	Kingston 5, Jamaica	388	+1-876-984-7860	info@jamaicaredcross.org	system	2025-11-28 22:55:54	system	2025-11-28 22:55:54	0	REDCROSS-JA
 \.
 
 
@@ -2424,6 +2451,7 @@ COPY public.donor (donor_id, donor_name, org_type_desc, address1_text, address2_
 --
 
 COPY public.event (event_id, event_type, start_date, event_name, event_desc, impact_desc, status_code, closed_date, reason_desc, create_by_id, create_dtime, update_by_id, update_dtime, version_nbr) FROM stdin;
+1	HURRICANE	2024-09-15	Hurricane Melissa	Category 5 hurricane affecting southern parishes of Jamaica	Widespread flooding and wind damage in St. Elizabeth, Manchester, and Clarendon parishes. Approximately 5,000 households affected. Major damage to agricultural crops and infrastructure.	A	\N	\N	system	2025-11-28 23:00:04	LOGMGR	2025-11-28 18:00:51	1
 \.
 
 
@@ -4905,6 +4933,17 @@ COPY public.location (location_id, inventory_id, location_desc, status_code, com
 --
 
 COPY public.notification (id, user_id, warehouse_id, reliefrqst_id, title, message, type, status, link_url, payload, is_archived, created_at) FROM stdin;
+13	9	\N	8	Package Approved	Package for RR-000008 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready to be handed over to agency.	package_approved	read	/packaging/dispatch/awaiting	\N	f	2025-11-30 20:25:38.743036
+14	8	\N	9	New Relief Request Submitted	Agency MONTEGO BAY RELIEF SHELTER submitted RR-000009 for event: Hurricane Melissa. Click to review eligibility.	reliefrqst_submitted	read	/eligibility/review/9	\N	f	2025-12-01 07:58:56.45502
+16	7	\N	9	Relief Request Approved	RR-000009 from MONTEGO BAY RELIEF SHELTER (Event: Hurricane Melissa) approved by Alvin Junior. Click to prepare fulfillment package.	reliefrqst_approved	read	/packaging/9/prepare	\N	f	2025-12-01 07:59:23.438443
+19	9	\N	9	Package Approved	Package for RR-000009 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready to be handed over to agency.	package_approved	read	/packaging/dispatch/awaiting	\N	f	2025-12-01 08:00:30.613881
+18	7	\N	9	Package Approved	Package for RR-000009 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready for dispatch.	package_approved	read	/packaging/pending-fulfillment?filter=approved_for_dispatch	\N	f	2025-12-01 08:00:30.498759
+20	8	\N	10	New Relief Request Submitted	Agency MONTEGO BAY RELIEF SHELTER submitted RR-000010 for event: Hurricane Melissa. Click to review eligibility.	reliefrqst_submitted	read	/eligibility/review/10	\N	f	2025-12-01 08:06:26.278734
+22	7	\N	10	Relief Request Approved	RR-000010 from MONTEGO BAY RELIEF SHELTER (Event: Hurricane Melissa) approved by Alvin Junior. Click to prepare fulfillment package.	reliefrqst_approved	read	/packaging/10/prepare	\N	f	2025-12-01 08:06:42.500247
+24	8	\N	11	New Relief Request Submitted	Agency MONTEGO BAY RELIEF SHELTER submitted RR-000011 for event: Hurricane Melissa. Click to review eligibility.	reliefrqst_submitted	read	/eligibility/review/11	\N	f	2025-12-01 11:08:41.910781
+26	7	\N	11	Relief Request Approved	RR-000011 from MONTEGO BAY RELIEF SHELTER (Event: Hurricane Melissa) approved by Alvin Junior. Click to prepare fulfillment package.	reliefrqst_approved	read	/packaging/11/prepare	\N	f	2025-12-01 11:09:50.01878
+29	9	\N	11	Package Approved	Package for RR-000011 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready to be handed over to agency.	package_approved	unread	/packaging/dispatch/awaiting	\N	f	2025-12-01 11:14:30.388598
+28	7	\N	11	Package Approved	Package for RR-000011 from MONTEGO BAY RELIEF SHELTER approved by Howard Francis. Ready for dispatch.	package_approved	read	/packaging/pending-fulfillment?filter=approved_for_dispatch	\N	f	2025-12-01 11:14:30.267447
 \.
 
 
@@ -4951,6 +4990,10 @@ COPY public.relief_request_fulfillment_lock (reliefrqst_id, fulfiller_user_id, f
 --
 
 COPY public.reliefpkg (reliefpkg_id, to_inventory_id, reliefrqst_id, start_date, dispatch_dtime, transport_mode, comments_text, status_code, create_by_id, create_dtime, update_by_id, update_dtime, verify_by_id, verify_dtime, version_nbr, received_by_id, received_dtime, agency_id, tracking_no, eligible_event_id) FROM stdin;
+2	1	9	2025-12-01	2025-12-01 08:00:30	\N	\N	D	LO	2025-12-01 08:00:06	MICHAEL	2025-12-01 08:01:03	LOGMGR	2025-12-01 08:00:30	4	MICHAEL	2025-12-01 08:01:03	2	5B3E438	\N
+1	1	8	2025-12-01	2025-11-30 20:25:37	\N	\N	D	LO	2025-11-30 20:24:13	MICHAEL	2025-12-01 08:01:17	LOGMGR	2025-11-30 20:25:37	4	MICHAEL	2025-12-01 08:01:17	2	ADEA1E8	\N
+3	1	10	2025-12-01	\N	\N	\N	P	LO	2025-12-01 08:07:24	LO	2025-12-01 08:07:24	__PENDING_LM__	2025-12-01 08:07:24	2	\N	\N	2	682BF1C	\N
+4	1	11	2025-12-01	2025-12-01 11:14:29	\N	\N	D	LO	2025-12-01 11:13:00	MICHAEL	2025-12-01 11:16:01	LOGMGR	2025-12-01 11:14:29	4	MICHAEL	2025-12-01 11:16:01	2	85263F7	\N
 \.
 
 
@@ -4959,6 +5002,12 @@ COPY public.reliefpkg (reliefpkg_id, to_inventory_id, reliefrqst_id, start_date,
 --
 
 COPY public.reliefpkg_item (reliefpkg_id, fr_inventory_id, batch_id, item_id, item_qty, uom_code, reason_text, create_by_id, create_dtime, update_by_id, update_dtime, version_nbr) FROM stdin;
+1	1	118	77	1.0000	EA	\N	LO	2025-11-30 20:24:13	LOGMGR	2025-11-30 20:25:37	2
+1	1	123	23	1.0000	EA	\N	LO	2025-11-30 20:24:13	LOGMGR	2025-11-30 20:25:37	2
+2	1	118	77	1.0000	EA	\N	LO	2025-12-01 08:00:06	LOGMGR	2025-12-01 08:00:29	2
+3	1	101	78	1.0000	EA	\N	LO	2025-12-01 08:07:24	LO	2025-12-01 08:07:24	1
+3	3	50	29	2.0000	EA	\N	LO	2025-12-01 08:07:24	LO	2025-12-01 08:07:24	1
+4	1	118	77	1.0000	EA	\N	LO	2025-12-01 11:13:01	LOGMGR	2025-12-01 11:14:29	2
 \.
 
 
@@ -4967,6 +5016,12 @@ COPY public.reliefpkg_item (reliefpkg_id, fr_inventory_id, batch_id, item_id, it
 --
 
 COPY public.reliefrqst (reliefrqst_id, agency_id, request_date, urgency_ind, status_code, create_by_id, create_dtime, review_by_id, review_dtime, action_by_id, action_dtime, version_nbr, eligible_event_id, rqst_notes_text, review_notes_text, tracking_no, status_reason_desc, receive_by_id, receive_dtime) FROM stdin;
+6	2	2025-11-28	M	0	LOGMGR	2025-11-28 18:34:49	\N	\N	\N	\N	1	1		\N	9BEA52D	\N	\N	\N
+7	2	2025-11-29	M	3	LOGMGR	2025-11-29 10:02:15	ALVIN	2025-11-29 13:55:17	\N	\N	3	1		\N	A881203	\N	\N	\N
+8	2	2025-12-01	M	5	LOGMGR	2025-11-30 20:18:05	ALVIN	2025-11-30 20:19:54	LOGMGR	2025-11-30 20:25:38	5	1		\N	54EDAE6	\N	\N	\N
+9	2	2025-12-01	H	5	LO	2025-12-01 07:58:00	ALVIN	2025-12-01 07:59:23	LOGMGR	2025-12-01 08:00:30	5	1		\N	67DBEE1	\N	\N	\N
+10	2	2025-12-01	M	5	LO	2025-12-01 08:05:39	ALVIN	2025-12-01 08:06:42	LO	2025-12-01 08:07:24	4	1		\N	31AFBEF	\N	\N	\N
+11	2	2025-12-01	H	5	LOGMGR	2025-12-01 11:06:36	ALVIN	2025-12-01 11:09:49	LOGMGR	2025-12-01 11:14:30	5	1		\N	D7011D3	\N	\N	\N
 \.
 
 
@@ -4975,6 +5030,16 @@ COPY public.reliefrqst (reliefrqst_id, agency_id, request_date, urgency_ind, sta
 --
 
 COPY public.reliefrqst_item (reliefrqst_id, item_id, request_qty, issue_qty, urgency_ind, rqst_reason_desc, required_by_date, status_code, status_reason_desc, action_by_id, action_dtime, version_nbr) FROM stdin;
+7	217	20.00	0.00	M		2025-12-01	R	\N	\N	\N	1
+7	224	10.00	0.00	M		\N	R	\N	\N	\N	1
+8	23	3.00	1.00	M		\N	P	\N	LOGMGR	2025-11-30 20:25:37	4
+8	77	1.00	1.00	M		\N	F	\N	LOGMGR	2025-11-30 20:25:37	4
+9	30	2.00	0.00	M		\N	U	\N	LOGMGR	2025-12-01 08:00:29	4
+9	77	1.00	1.00	M		\N	F	\N	LOGMGR	2025-12-01 08:00:29	4
+10	78	1.00	1.00	M		\N	F	\N	LO	2025-12-01 08:07:24	2
+10	29	2.00	2.00	M		\N	F	\N	LO	2025-12-01 08:07:24	2
+11	77	1.00	1.00	H	Needed because of no electricity	2025-12-05	F	\N	LOGMGR	2025-12-01 11:14:29	4
+11	123	50.00	0.00	M		\N	U	\N	LOGMGR	2025-12-01 11:14:29	4
 \.
 
 
