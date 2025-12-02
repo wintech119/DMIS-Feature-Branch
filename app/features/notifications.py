@@ -4,6 +4,7 @@ from sqlalchemy import func
 from app.db.models import db, Inventory, Item, Notification
 from app.services.notification_service import NotificationService
 from app.security.url_safety import validate_internal_url
+from app.security.rate_limiting import limit_api, limit_bulk
 
 notifications_bp = Blueprint('notifications', __name__)
 
@@ -120,6 +121,7 @@ def delete_notification(notification_id):
 
 @notifications_bp.route('/clear-all', methods=['POST'])
 @login_required
+@limit_bulk
 def clear_all():
     """Delete all notifications for the current user"""
     from flask import flash
@@ -139,6 +141,7 @@ def clear_all():
 
 @notifications_bp.route('/api/clear-all', methods=['POST'])
 @login_required
+@limit_bulk
 def api_clear_all():
     """JSON API: Delete all notifications for the current user"""
     count = NotificationService.clear_all_notifications(current_user.user_id)

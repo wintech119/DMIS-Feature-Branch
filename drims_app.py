@@ -18,6 +18,8 @@ from app.security.error_handling import init_error_handling
 from app.security.query_string_protection import init_query_string_protection
 from app.security.csrf_validation import init_csrf_origin_validation
 from app.security.url_safety import is_safe_url, get_safe_redirect_url
+from app.security.rate_limiting import init_rate_limiting, limiter, RATE_LIMIT_AUTH
+from app.security.cors_config import init_cors
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -28,6 +30,8 @@ init_cache_control(app)
 init_header_sanitization(app)
 init_error_handling(app)
 init_query_string_protection(app)
+init_rate_limiting(app)
+init_cors(app)
 
 csrf = CSRFProtect(app)
 init_csrf_origin_validation(app)
@@ -193,8 +197,9 @@ def index():
     return redirect(url_for('dashboard.index'))
 
 @app.route('/login', methods=['GET', 'POST'])
+@limiter.limit(RATE_LIMIT_AUTH, methods=['POST'])
 def login():
-    """User login"""
+    """User login with rate limiting to prevent brute force attacks"""
     if current_user.is_authenticated:
         return redirect(url_for('dashboard.index'))
     

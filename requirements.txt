@@ -21,3 +21,5 @@ requests
 SqlAlchemy>=2.0.30,<2.1.0
 werkzeug
 openpyxl
+Flask-Cors
+Flask-Limiter

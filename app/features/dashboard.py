@@ -21,6 +21,7 @@ from app.core import session_utils
 from datetime import datetime, timedelta
 from collections import defaultdict
 from app.utils.timezone import now as jamaica_now
+from app.security.rate_limiting import limit_expensive
 
 dashboard_bp = Blueprint('dashboard', __name__)
 
@@ -582,6 +583,7 @@ def lo_dashboard():
 @dashboard_bp.route('/donations-analytics')
 @login_required
 @role_required('ODPEM_DG', 'ODPEM_DDG', 'ODPEM_DIR_PEOD', 'LOGISTICS_MANAGER')
+@limit_expensive
 def donations_analytics():
     """
     Donations Analytics Dashboard - Executive view of donation metrics and trends.
@@ -782,6 +784,7 @@ def donations_analytics():
 @dashboard_bp.route('/relief-package-analytics')
 @login_required
 @role_required('ODPEM_DG', 'ODPEM_DDG', 'ODPEM_DIR_PEOD', 'LOGISTICS_MANAGER')
+@limit_expensive
 def relief_package_analytics():
     """
     Relief Package Analytics Dashboard - Executive view of dispatched relief packages.
@@ -976,6 +979,7 @@ def relief_package_analytics():
 @dashboard_bp.route('/aid-movement')
 @login_required
 @role_required('ODPEM_DG', 'ODPEM_DDG', 'ODPEM_DIR_PEOD', 'LOGISTICS_MANAGER')
+@limit_expensive
 def aid_movement_dashboard():
     """
     Aid Movement Dashboard - Read-only analytics on aid received, issued, and in store.
@@ -1142,6 +1146,7 @@ def aid_movement_dashboard():
 @dashboard_bp.route('/aid-movement/item-detail')
 @login_required
 @role_required('ODPEM_DG', 'ODPEM_DDG', 'ODPEM_DIR_PEOD', 'LOGISTICS_MANAGER')
+@limit_expensive
 def aid_item_movement_detail():
     """
     Item Distribution Dashboard - Drill-down view for a specific item's movements.

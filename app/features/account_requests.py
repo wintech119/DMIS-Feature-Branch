@@ -5,6 +5,7 @@ from app.db.models import AgencyAccountRequest, AgencyAccountRequestAudit, Agenc
 from app.core.rbac import is_admin
 from sqlalchemy.orm.exc import StaleDataError
 from datetime import datetime
+from app.security.rate_limiting import limiter
 
 account_requests_bp = Blueprint('account_requests', __name__, url_prefix='/account-requests')
 
@@ -13,6 +14,7 @@ def submit_form():
     return render_template('account_requests/submit.html')
 
 @account_requests_bp.route('/', methods=['POST'])
+@limiter.limit("5 per minute")
 def create_request():
     try:
         agency_name = request.form.get('agency_name', '').strip().upper()
