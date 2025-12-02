@@ -3,6 +3,10 @@ from flask_login import login_required, current_user
 from werkzeug.security import generate_password_hash
 from app.db.models import db, User, Role, UserRole, UserWarehouse, Warehouse, Agency, Custodian
 from app.core.rbac import role_required
+from app.security.audit_logger import (
+    log_user_management_event, log_data_event,
+    AuditAction, AuditOutcome
+)
 
 user_admin_bp = Blueprint('user_admin', __name__)
 
@@ -235,12 +239,34 @@ def create():
                 db.session.add(user_warehouse)
             
             db.session.commit()
+            
+            log_user_management_event(
+                action=AuditAction.USER_CREATE,
+                actor_id=current_user.user_id,
+                target_user_id=new_user.user_id,
+                details={
+                    'email': email,
+                    'roles': role_ids,
+                    'is_active': is_active
+                },
+                outcome=AuditOutcome.SUCCESS
+            )
+            
             flash(f'User {email} created successfully.', 'success')
             return redirect(url_for('user_admin.index'))
         
         except Exception as e:
             db.session.rollback()
             current_app.logger.exception('Error creating user')
+            
+            log_user_management_event(
+                action=AuditAction.USER_CREATE,
+                actor_id=current_user.user_id,
+                target_user_id=0,
+                details={'email': email, 'error': type(e).__name__},
+                outcome=AuditOutcome.ERROR
+            )
+            
             flash('An error occurred while creating the user. Please try again or contact support.', 'danger')
             agencies = Agency.query.filter_by(status_code='A').order_by(Agency.agency_name).all()
             custodians = Custodian.query.order_by(Custodian.custodian_name).all()
@@ -535,6 +561,18 @@ def edit(user_id):
                 db.session.add(user_warehouse)
             
             db.session.commit()
+            
+            log_user_management_event(
+                action=AuditAction.USER_UPDATE,
+                actor_id=current_user.user_id,
+                target_user_id=user.user_id,
+                details={
+                    'roles_changed': bool(role_ids),
+                    'is_active': user.is_active
+                },
+                outcome=AuditOutcome.SUCCESS
+            )
+            
             flash(f'User {user.email} updated successfully.', 'success')
             return redirect(url_for('user_admin.view', user_id=user.user_id))
         
@@ -542,6 +580,15 @@ def edit(user_id):
             db.session.rollback()
             db.session.refresh(user)
             current_app.logger.exception('Error updating user')
+            
+            log_user_management_event(
+                action=AuditAction.USER_UPDATE,
+                actor_id=current_user.user_id,
+                target_user_id=user.user_id,
+                details={'error': type(e).__name__},
+                outcome=AuditOutcome.ERROR
+            )
+            
             flash('An error occurred while updating the user. Please try again or contact support.', 'danger')
             agencies = Agency.query.filter_by(status_code='A').order_by(Agency.agency_name).all()
             custodians = Custodian.query.order_by(Custodian.custodian_name).all()

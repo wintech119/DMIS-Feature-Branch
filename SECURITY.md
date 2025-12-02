@@ -417,6 +417,97 @@ response = client.get('https://api.exchangerate.com/v1/rates')
 
 ---
 
+## Monitoring and SIEM Integration
+
+This section describes what logs should be ingested by a SIEM and what alerts should be configured.
+
+### Audit Logging (NIST 800-53 AU Controls)
+
+DMIS implements structured audit logging aligned with NIST 800-53 audit controls:
+
+| Control | Implementation |
+|---------|----------------|
+| AU-2 (Audit Events) | Key security events logged via `app/security/audit_logger.py` |
+| AU-3 (Content of Audit Records) | Timestamp, user ID, action, target entity, outcome, IP address |
+| AU-8 (Time Stamps) | Jamaica timezone (UTC-05:00) for all timestamps |
+| AU-12 (Audit Generation) | Automated logging at authentication, authorization, and data access points |
+
+### Log Sources for SIEM Ingestion
+
+Configure SIEM to ingest the following log sources:
+
+| Source | Location | Content |
+|--------|----------|---------|
+| **DMIS Application Logs** | stdout/stderr or configured log file | Security events, errors, access logs |
+| **DMIS Audit Logs** | `dmis.audit` logger | Structured security/audit events |
+| **DMIS Security Logs** | `dmis.security` logger | Security-specific events |
+| **NGINX Access Logs** | `/var/log/nginx/access.log` | HTTP requests, response codes |
+| **NGINX Error Logs** | `/var/log/nginx/error.log` | Server errors, upstream issues |
+| **PostgreSQL Logs** | Configured pg_log location | Database queries, errors |
+
+### Recommended Alert Rules
+
+Configure the following alerts in your SIEM:
+
+#### Critical Alerts (Immediate Response)
+
+| Alert | Condition | Threshold |
+|-------|-----------|-----------|
+| **Brute Force Attack** | LOGIN_FAILURE events from same IP | > 10 in 5 minutes |
+| **Account Takeover Attempt** | LOGIN_FAILURE followed by LOGIN_SUCCESS | Correlation rule |
+| **Privilege Escalation** | ROLE_ASSIGN to admin role by non-admin | Any occurrence |
+| **Mass Data Export** | Multiple EXPORT actions | > 5 in 1 hour |
+
+#### High Priority Alerts
+
+| Alert | Condition | Threshold |
+|-------|-----------|-----------|
+| **Repeated Access Denied** | ACCESS_DENIED events | > 20 in 10 minutes |
+| **Unusual Login Time** | LOGIN_SUCCESS outside business hours | Custom schedule |
+| **Multiple Failed Logins** | LOGIN_FAILURE for single user | > 5 in 15 minutes |
+| **Rate Limit Exceeded** | RATE_LIMIT_EXCEEDED events | > 50 in 10 minutes |
+
+#### Medium Priority Alerts
+
+| Alert | Condition | Threshold |
+|-------|-----------|-----------|
+| **Unusual Volume - Donations** | CREATE action on donations | > 50 in 1 hour |
+| **Unusual Volume - Dispatches** | DISPATCH actions | > 20 in 1 hour |
+| **Session Anomaly** | Multiple active sessions per user | > 3 concurrent |
+| **CSRF Violation** | CSRF_VIOLATION events | Any occurrence |
+
+### Log Format
+
+Audit logs use structured format for easy parsing:
+
+```
+timestamp=<ISO8601> category=<CATEGORY> action=<ACTION> user_id=<ID> target=<entity:id> outcome=<OUTCOME> ip=<IP> details=<dict>
+```
+
+**Example:**
+```
+timestamp=2025-12-02T14:30:45-05:00 category=AUTHENTICATION action=LOGIN_SUCCESS user_id=123 outcome=SUCCESS ip=192.168.1.100 details={email=jo***@odpem.gov.jm}
+```
+
+### Event Categories
+
+| Category | Events |
+|----------|--------|
+| AUTHENTICATION | LOGIN_SUCCESS, LOGIN_FAILURE, LOGIN_LOCKED, LOGIN_INACTIVE, LOGOUT |
+| AUTHORIZATION | ACCESS_GRANTED, ACCESS_DENIED, ROLE_REQUIRED |
+| USER_MGMT | USER_CREATE, USER_UPDATE, USER_DELETE, ROLE_ASSIGN, PASSWORD_CHANGE |
+| DATA_ACCESS | CREATE, READ, UPDATE, DELETE, EXPORT, DISPATCH, APPROVE, VERIFY |
+| SECURITY | RATE_LIMIT_EXCEEDED, CSRF_VIOLATION, INVALID_INPUT, SECURITY_ALERT |
+
+### Infrastructure Notes
+
+- SIEM configuration is performed on the infrastructure side
+- These are recommendations for security monitoring
+- Adjust thresholds based on operational baseline
+- Review and tune alerts after deployment
+
+---
+
 ## Reporting Security Issues
 
 If you discover a security vulnerability in DMIS:

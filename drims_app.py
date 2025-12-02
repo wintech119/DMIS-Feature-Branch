@@ -20,6 +20,10 @@ from app.security.csrf_validation import init_csrf_origin_validation
 from app.security.url_safety import is_safe_url, get_safe_redirect_url
 from app.security.rate_limiting import init_rate_limiting, limiter, RATE_LIMIT_AUTH
 from app.security.cors_config import init_cors
+from app.security.audit_logger import (
+    init_audit_logging, log_authentication_event, 
+    AuditAction, AuditOutcome
+)
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -32,6 +36,7 @@ init_error_handling(app)
 init_query_string_protection(app)
 init_rate_limiting(app)
 init_cors(app)
+init_audit_logging(app)
 
 csrf = CSRFProtect(app)
 init_csrf_origin_validation(app)
@@ -211,8 +216,22 @@ def login():
         
         if user and password and check_password_hash(user.password_hash, password):
             if not user.is_active or user.status_code != 'A':
+                log_authentication_event(
+                    action=AuditAction.LOGIN_INACTIVE,
+                    user_id=user.user_id,
+                    email=email,
+                    outcome=AuditOutcome.DENIED,
+                    reason='account_inactive'
+                )
                 flash('Your account is inactive. Please contact your administrator.', 'warning')
             elif user.is_locked:
+                log_authentication_event(
+                    action=AuditAction.LOGIN_LOCKED,
+                    user_id=user.user_id,
+                    email=email,
+                    outcome=AuditOutcome.DENIED,
+                    reason='account_locked'
+                )
                 flash('Your account is temporarily locked. Please contact your administrator.', 'warning')
             else:
                 from app.utils.timezone import now as jamaica_now
@@ -220,6 +239,14 @@ def login():
                 user.failed_login_count = 0
                 db.session.commit()
                 login_user(user)
+                
+                log_authentication_event(
+                    action=AuditAction.LOGIN_SUCCESS,
+                    user_id=user.user_id,
+                    email=email,
+                    outcome=AuditOutcome.SUCCESS
+                )
+                
                 next_page = request.args.get('next')
                 if next_page and is_safe_url(next_page):
                     return redirect(next_page)
@@ -229,6 +256,13 @@ def login():
 
                 return redirect(url_for('dashboard.index'))
         else:
+            log_authentication_event(
+                action=AuditAction.LOGIN_FAILURE,
+                user_id=user.user_id if user else None,
+                email=email,
+                outcome=AuditOutcome.FAILURE,
+                reason='invalid_credentials'
+            )
             flash('Invalid email or password', 'danger')
     
     return render_template('login.html')
@@ -243,7 +277,15 @@ def test_feature_components():
 @login_required
 def logout():
     """User logout"""
+    user_id = current_user.user_id if current_user.is_authenticated else None
     logout_user()
+    
+    log_authentication_event(
+        action=AuditAction.LOGOUT,
+        user_id=user_id,
+        outcome=AuditOutcome.SUCCESS
+    )
+    
     flash('You have been logged out', 'info')
     return redirect(url_for('login'))
 
