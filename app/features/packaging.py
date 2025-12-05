@@ -12,7 +12,7 @@ import uuid
 
 from app.db import db
 from app.security.log_sanitizer import sanitize_for_log, sanitize_exception_for_log
-from app.security.audit_logger import log_data_event
+from app.security.audit_logger import log_data_event, AuditAction, AuditOutcome
 from app.utils.timezone import now as jamaica_now
 from app.db.models import (
     ReliefRqst, ReliefRqstItem, Item, Warehouse, Inventory, ItemBatch,
@@ -357,10 +357,11 @@ def cancel_package(reliefpkg_id):
         db.session.commit()
         
         log_data_event(
-            action='CANCEL',
+            action=AuditAction.CANCEL,
+            user_id=current_user.user_id,
             entity_type='relief_package',
             entity_id=reliefpkg_id,
-            outcome='SUCCESS',
+            outcome=AuditOutcome.SUCCESS,
             details={
                 'relief_request_id': relief_request_id,
                 'reservations_released': True
@@ -728,10 +729,11 @@ def _approve_and_dispatch(relief_request, relief_pkg, relief_request_version, pa
         db.session.commit()
         
         log_data_event(
-            action='DISPATCH',
+            action=AuditAction.DISPATCH,
+            user_id=current_user.user_id,
             entity_type='relief_package',
             entity_id=relief_pkg.reliefpkg_id,
-            outcome='SUCCESS',
+            outcome=AuditOutcome.SUCCESS,
             details={
                 'relief_request_id': relief_request.reliefrqst_id,
                 'agency_id': relief_request.agency_id,
@@ -878,10 +880,11 @@ def submit_for_dispatch(reliefpkg_id):
         db.session.commit()
         
         log_data_event(
-            action='DISPATCH',
+            action=AuditAction.DISPATCH,
+            user_id=current_user.user_id,
             entity_type='relief_package',
             entity_id=reliefpkg_id,
-            outcome='SUCCESS',
+            outcome=AuditOutcome.SUCCESS,
             details={
                 'relief_request_id': relief_pkg.reliefrqst_id,
                 'agency_id': relief_request_for_log.agency_id if relief_request_for_log else None,

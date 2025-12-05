@@ -1,4 +1,4 @@
-# Fix: log_data_event Audit Logging Errors in Donations
+# Fix: log_data_event Audit Logging Errors
 
 ## Issues Fixed
 
@@ -8,11 +8,19 @@
 ### Issue 2: String Instead of Enum Values  
 **Error:** `AttributeError: 'str' object has no attribute 'value'`
 
-**Affected File:** `app/features/donations.py`
-
 **Root Cause:** 
 1. The `log_data_event()` function requires a `user_id` parameter, but calls were missing it
 2. The function expects `AuditAction` and `AuditOutcome` enum values, not string literals
+
+---
+
+## Files Affected
+
+| File | Instances Fixed |
+|------|-----------------|
+| `app/features/donations.py` | 3 |
+| `app/features/packaging.py` | 3 |
+| `app/features/donation_intake.py` | 3 |
 
 ---
 
@@ -33,161 +41,124 @@ def log_data_event(
 
 ---
 
-## Changes Required
+## Changes Required Per File
 
-### Change 0: Update Import Statement (Line ~16)
+### 1. app/features/donations.py
 
-**Before:**
+#### Update Import Statement (Line ~16)
+
 ```python
+# Before:
 from app.security.audit_logger import log_data_event
-```
 
-**After:**
-```python
+# After:
 from app.security.audit_logger import log_data_event, AuditAction, AuditOutcome
 ```
 
----
-
-### Change 1: Create Donation (Line ~531)
-
-**Before:**
-```python
-log_data_event(
-    action='CREATE',
-    entity_type='donation',
-    entity_id=donation.donation_id,
-    outcome='SUCCESS',
-    details={
-        'item_count': len(item_data),
-        'document_count': document_count,
-        'total_value': str(tot_item_cost_value),
-        'donor_id': donation.donor_id
-    }
-)
-```
-
-**After:**
-```python
-log_data_event(
-    action=AuditAction.CREATE,           # Changed from string to enum
-    user_id=current_user.user_id,        # Added missing parameter
-    entity_type='donation',
-    entity_id=donation.donation_id,
-    outcome=AuditOutcome.SUCCESS,        # Changed from string to enum
-    details={
-        'item_count': len(item_data),
-        'document_count': document_count,
-        'total_value': str(tot_item_cost_value),
-        'donor_id': donation.donor_id
-    }
-)
-```
+#### Create Donation (Line ~531)
+#### Update Donation (Line ~882)
+#### Verify Donation (Line ~1667)
 
 ---
 
-### Change 2: Update Donation (Line ~882)
+### 2. app/features/packaging.py
 
-**Before:**
+#### Update Import Statement (Line ~15)
+
 ```python
-log_data_event(
-    action='UPDATE',
-    entity_type='donation',
-    entity_id=donation.donation_id,
-    outcome='SUCCESS',
-    details={
-        'items_added': items_added_count,
-        'items_removed': items_removed_count,
-        'total_value': str(tot_item_cost_value)
-    }
-)
+# Before:
+from app.security.audit_logger import log_data_event
+
+# After:
+from app.security.audit_logger import log_data_event, AuditAction, AuditOutcome
 ```
 
-**After:**
-```python
-log_data_event(
-    action=AuditAction.UPDATE,           # Changed from string to enum
-    user_id=current_user.user_id,        # Added missing parameter
-    entity_type='donation',
-    entity_id=donation.donation_id,
-    outcome=AuditOutcome.SUCCESS,        # Changed from string to enum
-    details={
-        'items_added': items_added_count,
-        'items_removed': items_removed_count,
-        'total_value': str(tot_item_cost_value)
-    }
-)
-```
+#### Cancel Package (Line ~362)
+#### Approve and Dispatch (Line ~734)
+#### Submit for Dispatch (Line ~885)
 
 ---
 
-### Change 3: Verify Donation (Line ~1667)
+### 3. app/features/donation_intake.py
 
-**Before:**
+#### Update Import Statement (Line ~31)
+
 ```python
-log_data_event(
-    action='VERIFY',
-    entity_type='donation',
-    entity_id=donation_id,
-    outcome='SUCCESS',
-    details={
-        'item_count': len(item_data),
-        'total_value': str(tot_item_cost_value),
-        'previous_status': 'E',
-        'new_status': 'V'
-    }
-)
+# Before:
+from app.security.audit_logger import log_data_event
+
+# After:
+from app.security.audit_logger import log_data_event, AuditAction, AuditOutcome
 ```
 
-**After:**
-```python
-log_data_event(
-    action=AuditAction.VERIFY,           # Changed from string to enum
-    user_id=current_user.user_id,        # Added missing parameter
-    entity_type='donation',
-    entity_id=donation_id,
-    outcome=AuditOutcome.SUCCESS,        # Changed from string to enum
-    details={
-        'item_count': len(item_data),
-        'total_value': str(tot_item_cost_value),
-        'previous_status': 'E',
-        'new_status': 'V'
-    }
-)
-```
+#### Save Draft (Line ~544)
+#### Submit for Verification (Line ~560)
+#### Verify Intake (Line ~893)
 
 ---
 
-## Summary of All Changes
+## Fix Pattern
 
-| Location | Line (approx) | Changes |
-|----------|---------------|---------|
-| Import statement | ~16 | Add `AuditAction, AuditOutcome` to import |
-| Create Donation | ~531 | Add `user_id`, use enum values |
-| Update Donation | ~882 | Add `user_id`, use enum values |
-| Verify Donation | ~1667 | Add `user_id`, use enum values |
+All fixes follow this pattern:
+
+```python
+# Before (broken):
+log_data_event(
+    action='CREATE',           # Wrong: string literal
+    entity_type='donation',
+    entity_id=donation.donation_id,
+    outcome='SUCCESS',         # Wrong: string literal
+    details={...}
+)
+
+# After (fixed):
+log_data_event(
+    action=AuditAction.CREATE,           # Correct: enum value
+    user_id=current_user.user_id,        # Added: required parameter
+    entity_type='donation',
+    entity_id=donation.donation_id,
+    outcome=AuditOutcome.SUCCESS,        # Correct: enum value
+    details={...}
+)
+```
 
 ---
 
 ## Available Enum Values
 
 ### AuditAction (from `app/security/audit_logger.py`)
+
 ```python
+# Data Operations
 AuditAction.CREATE
 AuditAction.READ
 AuditAction.UPDATE
 AuditAction.DELETE
+AuditAction.EXPORT
+AuditAction.IMPORT
+
+# Workflow Actions
 AuditAction.VERIFY
 AuditAction.APPROVE
 AuditAction.REJECT
 AuditAction.DISPATCH
 AuditAction.CANCEL
 AuditAction.SUBMIT
-AuditAction.EXPORT
-AuditAction.IMPORT
+
+# User Management
+AuditAction.USER_CREATE
+AuditAction.USER_UPDATE
+AuditAction.USER_DELETE
+AuditAction.USER_LOCK
+AuditAction.USER_UNLOCK
+AuditAction.ROLE_ASSIGN
+AuditAction.ROLE_REVOKE
+AuditAction.PASSWORD_CHANGE
+AuditAction.PASSWORD_RESET
 ```
 
 ### AuditOutcome
+
 ```python
 AuditOutcome.SUCCESS
 AuditOutcome.FAILURE
@@ -197,11 +168,36 @@ AuditOutcome.ERROR
 
 ---
 
+## Summary of All Changes
+
+| File | Line (approx) | Action Type | Changes |
+|------|---------------|-------------|---------|
+| donations.py | ~16 | Import | Add `AuditAction, AuditOutcome` |
+| donations.py | ~531 | CREATE | Add `user_id`, use enums |
+| donations.py | ~882 | UPDATE | Add `user_id`, use enums |
+| donations.py | ~1667 | VERIFY | Add `user_id`, use enums |
+| packaging.py | ~15 | Import | Add `AuditAction, AuditOutcome` |
+| packaging.py | ~362 | CANCEL | Add `user_id`, use enums |
+| packaging.py | ~734 | DISPATCH | Add `user_id`, use enums |
+| packaging.py | ~885 | DISPATCH | Add `user_id`, use enums |
+| donation_intake.py | ~31 | Import | Add `AuditAction, AuditOutcome` |
+| donation_intake.py | ~544 | CREATE | Add `user_id`, use enums |
+| donation_intake.py | ~560 | CREATE | Add `user_id`, use enums |
+| donation_intake.py | ~893 | VERIFY | Add `user_id`, use enums |
+
+---
+
 ## Verification
 
 After applying these changes, restart the Flask application and test:
 1. Create a new donation
 2. Edit an existing donation
 3. Verify a donation
+4. Create donation intake (draft)
+5. Submit donation intake for verification
+6. Verify donation intake
+7. Cancel a relief package
+8. Approve and dispatch a relief package
+9. Submit a package for dispatch
 
 All operations should complete without errors and audit logs should be properly recorded.

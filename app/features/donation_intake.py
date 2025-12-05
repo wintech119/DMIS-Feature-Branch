@@ -28,7 +28,7 @@ from decimal import Decimal, InvalidOperation
 from datetime import datetime, date, timedelta
 
 from app.db import db
-from app.security.audit_logger import log_data_event
+from app.security.audit_logger import log_data_event, AuditAction, AuditOutcome
 from app.utils.timezone import now as jamaica_now
 from app.db.models import (
     Donation, DonationItem, DonationIntake, DonationIntakeItem,
@@ -539,10 +539,11 @@ def _process_entry_submission(donation, warehouse, existing_intake, action):
         if action == 'save_draft':
             message = f'Draft saved for Donation #{donation.donation_id}'
             log_data_event(
-                action='CREATE',
+                action=AuditAction.CREATE,
+                user_id=current_user.user_id,
                 entity_type='donation_intake',
                 entity_id=f'{donation.donation_id}:{warehouse.warehouse_id}',
-                outcome='SUCCESS',
+                outcome=AuditOutcome.SUCCESS,
                 details={
                     'donation_id': donation.donation_id,
                     'warehouse_id': warehouse.warehouse_id,
@@ -554,10 +555,11 @@ def _process_entry_submission(donation, warehouse, existing_intake, action):
         else:
             message = f'Donation #{donation.donation_id} intake submitted for verification'
             log_data_event(
-                action='CREATE',
+                action=AuditAction.CREATE,
+                user_id=current_user.user_id,
                 entity_type='donation_intake',
                 entity_id=f'{donation.donation_id}:{warehouse.warehouse_id}',
-                outcome='SUCCESS',
+                outcome=AuditOutcome.SUCCESS,
                 details={
                     'donation_id': donation.donation_id,
                     'warehouse_id': warehouse.warehouse_id,
@@ -886,10 +888,11 @@ def _process_verification_submission(intake, donation, warehouse):
         db.session.commit()
         
         log_data_event(
-            action='VERIFY',
+            action=AuditAction.VERIFY,
+            user_id=current_user.user_id,
             entity_type='donation_intake',
             entity_id=f'{donation.donation_id}:{warehouse.warehouse_id}',
-            outcome='SUCCESS',
+            outcome=AuditOutcome.SUCCESS,
             details={
                 'donation_id': donation.donation_id,
                 'warehouse_id': warehouse.warehouse_id,
