@@ -527,6 +527,7 @@ def create_donation():
             
             log_data_event(
                 action='CREATE',
+                user_id=current_user.user_id,
                 entity_type='donation',
                 entity_id=donation.donation_id,
                 outcome='SUCCESS',
@@ -877,6 +878,7 @@ def edit_donation(donation_id):
             items_removed_count = len(items_to_delete)
             log_data_event(
                 action='UPDATE',
+                user_id=current_user.user_id,
                 entity_type='donation',
                 entity_id=donation.donation_id,
                 outcome='SUCCESS',
@@ -1661,6 +1663,7 @@ def verify_donation_detail(donation_id):
             
             log_data_event(
                 action='VERIFY',
+                user_id=current_user.user_id,
                 entity_type='donation',
                 entity_id=donation_id,
                 outcome='SUCCESS',
