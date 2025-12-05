@@ -13,7 +13,7 @@ from sqlalchemy.orm.exc import StaleDataError
 
 from app.db import db
 from app.security.log_sanitizer import sanitize_for_log, sanitize_exception_for_log
-from app.security.audit_logger import log_data_event
+from app.security.audit_logger import log_data_event, AuditAction, AuditOutcome
 from app.utils.timezone import now as jamaica_now
 from app.db.models import (Donation, DonationItem, DonationDoc, Donor, Event, Custodian, 
                           Item, UnitOfMeasure, Country, Currency, ItemCostDef)
@@ -526,11 +526,11 @@ def create_donation():
             db.session.commit()
             
             log_data_event(
-                action='CREATE',
+                action=AuditAction.CREATE,
                 user_id=current_user.user_id,
                 entity_type='donation',
                 entity_id=donation.donation_id,
-                outcome='SUCCESS',
+                outcome=AuditOutcome.SUCCESS,
                 details={
                     'item_count': len(item_data),
                     'document_count': document_count,
@@ -877,11 +877,11 @@ def edit_donation(donation_id):
             items_added_count = len([i for i in item_data if not i['is_existing']])
             items_removed_count = len(items_to_delete)
             log_data_event(
-                action='UPDATE',
+                action=AuditAction.UPDATE,
                 user_id=current_user.user_id,
                 entity_type='donation',
                 entity_id=donation.donation_id,
-                outcome='SUCCESS',
+                outcome=AuditOutcome.SUCCESS,
                 details={
                     'items_added': items_added_count,
                     'items_removed': items_removed_count,
@@ -1662,11 +1662,11 @@ def verify_donation_detail(donation_id):
             db.session.commit()
             
             log_data_event(
-                action='VERIFY',
+                action=AuditAction.VERIFY,
                 user_id=current_user.user_id,
                 entity_type='donation',
                 entity_id=donation_id,
-                outcome='SUCCESS',
+                outcome=AuditOutcome.SUCCESS,
                 details={
                     'item_count': len(item_data),
                     'total_value': str(tot_item_cost_value),
