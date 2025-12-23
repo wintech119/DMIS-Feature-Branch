@@ -4,166 +4,205 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/relief-requests-ui.css') }}">
 {% endblock %}
 
-{% block title %}Beneficiary: {{ beneficiary.beneficiary_name }}{% endblock %}
+{% block title %}{{ beneficiary.beneficiary_name }}{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
+    <!-- Back Button -->
     <div class="mb-3">
-        <a href="{{ url_for('beneficiaries.list_beneficiaries') }}" class="btn-back">
-            <i class="bi bi-arrow-left"></i> Back
+        <a href="{{ url_for('beneficiaries.list_beneficiaries', filter='all') }}" class="btn-back">
+            <i class="bi bi-arrow-left"></i>
+            Back to List
         </a>
     </div>
 
-    <div class="page-header mb-4">
-        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <div class="page-header mb-0">
             <div class="page-title">
                 {% if beneficiary.beneficiary_type == 'INDIVIDUAL' %}
-                <i class="bi bi-person-fill page-title-icon text-primary"></i>
+                <i class="bi bi-person-fill page-title-icon"></i>
                 {% else %}
-                <i class="bi bi-house-fill page-title-icon text-info"></i>
+                <i class="bi bi-house-fill page-title-icon"></i>
                 {% endif %}
                 <h1 class="page-title-text">{{ beneficiary.beneficiary_name }}</h1>
+                <span class="ms-3">
+                    {% if beneficiary.status_code == 'A' %}
+                    <span class="status-badge status-badge-success">
+                        <i class="bi bi-check-circle"></i> Active
+                    </span>
+                    {% elif beneficiary.status_code == 'I' %}
+                    <span class="status-badge status-badge-warning">
+                        <i class="bi bi-x-circle"></i> Inactive
+                    </span>
+                    {% elif beneficiary.status_code == 'S' %}
+                    <span class="status-badge status-badge-danger">
+                        <i class="bi bi-pause-circle"></i> Suspended
+                    </span>
+                    {% endif %}
+                </span>
             </div>
-            <div class="d-flex gap-2">
-                <a href="{{ url_for('beneficiaries.edit', beneficiary_id=beneficiary.beneficiary_id) }}" 
-                   class="btn btn-primary">
-                    <i class="bi bi-pencil"></i> Edit
-                </a>
-            </div>
+            <p class="page-subtitle">
+                {% if beneficiary.beneficiary_type == 'INDIVIDUAL' %}
+                Individual Beneficiary
+                {% else %}
+                Shelter Beneficiary
+                {% endif %}
+            </p>
         </div>
-        <div class="mt-2">
-            {% if beneficiary.beneficiary_type == 'INDIVIDUAL' %}
-            <span class="badge bg-primary">Individual</span>
-            {% else %}
-            <span class="badge bg-info">Shelter</span>
-            {% endif %}
-            {% if beneficiary.status_code == 'A' %}
-            <span class="badge bg-success">Active</span>
-            {% else %}
-            <span class="badge bg-secondary">Inactive</span>
-            {% endif %}
+        <div class="d-flex gap-2">
+            <a href="{{ url_for('beneficiaries.edit', beneficiary_id=beneficiary.beneficiary_id) }}" class="btn-relief-secondary">
+                <i class="bi bi-pencil"></i> Edit
+            </a>
         </div>
     </div>
 
     <div class="row g-4">
-        <div class="col-lg-6">
-            <div class="card h-100">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Basic Information Card -->
+            <div class="card mb-4">
                 <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="bi bi-person-vcard"></i> Basic Information</h5>
+                    <h5 class="mb-0"><i class="bi bi-info-circle"></i> Basic Information</h5>
                 </div>
                 <div class="card-body">
-                    <dl class="row mb-0">
-                        <dt class="col-sm-4">Type</dt>
-                        <dd class="col-sm-8">{{ beneficiary.beneficiary_type }}</dd>
-                        
-                        <dt class="col-sm-4">Name</dt>
-                        <dd class="col-sm-8">{{ beneficiary.beneficiary_name }}</dd>
-                        
-                        {% if beneficiary.beneficiary_type == 'INDIVIDUAL' %}
-                        <dt class="col-sm-4">Given Name</dt>
-                        <dd class="col-sm-8">{{ beneficiary.given_name or '-' }}</dd>
-                        
-                        <dt class="col-sm-4">Family Name</dt>
-                        <dd class="col-sm-8">{{ beneficiary.family_name or '-' }}</dd>
-                        {% endif %}
-                        
-                        <dt class="col-sm-4">Status</dt>
-                        <dd class="col-sm-8">
-                            {% if beneficiary.status_code == 'A' %}Active{% else %}Inactive{% endif %}
-                        </dd>
-                    </dl>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small">Beneficiary Type</label>
+                            <p class="mb-0">
+                                <span class="code-pill">{{ beneficiary.beneficiary_type }}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">Name</label>
+                            <p class="mb-0">{{ beneficiary.beneficiary_name }}</p>
+                        </div>
+                    </div>
+                    {% if beneficiary.beneficiary_type == 'INDIVIDUAL' %}
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small">Given Name</label>
+                            <p class="mb-0">{{ beneficiary.given_name or 'N/A' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">Family Name</label>
+                            <p class="mb-0">{{ beneficiary.family_name or 'N/A' }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if beneficiary.beneficiary_type == 'SHELTER' and beneficiary.shelter_agency %}
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="text-muted small">Shelter Agency</label>
+                            <p class="mb-0">{{ beneficiary.shelter_agency.agency_name }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
-        </div>
-        
-        <div class="col-lg-6">
-            <div class="card h-100">
+
+            <!-- Location Information Card -->
+            <div class="card mb-4">
                 <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Location</h5>
+                    <h5 class="mb-0"><i class="bi bi-geo-alt"></i> Location Information</h5>
                 </div>
                 <div class="card-body">
-                    <dl class="row mb-0">
-                        <dt class="col-sm-4">Parish</dt>
-                        <dd class="col-sm-8">{{ beneficiary.parish.parish_name if beneficiary.parish else '-' }}</dd>
-                        
-                        <dt class="col-sm-4">Community</dt>
-                        <dd class="col-sm-8">{{ beneficiary.community_text or '-' }}</dd>
-                        
-                        <dt class="col-sm-4">Address</dt>
-                        <dd class="col-sm-8">
-                            {{ beneficiary.address1_text or '-' }}
-                            {% if beneficiary.address2_text %}
-                            <br>{{ beneficiary.address2_text }}
-                            {% endif %}
-                        </dd>
-                        
-                        <dt class="col-sm-4">Registered HSA</dt>
-                        <dd class="col-sm-8">{{ beneficiary.registered_hsa.warehouse_name if beneficiary.registered_hsa else '-' }}</dd>
-                    </dl>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small">Parish</label>
+                            <p class="mb-0">{{ beneficiary.parish.parish_name if beneficiary.parish else beneficiary.parish_code or 'N/A' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">Community</label>
+                            <p class="mb-0">{{ beneficiary.community_text or 'N/A' }}</p>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Address Line 1</label>
+                        <p class="mb-0">{{ beneficiary.address1_text or 'N/A' }}</p>
+                    </div>
+                    {% if beneficiary.address2_text %}
+                    <div class="mb-3">
+                        <label class="text-muted small">Address Line 2</label>
+                        <p class="mb-0">{{ beneficiary.address2_text }}</p>
+                    </div>
+                    {% endif %}
+                    <div>
+                        <label class="text-muted small">Registered HSA</label>
+                        <p class="mb-0">{{ beneficiary.registered_hsa.warehouse_name if beneficiary.registered_hsa else 'N/A' }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="col-lg-6">
-            <div class="card h-100">
+
+            <!-- Contact Information Card -->
+            <div class="card mb-4">
                 <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="bi bi-telephone"></i> Contact</h5>
+                    <h5 class="mb-0"><i class="bi bi-person-lines-fill"></i> Contact Information</h5>
                 </div>
                 <div class="card-body">
-                    <dl class="row mb-0">
-                        <dt class="col-sm-4">Phone</dt>
-                        <dd class="col-sm-8">{{ beneficiary.phone_no or '-' }}</dd>
-                        
-                        <dt class="col-sm-4">Email</dt>
-                        <dd class="col-sm-8">{{ beneficiary.email_text or '-' }}</dd>
-                        
-                        {% if beneficiary.beneficiary_type == 'SHELTER' %}
-                        <dt class="col-sm-4">Shelter Agency</dt>
-                        <dd class="col-sm-8">{{ beneficiary.shelter_agency.agency_name if beneficiary.shelter_agency else '-' }}</dd>
-                        {% endif %}
-                    </dl>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="text-muted small">Phone Number</label>
+                            <p class="mb-0">{{ beneficiary.phone_no or 'N/A' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="text-muted small">Email</label>
+                            <p class="mb-0">
+                                {% if beneficiary.email_text %}
+                                <a href="mailto:{{ beneficiary.email_text }}">{{ beneficiary.email_text }}</a>
+                                {% else %}
+                                N/A
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="col-lg-6">
-            <div class="card h-100">
-                <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="bi bi-clock-history"></i> Audit Trail</h5>
-                </div>
-                <div class="card-body">
-                    <dl class="row mb-0">
-                        <dt class="col-sm-4">Created By</dt>
-                        <dd class="col-sm-8">{{ beneficiary.create_by_id }}</dd>
-                        
-                        <dt class="col-sm-4">Created On</dt>
-                        <dd class="col-sm-8">{{ beneficiary.create_dtime.strftime('%Y-%m-%d %H:%M') if beneficiary.create_dtime else '-' }}</dd>
-                        
-                        <dt class="col-sm-4">Updated By</dt>
-                        <dd class="col-sm-8">{{ beneficiary.update_by_id }}</dd>
-                        
-                        <dt class="col-sm-4">Updated On</dt>
-                        <dd class="col-sm-8">{{ beneficiary.update_dtime.strftime('%Y-%m-%d %H:%M') if beneficiary.update_dtime else '-' }}</dd>
-                        
-                        <dt class="col-sm-4">Version</dt>
-                        <dd class="col-sm-8">{{ beneficiary.version_nbr }}</dd>
-                    </dl>
-                </div>
-            </div>
-        </div>
-        
-        {% if beneficiary.notes %}
-        <div class="col-12">
+
+            <!-- Notes Card -->
+            {% if beneficiary.notes %}
             <div class="card">
                 <div class="card-header bg-light">
-                    <h5 class="mb-0"><i class="bi bi-sticky"></i> Notes</h5>
+                    <h5 class="mb-0"><i class="bi bi-card-text"></i> Notes</h5>
                 </div>
                 <div class="card-body">
                     <p class="mb-0">{{ beneficiary.notes }}</p>
                 </div>
             </div>
+            {% endif %}
         </div>
-        {% endif %}
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Audit Trail Card -->
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0"><i class="bi bi-clock-history"></i> Audit Trail</h6>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="text-muted small">Created By</label>
+                        <p class="mb-0">{{ beneficiary.create_by_id }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Created Date</label>
+                        <p class="mb-0">{{ beneficiary.create_dtime.strftime('%Y-%m-%d %I:%M %p') if beneficiary.create_dtime else 'N/A' }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Last Modified By</label>
+                        <p class="mb-0">{{ beneficiary.update_by_id }}</p>
+                    </div>
+                    <div class="mb-3">
+                        <label class="text-muted small">Last Modified Date</label>
+                        <p class="mb-0">{{ beneficiary.update_dtime.strftime('%Y-%m-%d %I:%M %p') if beneficiary.update_dtime else 'N/A' }}</p>
+                    </div>
+                    <div>
+                        <label class="text-muted small">Version Number</label>
+                        <p class="mb-0"><span class="badge bg-info">{{ beneficiary.version_nbr }}</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
