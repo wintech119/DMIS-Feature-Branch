@@ -71,34 +71,6 @@
                                     <div class="text-danger small mt-1">{{ errors.get('warehouse_type') }}</div>
                                     {% endif %}
                                 </div>
-                                <div class="col-md-6">
-                                    <label for="warehouse_tier" class="form-label">
-                                        Warehouse Tier
-                                    </label>
-                                    <select class="form-select" id="warehouse_tier" name="warehouse_tier">
-                                        <option value="">-- Auto-detect from Type --</option>
-                                        {% for tier in warehouse_tiers %}
-                                        <option value="{{ tier }}" {% if form_data and form_data.get('warehouse_tier') == tier %}selected{% endif %}>
-                                            {{ tier }}{% if tier == 'MAIN' %} (Central Hub){% elif tier == 'LSA' %} (Local Sub-Agency){% elif tier == 'HSA' %} (Humanitarian Service Agency){% endif %}
-                                        </option>
-                                        {% endfor %}
-                                    </select>
-                                    <small class="form-text text-muted">Defaults to MAIN for MAIN-HUB, LSA for SUB-HUB</small>
-                                    {% if errors and errors.get('warehouse_tier') %}
-                                    <div class="text-danger small mt-1">{{ errors.get('warehouse_tier') }}</div>
-                                    {% endif %}
-                                </div>
-                                <div class="col-md-6" id="intake_container">
-                                    <label class="form-label d-block">Donation Intake</label>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="allows_donation_intake" name="allows_donation_intake" 
-                                               {% if not form_data or form_data.get('allows_donation_intake') == 'on' %}checked{% endif %}>
-                                        <label class="form-check-label" for="allows_donation_intake">
-                                            Allow donation intake at this warehouse
-                                        </label>
-                                    </div>
-                                    <small class="form-text text-muted">LSA warehouses cannot accept donations (enforced automatically)</small>
-                                </div>
                             </div>
                         </div>
 

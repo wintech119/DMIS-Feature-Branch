@@ -68,8 +68,6 @@ from app.features.user_admin import user_admin_bp
 from app.features.donors import donors_bp
 from app.features.agencies import agencies_bp
 from app.features.custodians import custodians_bp
-from app.features.hsa import hsa_bp
-from app.features.beneficiaries import beneficiaries_bp
 from app.features.dashboard import dashboard_bp
 from app.features.transfers import transfers_bp
 from app.features.notifications import notifications_bp
@@ -143,8 +141,6 @@ app.register_blueprint(user_admin_bp, url_prefix='/users')
 app.register_blueprint(donors_bp, url_prefix='/donors')
 app.register_blueprint(agencies_bp, url_prefix='/agencies')
 app.register_blueprint(custodians_bp, url_prefix='/custodians')
-app.register_blueprint(hsa_bp)
-app.register_blueprint(beneficiaries_bp)
 app.register_blueprint(transfers_bp, url_prefix='/transfers')
 app.register_blueprint(notifications_bp, url_prefix='/notifications')
 app.register_blueprint(reports_bp, url_prefix='/reports')

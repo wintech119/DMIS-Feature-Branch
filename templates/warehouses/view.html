@@ -65,32 +65,6 @@
                             <p class="mb-0">{{ warehouse.custodian.custodian_name if warehouse.custodian else 'N/A' }}</p>
                         </div>
                     </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label class="text-muted small">Warehouse Tier</label>
-                            <p class="mb-0">
-                                {% if warehouse.warehouse_tier == 'MAIN' %}
-                                <span class="badge bg-primary">MAIN (Central Hub)</span>
-                                {% elif warehouse.warehouse_tier == 'LSA' %}
-                                <span class="badge bg-info">LSA (Local Sub-Agency)</span>
-                                {% elif warehouse.warehouse_tier == 'HSA' %}
-                                <span class="badge bg-success">HSA (Humanitarian Service Agency)</span>
-                                {% else %}
-                                <span class="badge bg-secondary">{{ warehouse.warehouse_tier or 'Not Set' }}</span>
-                                {% endif %}
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="text-muted small">Donation Intake</label>
-                            <p class="mb-0">
-                                {% if warehouse.allows_donation_intake %}
-                                <span class="badge bg-success"><i class="bi bi-check-circle"></i> Allowed</span>
-                                {% else %}
-                                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> Not Allowed</span>
-                                {% endif %}
-                            </p>
-                        </div>
-                    </div>
                     {% if warehouse.status_code == 'I' and warehouse.reason_desc %}
                     <div>
                         <label class="text-muted small">Reason for Inactivation</label>
