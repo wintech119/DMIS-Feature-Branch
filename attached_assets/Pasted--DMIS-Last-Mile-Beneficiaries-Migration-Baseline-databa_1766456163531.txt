@@ -1,0 +1,352 @@
+/*
+  DMIS - Last Mile (Beneficiaries) Migration
+  Baseline: database_dump_2025-12-02.sql
+
+  Goals:
+  - Drop/retire any legacy HSA table (without breaking dependencies)
+  - Add warehouse tier + intake/issue flags (keep existing warehouse_type intact)
+  - Add custodian_kind to distinguish ODPEM vs partner custodians
+  - Add beneficiary + last-mile distribution tables
+  - Extend transaction table for beneficiary/audit linkage (nullable, non-breaking)
+*/
+
+BEGIN;
+
+-- Safer migrations in shared environments
+SET LOCAL lock_timeout = '10s';
+SET LOCAL statement_timeout = '5min';
+
+-- -------------------------------------------------------------------
+-- 1) RETIRE/DROP LEGACY HSA TABLE(S) IF THEY EXIST (SAFE)
+--    If there are FK dependencies, we rename instead of DROP CASCADE.
+-- -------------------------------------------------------------------
+DO $$
+DECLARE
+  dep_cnt int;
+  new_name text;
+BEGIN
+  IF to_regclass('public.hsa') IS NOT NULL THEN
+    SELECT COUNT(*)
+      INTO dep_cnt
+      FROM pg_constraint c
+      WHERE c.contype = 'f'
+        AND c.confrelid = 'public.hsa'::regclass;
+
+    IF dep_cnt > 0 THEN
+      new_name := 'hsa_legacy_' || to_char(now(), 'YYYYMMDD_HH24MISS');
+      EXECUTE format('ALTER TABLE public.hsa RENAME TO %I;', new_name);
+      RAISE NOTICE 'public.hsa had % FK dependencies; renamed to %', dep_cnt, new_name;
+    ELSE
+      EXECUTE 'DROP TABLE public.hsa;';
+      RAISE NOTICE 'Dropped public.hsa (no FK dependencies).';
+    END IF;
+  END IF;
+
+  -- Optional: retire other older variants if they exist
+  IF to_regclass('public.hsa_hub') IS NOT NULL THEN
+    SELECT COUNT(*)
+      INTO dep_cnt
+      FROM pg_constraint c
+      WHERE c.contype = 'f'
+        AND c.confrelid = 'public.hsa_hub'::regclass;
+
+    IF dep_cnt > 0 THEN
+      new_name := 'hsa_hub_legacy_' || to_char(now(), 'YYYYMMDD_HH24MISS');
+      EXECUTE format('ALTER TABLE public.hsa_hub RENAME TO %I;', new_name);
+      RAISE NOTICE 'public.hsa_hub had % FK dependencies; renamed to %', dep_cnt, new_name;
+    ELSE
+      EXECUTE 'DROP TABLE public.hsa_hub;';
+      RAISE NOTICE 'Dropped public.hsa_hub (no FK dependencies).';
+    END IF;
+  END IF;
+END $$;
+
+-- -------------------------------------------------------------------
+-- 2) CUSTODIAN: ADD KIND (ODPEM vs PARTNER)
+-- -------------------------------------------------------------------
+ALTER TABLE public.custodian
+  ADD COLUMN IF NOT EXISTS custodian_kind varchar(15) NOT NULL DEFAULT 'ODPEM';
+
+-- Soft check (kept simple; safe + easy to extend)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = 'custodian_kind_check'
+  ) THEN
+    ALTER TABLE public.custodian
+      ADD CONSTRAINT custodian_kind_check
+      CHECK (custodian_kind IN ('ODPEM','PARTNER'));
+  END IF;
+END $$;
+
+-- Backfill custodian_kind based on name (ODPEM stays ODPEM; others become PARTNER)
+UPDATE public.custodian
+SET custodian_kind = CASE
+  WHEN custodian_name ILIKE '%ODPEM%' THEN 'ODPEM'
+  ELSE 'PARTNER'
+END
+WHERE custodian_kind IS NULL
+   OR custodian_kind NOT IN ('ODPEM','PARTNER');
+
+-- -------------------------------------------------------------------
+-- 3) WAREHOUSE: ADD TIER + INTAKE/ISSUE FLAGS (DO NOT TOUCH warehouse_type)
+-- -------------------------------------------------------------------
+ALTER TABLE public.warehouse
+  ADD COLUMN IF NOT EXISTS tier_code varchar(4),                           -- MAIN | LSA | HSA
+  ADD COLUMN IF NOT EXISTS allow_donation_intake boolean NOT NULL DEFAULT true,
+  ADD COLUMN IF NOT EXISTS allow_lastmile_issue boolean NOT NULL DEFAULT false;
+
+-- Add tier check constraint (only if not already present)
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_constraint
+    WHERE conname = 'warehouse_tier_code_check'
+  ) THEN
+    ALTER TABLE public.warehouse
+      ADD CONSTRAINT warehouse_tier_code_check
+      CHECK (tier_code IS NULL OR tier_code IN ('MAIN','LSA','HSA'));
+  END IF;
+END $$;
+
+-- Backfill tier_code safely:
+-- - MAIN-HUB => MAIN
+-- - SUB-HUB + ODPEM custodian => LSA
+-- - SUB-HUB + non-ODPEM custodian => HSA
+DO $$
+DECLARE
+  odpem_id int;
+BEGIN
+  SELECT custodian_id INTO odpem_id
+  FROM public.custodian
+  WHERE custodian_name ILIKE '%ODPEM%'
+  ORDER BY custodian_id
+  LIMIT 1;
+
+  -- If ODPEM not found, we still backfill MAIN-HUB and leave SUB-HUB as NULL.
+  UPDATE public.warehouse w
+  SET tier_code = CASE
+    WHEN w.warehouse_type = 'MAIN-HUB' THEN 'MAIN'
+    WHEN w.warehouse_type = 'SUB-HUB' AND odpem_id IS NOT NULL AND w.custodian_id = odpem_id THEN 'LSA'
+    WHEN w.warehouse_type = 'SUB-HUB' AND odpem_id IS NOT NULL AND w.custodian_id <> odpem_id THEN 'HSA'
+    ELSE w.tier_code
+  END
+  WHERE w.tier_code IS NULL;
+
+  -- Default behaviors (soft enforcement):
+  -- MAIN (ODPEM): donation intake true
+  -- LSA (ODPEM): donation intake false (per your rule)
+  -- HSA (partners): donation intake true (direct intake enabled), lastmile_issue true
+  IF odpem_id IS NOT NULL THEN
+    UPDATE public.warehouse
+    SET allow_donation_intake = true
+    WHERE tier_code = 'MAIN' AND custodian_id = odpem_id;
+
+    UPDATE public.warehouse
+    SET allow_donation_intake = false
+    WHERE tier_code = 'LSA' AND custodian_id = odpem_id;
+
+    UPDATE public.warehouse
+    SET allow_donation_intake = true,
+        allow_lastmile_issue  = true
+    WHERE tier_code = 'HSA' AND custodian_id <> odpem_id;
+  END IF;
+END $$;
+
+-- Helpful views for filtering in UI/reporting (optional but useful)
+CREATE OR REPLACE VIEW public.v_warehouse_main AS
+SELECT * FROM public.warehouse WHERE tier_code = 'MAIN';
+
+CREATE OR REPLACE VIEW public.v_warehouse_lsa AS
+SELECT * FROM public.warehouse WHERE tier_code = 'LSA';
+
+CREATE OR REPLACE VIEW public.v_warehouse_hsa AS
+SELECT * FROM public.warehouse WHERE tier_code = 'HSA';
+
+-- -------------------------------------------------------------------
+-- 4) BENEFICIARY (INDIVIDUAL or SHELTER)
+-- -------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.beneficiary (
+  beneficiary_id integer GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+  beneficiary_type varchar(12) NOT NULL,          -- INDIVIDUAL | SHELTER
+
+  -- Individual fields (nullable for shelters)
+  first_name varchar(60),
+  last_name  varchar(60),
+
+  -- Shelter fields (nullable for individuals)
+  shelter_name varchar(120),
+
+  -- Optional identifiers (keep minimal for prototype)
+  external_ref varchar(60),                       -- optional ID from paper list / shelter registry
+
+  -- Location
+  address1_text varchar(255),
+  address2_text varchar(255),
+  parish_code char(2),
+  community_name varchar(120),
+
+  -- Contact
+  contact_name varchar(80),
+  phone_no varchar(20),
+  email_text varchar(100),
+
+  status_code char(1) NOT NULL DEFAULT 'A',       -- A | I
+  reason_desc varchar(255),
+
+  create_by_id varchar(20) NOT NULL DEFAULT 'SYSTEM',
+  create_dtime timestamp(0) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_by_id varchar(20) NOT NULL DEFAULT 'SYSTEM',
+  update_dtime timestamp(0) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  version_nbr integer NOT NULL DEFAULT 1,
+
+  CONSTRAINT beneficiary_type_check CHECK (beneficiary_type IN ('INDIVIDUAL','SHELTER')),
+  CONSTRAINT beneficiary_status_check CHECK (status_code IN ('A','I')),
+  CONSTRAINT beneficiary_reason_check CHECK (
+    ((reason_desc IS NULL) AND (status_code = 'A')) OR
+    ((reason_desc IS NOT NULL) AND (status_code = 'I'))
+  )
+);
+
+-- Data quality guardrails (optional but useful)
+CREATE INDEX IF NOT EXISTS idx_beneficiary_type ON public.beneficiary(beneficiary_type);
+CREATE INDEX IF NOT EXISTS idx_beneficiary_parish ON public.beneficiary(parish_code);
+
+-- Prevent obvious duplicates:
+-- Shelters: unique by (upper(shelter_name), parish_code) when shelter_name present
+CREATE UNIQUE INDEX IF NOT EXISTS uq_beneficiary_shelter_name_parish
+ON public.beneficiary (upper(shelter_name), parish_code)
+WHERE shelter_name IS NOT NULL;
+
+-- Individuals: unique by (upper(first_name), upper(last_name), parish_code) when names present
+CREATE UNIQUE INDEX IF NOT EXISTS uq_beneficiary_individual_name_parish
+ON public.beneficiary (upper(first_name), upper(last_name), parish_code)
+WHERE first_name IS NOT NULL AND last_name IS NOT NULL;
+
+-- -------------------------------------------------------------------
+-- 5) LAST MILE DISTRIBUTION: HSA Warehouse -> Beneficiary
+-- -------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.lastmile_distribution (
+  lastmile_id integer GENERATED BY DEFAULT AS IDENTITY PRIMARY KEY,
+
+  warehouse_id integer NOT NULL,       -- issuing HSA warehouse (FK warehouse)
+  event_id integer,                    -- optional event/disaster context
+  distribution_date date NOT NULL DEFAULT CURRENT_DATE,
+
+  status_code char(1) NOT NULL DEFAULT 'D',  -- D=draft, V=verified, C=completed
+  notes text,
+
+  create_by_id varchar(20) NOT NULL,
+  create_dtime timestamp(0) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  update_by_id varchar(20) NOT NULL,
+  update_dtime timestamp(0) without time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  verify_by_id varchar(20),
+  verify_dtime timestamp(0) without time zone,
+  version_nbr integer NOT NULL DEFAULT 1,
+
+  CONSTRAINT lastmile_status_check CHECK (status_code IN ('D','V','C'))
+);
+
+ALTER TABLE public.lastmile_distribution
+  ADD CONSTRAINT fk_lastmile_warehouse
+  FOREIGN KEY (warehouse_id) REFERENCES public.warehouse(warehouse_id);
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'fk_lastmile_event'
+  ) THEN
+    ALTER TABLE public.lastmile_distribution
+      ADD CONSTRAINT fk_lastmile_event
+      FOREIGN KEY (event_id) REFERENCES public.event(event_id);
+  END IF;
+END $$;
+
+-- Each beneficiary issuance header within a distribution session
+CREATE TABLE IF NOT EXISTS public.lastmile_delivery (
+  lastmile_id integer NOT NULL,
+  beneficiary_id integer NOT NULL,
+
+  delivered_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+  delivered_by varchar(20),
+  ack_method varchar(20) DEFAULT 'SIGNATURE',  -- SIGNATURE | ID_CHECK | NONE
+  ack_notes text,
+
+  PRIMARY KEY (lastmile_id, beneficiary_id)
+);
+
+ALTER TABLE public.lastmile_delivery
+  ADD CONSTRAINT fk_lastmile_delivery_hdr
+  FOREIGN KEY (lastmile_id) REFERENCES public.lastmile_distribution(lastmile_id) ON DELETE CASCADE;
+
+ALTER TABLE public.lastmile_delivery
+  ADD CONSTRAINT fk_lastmile_delivery_beneficiary
+  FOREIGN KEY (beneficiary_id) REFERENCES public.beneficiary(beneficiary_id);
+
+-- Item lines per beneficiary
+CREATE TABLE IF NOT EXISTS public.lastmile_delivery_item (
+  lastmile_id integer NOT NULL,
+  beneficiary_id integer NOT NULL,
+  item_id integer NOT NULL,
+  batch_id integer,                          -- optional: batch traceability
+  qty numeric(12,2) NOT NULL,
+  uom_code varchar(25) NOT NULL,
+  notes text,
+
+  PRIMARY KEY (lastmile_id, beneficiary_id, item_id, uom_code)
+);
+
+ALTER TABLE public.lastmile_delivery_item
+  ADD CONSTRAINT fk_lastmile_item_hdr
+  FOREIGN KEY (lastmile_id, beneficiary_id)
+  REFERENCES public.lastmile_delivery(lastmile_id, beneficiary_id)
+  ON DELETE CASCADE;
+
+ALTER TABLE public.lastmile_delivery_item
+  ADD CONSTRAINT fk_lastmile_item_item
+  FOREIGN KEY (item_id) REFERENCES public.item(item_id);
+
+ALTER TABLE public.lastmile_delivery_item
+  ADD CONSTRAINT fk_lastmile_item_uom
+  FOREIGN KEY (uom_code) REFERENCES public.unitofmeasure(uom_code);
+
+-- Optional batch linkage (only if batch exists); safe to add as NOT VALID then validate later if desired
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'fk_lastmile_item_batch'
+  ) THEN
+    ALTER TABLE public.lastmile_delivery_item
+      ADD CONSTRAINT fk_lastmile_item_batch
+      FOREIGN KEY (batch_id) REFERENCES public.itembatch(batch_id)
+      DEFERRABLE INITIALLY DEFERRED;
+  END IF;
+END $$;
+
+-- -------------------------------------------------------------------
+-- 6) TRANSACTION TABLE: ADD OPTIONAL BENEFICIARY/SOURCE REFERENCES
+--    (Nullable columns only => won’t break current inserts/selects)
+-- -------------------------------------------------------------------
+ALTER TABLE public.transaction
+  ADD COLUMN IF NOT EXISTS beneficiary_id integer,
+  ADD COLUMN IF NOT EXISTS source_module varchar(30),
+  ADD COLUMN IF NOT EXISTS source_record_id integer;
+
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint WHERE conname = 'fk_transaction_beneficiary'
+  ) THEN
+    ALTER TABLE public.transaction
+      ADD CONSTRAINT fk_transaction_beneficiary
+      FOREIGN KEY (beneficiary_id) REFERENCES public.beneficiary(beneficiary_id);
+  END IF;
+END $$;
+
+CREATE INDEX IF NOT EXISTS idx_transaction_beneficiary_id ON public.transaction(beneficiary_id);
+CREATE INDEX IF NOT EXISTS idx_transaction_source_ref ON public.transaction(source_module, source_record_id);
+
+COMMIT;

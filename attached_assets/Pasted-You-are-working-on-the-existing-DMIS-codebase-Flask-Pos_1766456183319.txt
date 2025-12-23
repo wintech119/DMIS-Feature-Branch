@@ -1,0 +1,63 @@
+You are working on the existing DMIS codebase (Flask/Postgres). Implement LAST MILE support with ZERO regressions.
+
+STRICT CONSTRAINTS:
+- Do NOT break any existing workflow, screens, routes, database logic, role permissions, security fixes, or scans (CSP/CSRF/etc).
+- Do NOT rename or remove any existing tables/columns used by current modules.
+- Only ADD new tables/columns and ADD new admin pages/routes/templates.
+- Ensure any INSERTs into warehouse/custodian still work (use explicit column lists; rely on DB defaults where possible).
+- Keep the current warehouse.warehouse_type values (MAIN-HUB, SUB-HUB) intact.
+
+DATABASE:
+1) Add a new migration file and apply the SQL migration that:
+   - Adds warehouse.tier_code, allow_donation_intake, allow_lastmile_issue
+   - Adds custodian.custodian_kind
+   - Creates beneficiary, lastmile_distribution, lastmile_delivery, lastmile_delivery_item
+   - Adds optional transaction.beneficiary_id, source_module, source_record_id
+   - Safely retires/drops any legacy public.hsa table only if it exists (rename if dependencies)
+2) Add a quick “post-migration check” script to verify tables exist and that existing core flows still run.
+
+ADMIN UI - WAREHOUSE CREATION:
+3) Update the existing Admin “Create Warehouse” form + handler so it sets tier/intake flags consistently:
+   - Add a Tier dropdown: MAIN / LSA / HSA
+   - When Tier=MAIN: set warehouse_type = 'MAIN-HUB', allow_donation_intake=true, allow_lastmile_issue=false
+   - When Tier=LSA: set warehouse_type = 'SUB-HUB', allow_donation_intake=false, allow_lastmile_issue=false
+   - When Tier=HSA: set warehouse_type = 'SUB-HUB', allow_donation_intake=true, allow_lastmile_issue=true
+   - Ensure custodian selection is required (custodian_id).
+   - Keep existing warehouse fields (address, parish_code, contact_name, phone_no, email_text) because HSA hub addresses differ per hub.
+4) Ensure existing warehouse edits still work; if Tier not provided (legacy records), default tier_code should be preserved.
+
+ADMIN UI - CUSTODIANS (HSA “types” like JDF/MLSS/Parish Councils):
+5) Build a simple Custodian CRUD interface under Admin:
+   - List custodians, create, edit, deactivate (soft: if you already have a pattern, follow it)
+   - Fields already exist: custodian_name, address1/2, parish_code, contact_name, phone_no, email_text
+   - New field: custodian_kind (ODPEM vs PARTNER)
+   - Enforce uppercase rules already present in DB checks (custodian_name/contact_name uppercased on save)
+
+ADMIN UI - BENEFICIARIES:
+6) Build Beneficiary CRUD under a new menu item (e.g., “Last Mile → Beneficiaries”):
+   - Beneficiary type toggle: INDIVIDUAL or SHELTER
+   - For INDIVIDUAL: first_name, last_name, phone/email (optional), address/parish/community
+   - For SHELTER: shelter_name, contact_name, phone/email, address/parish/community
+   - Status A/I with reason when Inactive
+   - Use existing security patterns: CSRF tokens, role checks, server-side validation, no inline scripts.
+
+PERMISSIONS:
+7) Restrict new admin pages to the same admin roles pattern used elsewhere (System Admin / DG / LM etc — follow the existing RBAC implementation).
+8) Do not give System Admin “super access” to bypass 2-step verification in operational modules; keep that unchanged.
+
+LAST MILE MODULE (minimal scaffolding, no breaking changes):
+9) Add a new navigation section “Last Mile” visible only to allowed roles (e.g., DG/Deputy DG/Director/PEOD/LM/LO as per existing patterns).
+10) For now, only scaffold the pages (no deep workflow rewrite):
+   - Create Distribution Session (lastmile_distribution) from an HSA warehouse only (tier_code='HSA')
+   - Add Beneficiary delivery header (lastmile_delivery) and item lines (lastmile_delivery_item)
+   - Don’t modify inventory logic yet unless the codebase already has a safe pattern you can reuse.
+
+TESTING:
+11) Add smoke tests/manual test checklist:
+   - Existing donation entry/verify/intake works
+   - Existing relief package flows work
+   - Existing transfer flows work
+   - New warehouse creation works for MAIN/LSA/HSA
+   - New custodian CRUD works
+   - New beneficiary CRUD works
+12) Run the app and confirm no template errors, no permission leaks, no CSP/CSRF regressions.

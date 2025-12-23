@@ -204,7 +204,7 @@ class Event(db.Model):
     }
 
 class Custodian(db.Model):
-    """GOJ Agency (ODPEM)"""
+    """GOJ Agency (ODPEM or Partner)"""
     __tablename__ = 'custodian'
     
     custodian_id = db.Column(db.Integer, primary_key=True)
@@ -215,7 +215,7 @@ class Custodian(db.Model):
     contact_name = db.Column(db.String(50), nullable=False)
     phone_no = db.Column(db.String(20), nullable=False)
     email_text = db.Column(db.String(100))
-    org_type = db.Column(db.String(10))  # LSA or HSA (added for last-mile)
+    custodian_kind = db.Column(db.String(15), default='ODPEM')  # ODPEM or PARTNER
     create_by_id = db.Column(db.String(20), nullable=False)
     create_dtime = db.Column(db.DateTime, nullable=False)
     update_by_id = db.Column(db.String(20), nullable=False)
@@ -234,9 +234,10 @@ class Warehouse(db.Model):
     
     warehouse_id = db.Column(db.Integer, primary_key=True)
     warehouse_name = db.Column(db.Text, nullable=False)
-    warehouse_type = db.Column(db.String(10), nullable=False)
-    warehouse_tier = db.Column(db.String(10))  # MAIN, LSA, or HSA (added for last-mile)
-    allows_donation_intake = db.Column(db.Boolean)  # True for MAIN/HSA, False for LSA
+    warehouse_type = db.Column(db.String(10), nullable=False)  # MAIN-HUB or SUB-HUB (legacy)
+    tier_code = db.Column(db.String(4))  # MAIN, LSA, or HSA
+    allow_donation_intake = db.Column(db.Boolean, default=True)  # True for MAIN/HSA, False for LSA
+    allow_lastmile_issue = db.Column(db.Boolean, default=False)  # True for HSA only
     address1_text = db.Column(db.String(255), nullable=False)
     address2_text = db.Column(db.String(255))
     parish_code = db.Column(db.CHAR(2), db.ForeignKey('parish.parish_code'), nullable=False)
