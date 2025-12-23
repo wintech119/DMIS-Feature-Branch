@@ -40,9 +40,9 @@
                 <!-- Hidden field for optimistic locking -->
                 <input type="hidden" name="version_nbr" value="{{ custodian.version_nbr }}">
                 
-                <!-- Row 1: Custodian Name -->
+                <!-- Row 1: Custodian Name and Type -->
                 <div class="row mb-4">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <label for="custodian_name" class="form-label">Custodian Name *</label>
                         <input type="text" 
                                class="form-control" 
@@ -55,6 +55,21 @@
                         <small class="text-muted">Will be converted to UPPERCASE. Must be unique.</small>
                         {% if errors and errors.get('custodian_name') %}
                         <div class="text-danger small mt-1">{{ errors.get('custodian_name') }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <label for="custodian_kind" class="form-label">Custodian Type *</label>
+                        <select class="form-select" id="custodian_kind" name="custodian_kind" required>
+                            <option value="ODPEM" {% if (form_data and form_data.get('custodian_kind') == 'ODPEM') or (not form_data and custodian.custodian_kind == 'ODPEM') %}selected{% endif %}>
+                                ODPEM (Primary Custodian)
+                            </option>
+                            <option value="PARTNER" {% if (form_data and form_data.get('custodian_kind') == 'PARTNER') or (not form_data and custodian.custodian_kind == 'PARTNER') %}selected{% endif %}>
+                                PARTNER (External Agency)
+                            </option>
+                        </select>
+                        <small class="text-muted">ODPEM for main agency, PARTNER for external organizations like JDF, MLSS</small>
+                        {% if errors and errors.get('custodian_kind') %}
+                        <div class="text-danger small mt-1">{{ errors.get('custodian_kind') }}</div>
                         {% endif %}
                     </div>
                 </div>

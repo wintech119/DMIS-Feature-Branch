@@ -143,6 +143,7 @@ def create():
         try:
             custodian = Custodian(
                 custodian_name=request.form.get('custodian_name').strip().upper(),
+                custodian_kind=request.form.get('custodian_kind', 'ODPEM').strip(),
                 address1_text=request.form.get('address1_text').strip(),
                 address2_text=request.form.get('address2_text', '').strip() or None,
                 parish_code=request.form.get('parish_code').strip(),
@@ -229,6 +230,7 @@ def edit(custodian_id):
         
         try:
             custodian.custodian_name = request.form.get('custodian_name').strip().upper()
+            custodian.custodian_kind = request.form.get('custodian_kind', 'ODPEM').strip()
             custodian.address1_text = request.form.get('address1_text').strip()
             custodian.address2_text = request.form.get('address2_text', '').strip() or None
             custodian.parish_code = request.form.get('parish_code').strip()
