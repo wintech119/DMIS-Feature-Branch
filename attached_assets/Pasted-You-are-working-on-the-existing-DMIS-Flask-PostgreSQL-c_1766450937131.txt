@@ -1,0 +1,61 @@
+You are working on the existing DMIS (Flask + PostgreSQL) codebase.
+
+Goal: Implement the Last-Mile DB foundation + enforce donation intake restrictions, WITHOUT breaking any existing workflow, business logic, or security hardening.
+
+NON-NEGOTIABLE CONSTRAINTS:
+1) Do NOT drop, rename, or alter existing tables/columns/constraints in a way that changes behavior, except for ADDITIVE new columns.
+2) Do NOT remove or weaken security controls already implemented (CSRF, CSP, secure cookies, RBAC, 2-step create/verify, validations).
+3) Changes must be backward compatible and should not change existing pages’ behavior except:
+   - Donation intake: prevent selecting LSA (SUB-HUB) warehouses for intake.
+   - Allow intake for MAIN-HUB (ODPEM main hubs) and for HSA warehouses (JDF/MLSS/etc.).
+4) All database changes must be applied using a transactional, idempotent migration.
+
+DATABASE TASK:
+A) Create migration file:
+   migrations/2025_12_22_lastmile_hsa_beneficiary_full.sql
+   Paste in the provided SQL exactly.
+
+B) Backup database before applying migration:
+   pg_dump "$DATABASE_URL" > backups/pre_lastmile_2025_12_22.sql
+
+C) Apply migration with ON_ERROR_STOP:
+   psql -v ON_ERROR_STOP=1 "$DATABASE_URL" -f migrations/2025_12_22_lastmile_hsa_beneficiary_full.sql
+
+D) Smoke-check queries (print results):
+   1) SELECT column_name FROM information_schema.columns WHERE table_schema='public' AND table_name='custodian' AND column_name='org_type';
+   2) SELECT column_name FROM information_schema.columns WHERE table_schema='public' AND table_name='warehouse' AND column_name IN ('warehouse_tier','allows_donation_intake');
+   3) SELECT COUNT(*) AS hsa_count FROM public.hsa;
+   4) SELECT COUNT(*) AS shelter_beneficiaries FROM public.beneficiary WHERE beneficiary_type='SHELTER';
+   5) SELECT COUNT(*) AS intake_eligible_wh FROM public.v_warehouse_intake_eligible;
+
+APPLICATION TASK (MINIMAL CODE CHANGE; DO NOT REFRACTOR):
+E) Donation intake warehouse selection:
+   - Wherever the donation intake UI populates warehouse choices, add an additional server-side filter:
+       only show warehouses where allows_donation_intake = TRUE
+     (use view public.v_warehouse_intake_eligible or equivalent query).
+   - Keep existing RBAC and user_warehouse filtering intact. Apply BOTH:
+       1) existing access filter (e.g., user_warehouse assignments / role logic)
+       2) AND allows_donation_intake = TRUE
+
+F) Add server-side validation on POST/submit:
+   - If a user submits a warehouse_id that is not intake-eligible, block the operation and show a clear error message.
+   - Do not rely on client-side validation only.
+
+G) Do NOT change any other workflow screens or routes in this step.
+
+REGRESSION VERIFICATION:
+H) Run the app and confirm all existing workflows still work:
+   - Donation entry + verification
+   - Inventory dashboards
+   - Transfers (LSA → any warehouse)
+   - Relief request lifecycle pages
+   - No template errors
+I) Confirm security behavior unchanged:
+   - CSRF tokens still enforced
+   - headers still set (CSP/HSTS/etc. if present)
+   - role separation still applies
+
+DELIVERABLES:
+1) Commit the migration file.
+2) Commit only the minimal code change needed to filter + validate donation intake warehouse selection.
+3) Provide console output of the smoke-check queries and confirmation that existing pages load.
