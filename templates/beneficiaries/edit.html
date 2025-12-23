@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/relief-requests-ui.css') }}">
+{% endblock %}
+
+{% block extra_scripts %}
+<script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/phone-mask.js') }}"></script>
+{% endblock %}
+
+{% block title %}Edit Beneficiary - {{ beneficiary.beneficiary_name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="page-header mb-0">
+            <div class="page-title">
+                <i class="bi bi-pencil page-title-icon"></i>
+                <h1 class="page-title-text">Edit: {{ beneficiary.beneficiary_name }}</h1>
+            </div>
+        </div>
+        <a href="{{ url_for('beneficiaries.view_beneficiary', beneficiary_id=beneficiary.beneficiary_id) }}" class="btn-relief-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Details
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-10 col-xl-8">
+            <div class="card">
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('beneficiaries.edit_beneficiary', beneficiary_id=beneficiary.beneficiary_id) }}" novalidate>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="version_nbr" value="{{ beneficiary.version_nbr }}">
+                        
+                        <div class="mb-4">
+                            <h5 class="border-bottom pb-2 mb-3"><i class="bi bi-info-circle"></i> Basic Information</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="beneficiary_type" class="form-label">Type <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="beneficiary_type" name="beneficiary_type" required>
+                                        {% for t in beneficiary_types %}
+                                        <option value="{{ t }}" {% if beneficiary.beneficiary_type == t %}selected{% endif %}>
+                                            {% if t == 'INDIVIDUAL' %}Individual{% else %}Shelter{% endif %}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="beneficiary_name" class="form-label">Display Name <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" 
+                                           value="{{ beneficiary.beneficiary_name }}" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="given_name" class="form-label">Given Name</label>
+                                    <input type="text" class="form-control" id="given_name" name="given_name" 
+                                           value="{{ beneficiary.given_name or '' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="family_name" class="form-label">Family Name</label>
+                                    <input type="text" class="form-control" id="family_name" name="family_name" 
+                                           value="{{ beneficiary.family_name or '' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="registered_hsa_id" class="form-label">Registered HSA</label>
+                                    <select class="form-select" id="registered_hsa_id" name="registered_hsa_id">
+                                        <option value="">-- No HSA --</option>
+                                        {% for hsa in hsas %}
+                                        <option value="{{ hsa.hsa_id }}" {% if beneficiary.registered_hsa_id == hsa.hsa_id %}selected{% endif %}>
+                                            {{ hsa.hsa_code }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="status_code" class="form-label">Status <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="status_code" name="status_code" required>
+                                        <option value="A" {% if beneficiary.status_code == 'A' %}selected{% endif %}>Active</option>
+                                        <option value="I" {% if beneficiary.status_code == 'I' %}selected{% endif %}>Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="border-bottom pb-2 mb-3"><i class="bi bi-geo-alt"></i> Location & Contact</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="parish_code" class="form-label">Parish</label>
+                                    <select class="form-select" id="parish_code" name="parish_code">
+                                        <option value="">-- Select Parish --</option>
+                                        {% for parish in parishes %}
+                                        <option value="{{ parish.parish_code }}" {% if beneficiary.parish_code == parish.parish_code %}selected{% endif %}>
+                                            {{ parish.parish_name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="community_text" class="form-label">Community</label>
+                                    <input type="text" class="form-control" id="community_text" name="community_text" 
+                                           value="{{ beneficiary.community_text or '' }}">
+                                </div>
+                                <div class="col-12">
+                                    <label for="address1_text" class="form-label">Address Line 1</label>
+                                    <input type="text" class="form-control" id="address1_text" name="address1_text" 
+                                           value="{{ beneficiary.address1_text or '' }}">
+                                </div>
+                                <div class="col-12">
+                                    <label for="address2_text" class="form-label">Address Line 2</label>
+                                    <input type="text" class="form-control" id="address2_text" name="address2_text" 
+                                           value="{{ beneficiary.address2_text or '' }}">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone_no" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control phone-mask" id="phone_no" name="phone_no" 
+                                           value="{{ beneficiary.phone_no or '' }}">
+                                    <small class="form-text text-muted">Format: +1 (XXX) XXX-XXXX</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email_text" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email_text" name="email_text" 
+                                           value="{{ beneficiary.email_text or '' }}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 justify-content-end border-top pt-3">
+                            <a href="{{ url_for('beneficiaries.view_beneficiary', beneficiary_id=beneficiary.beneficiary_id) }}" class="btn-relief-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn-relief-primary">
+                                <i class="bi bi-check-circle"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

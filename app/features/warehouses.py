@@ -39,6 +39,7 @@ warehouses_bp = Blueprint('warehouses', __name__, url_prefix='/warehouses')
 
 # Constants for validation
 WAREHOUSE_TYPES = ['MAIN-HUB', 'SUB-HUB']
+WAREHOUSE_TIERS = ['MAIN', 'LSA', 'HSA']
 STATUS_CODES = ['A', 'I']  # Active, Inactive
 
 def validate_email(email):
@@ -160,6 +161,11 @@ def validate_warehouse_data(form_data, is_update=False, warehouse_id=None):
         if reason_desc:
             errors['reason_desc'] = 'Active warehouses cannot have a reason for inactivation'
     
+    # Warehouse Tier validation (optional field, defaults based on warehouse_type)
+    warehouse_tier = form_data.get('warehouse_tier', '').strip()
+    if warehouse_tier and warehouse_tier not in WAREHOUSE_TIERS:
+        errors['warehouse_tier'] = f'Warehouse tier must be one of: {", ".join(WAREHOUSE_TIERS)}'
+    
     return (len(errors) == 0, errors)
 
 
@@ -238,6 +244,7 @@ def create_warehouse():
                 parishes=parishes,
                 custodians=custodians,
                 warehouse_types=WAREHOUSE_TYPES,
+                warehouse_tiers=WAREHOUSE_TIERS,
                 form_data=request.form,
                 errors=errors
             )
@@ -261,6 +268,19 @@ def create_warehouse():
             warehouse.custodian_id = custodian_id
             warehouse.status_code = request.form.get('status_code').strip()
             warehouse.reason_desc = request.form.get('reason_desc', '').strip() or None
+            
+            # New tier and intake fields
+            warehouse_tier = request.form.get('warehouse_tier', '').strip() or None
+            if not warehouse_tier:
+                # Default tier based on warehouse_type
+                warehouse_tier = 'MAIN' if warehouse.warehouse_type == 'MAIN-HUB' else 'LSA'
+            warehouse.warehouse_tier = warehouse_tier
+            # Intake allowed for MAIN and HSA tiers, not for LSA
+            allows_intake = request.form.get('allows_donation_intake') == 'on'
+            if warehouse_tier in ['MAIN', 'HSA']:
+                warehouse.allows_donation_intake = allows_intake if allows_intake else True
+            else:
+                warehouse.allows_donation_intake = False
             
             # Audit fields
             add_audit_fields(warehouse, current_user, is_new=True)
@@ -295,7 +315,8 @@ def create_warehouse():
         'warehouses/create.html',
         parishes=parishes,
         custodians=custodians,
-        warehouse_types=WAREHOUSE_TYPES
+        warehouse_types=WAREHOUSE_TYPES,
+        warehouse_tiers=WAREHOUSE_TIERS
     )
 
 
@@ -340,6 +361,7 @@ def edit_warehouse(warehouse_id):
                 parishes=parishes,
                 custodians=custodians,
                 warehouse_types=WAREHOUSE_TYPES,
+                warehouse_tiers=WAREHOUSE_TIERS,
                 form_data=request.form,
                 errors=errors
             )
@@ -364,6 +386,19 @@ def edit_warehouse(warehouse_id):
             warehouse.status_code = request.form.get('status_code').strip()
             warehouse.reason_desc = request.form.get('reason_desc', '').strip() or None
             
+            # New tier and intake fields
+            warehouse_tier = request.form.get('warehouse_tier', '').strip() or None
+            if not warehouse_tier:
+                # Default tier based on warehouse_type
+                warehouse_tier = 'MAIN' if warehouse.warehouse_type == 'MAIN-HUB' else 'LSA'
+            warehouse.warehouse_tier = warehouse_tier
+            # Intake allowed for MAIN and HSA tiers, not for LSA
+            allows_intake = request.form.get('allows_donation_intake') == 'on'
+            if warehouse_tier in ['MAIN', 'HSA']:
+                warehouse.allows_donation_intake = allows_intake if allows_intake else True
+            else:
+                warehouse.allows_donation_intake = False
+            
             # Audit fields
             add_audit_fields(warehouse, current_user, is_new=False)
             
@@ -386,6 +421,7 @@ def edit_warehouse(warehouse_id):
                 parishes=parishes,
                 custodians=custodians,
                 warehouse_types=WAREHOUSE_TYPES,
+                warehouse_tiers=WAREHOUSE_TIERS,
                 form_data=request.form
             )
     
@@ -398,7 +434,8 @@ def edit_warehouse(warehouse_id):
         warehouse=warehouse,
         parishes=parishes,
         custodians=custodians,
-        warehouse_types=WAREHOUSE_TYPES
+        warehouse_types=WAREHOUSE_TYPES,
+        warehouse_tiers=WAREHOUSE_TIERS
     )
 
 

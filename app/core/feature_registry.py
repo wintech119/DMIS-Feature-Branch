@@ -344,6 +344,28 @@ class FeatureRegistry:
             'navigation_group': 'master_data',
             'priority': 6
         },
+        'hsa_management': {
+            'name': 'Manage HSAs',
+            'description': 'Manage Humanitarian Service Agencies (JDF, MLSS, Parish Councils)',
+            'roles': ['CUSTODIAN'],
+            'route': 'hsa.list_hsa',
+            'url': '/hsa',
+            'icon': 'bi-hospital',
+            'category': 'master_data',
+            'navigation_group': 'master_data',
+            'priority': 5
+        },
+        'beneficiary_management': {
+            'name': 'Manage Beneficiaries',
+            'description': 'Manage beneficiaries for last-mile distribution',
+            'roles': ['CUSTODIAN'],
+            'route': 'beneficiaries.list_beneficiaries',
+            'url': '/beneficiaries',
+            'icon': 'bi-people-fill',
+            'category': 'master_data',
+            'navigation_group': 'master_data',
+            'priority': 5
+        },
         'donation_management': {
             'name': 'Donations',
             'description': 'Accept and process donations',

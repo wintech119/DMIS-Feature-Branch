@@ -23,56 +23,35 @@ The application employs a modular blueprint architecture with a database-first a
 
 ### System Design
 - **UI/UX Design**: Consistent modern UI, comprehensive design system, shared Jinja2 components, GOJ branding, accessibility (WCAG 2.1 AA), and standardized workflow patterns. Features role-specific dashboards and complete management modules with CRUD, validation, and optimistic locking.
-- **Notification System**: Real-time in-app notifications with badge counters, offcanvas panels, deep-linking, read/unread tracking, and bulk operations. All notification POST actions (mark-read, clear-all, delete) use csrfFetch for CSRF protection.
-- **Donation Processing**: Manages full workflow for donations, including intake, verification, batch-level tracking, expiry dates, and integration with warehouse inventory. Supports full donation workflow with country, currency, and cost breakdowns, including document uploads and robust validation.
+- **Notification System**: Real-time in-app notifications with badge counters, offcanvas panels, deep-linking, read/unread tracking, and bulk operations using CSRF protection.
+- **Donation Processing**: Manages full workflow for donations, including intake, verification, batch-level tracking, expiry dates, and integration with warehouse inventory. Supports document uploads and robust validation.
 - **Database Architecture**: Based on a 40-table ODPEM schema, ensuring data consistency, auditability, precision, and optimistic locking. Includes an enhanced `public.user` table, a new `itembatch` table (FEFO/FIFO), `itemcostdef` for cost types, `donation_doc` for document attachments, and composite primary keys.
 - **Data Flow Patterns**: Supports end-to-end AIDMGMT Relief Workflow, role-based dashboards, two-tier inventory management, eligibility approval, and package fulfillment with batch-level editing.
-- **Role-Based Access Control (RBAC)**: Centralized feature registry, dynamic navigation, security decorators, smart routing, and a defined role hierarchy. Features secure user management with role assignment restrictions and both client-side and server-side validation. Role groups defined in `app/core/rbac.py`: `EXECUTIVE_ROLES` (DG, DDG, Dir PEOD), `LOGISTICS_ROLES`, `AGENCY_ROLES`. Use `is_executive()` or `@executive_required` decorator for eligibility approval access.
-- **Security Features**: Strict nonce-based Content Security Policy (CSP), comprehensive Flask-WTF Cross-Site Request Forgery (CSRF) Protection, secure cookie configuration (Secure, HttpOnly, SameSite=Lax), Subresource Integrity (SRI) for CDN assets, global no-cache headers for sensitive pages, HTTP header sanitization, production-safe error handling with Information Exposure prevention (generic user flash messages + server-side logging via `current_app.logger.exception()`), Log Forging prevention (sanitize_for_log() helper for newline/control character sanitization), Client Dangerous File Inclusion prevention (all template paths hardcoded, no user-controlled file includes, CDN assets use SRI), email obfuscation, query string protection for sensitive parameters, open redirect protection on login, and robust login authentication.
-- **API Security (OWASP API Top 10)**: Flask-Limiter rate limiting on all high-risk endpoints (login: 5/min, exports: 3/hour, reports: 10/min, analytics: 10/min, bulk operations: 5/min, public endpoints: 5/min). CORS domain allowlisting for ODPEM/JAMICTA subdomains with credential support. SafeApiClient utility for external API consumption with domain validation, timeouts, retry logic, and response sanitization. Rate limit headers (X-RateLimit-Limit, X-RateLimit-Remaining, Retry-After) for client-side handling.
-- **Timezone Standardization**: All datetime operations, database timestamps, audit trails, and user-facing displays use Jamaica Standard Time (UTC-05:00).
-- **Key Features**: Universal visibility for approved relief requests, accurate inventory validation, batch-level reservation synchronization for draft packages, and automatic inventory table updates on dispatch. Relief package cancellation includes full reservation rollback using optimistic locking and transactional integrity. Implements robust relief request status management. Relief requests are restricted to GOODS items only - FUNDS items are excluded from item selection and blocked via server-side validation.
-- **Relief Package Analytics Dashboard**: Executive-level analytics for dispatched relief packages (status 'D' and 'R'). Shows 4 KPI cards (Total Packages, Items Distributed, Delivery Locations, Requests Fulfilled), 4 interactive Chart.js charts (Destination Type pie, Parish bar, Timeline line, Top Destinations horizontal bar), and a detail table. Accessible to DG, Deputy DG, Director PEOD, and Logistics Manager roles.
-- **Aid Movement Dashboard**: Read-only analytics dashboard showing aid received, issued, and in-store across warehouses. Features 3 KPI cards (Total Received, Total Issued, In Store), filterable table with item search, warehouse selection, movement type filter, and date range filters. Uses `transaction` table for HADR aid tracking data. Route: `/dashboard/aid-movement`. Accessible to DG, Deputy DG, Director PEOD, and Logistics Manager roles.
-- **Item Distribution Dashboard**: Sub-dashboard under Aid Movement for drilling down into a specific item's distribution across warehouses. Features category filter (dynamically filters item list), item selection dropdown (required), warehouse filter, movement type filter, date range filters, 3 summary KPI cards (Total Received, Total Issued, In Store for selected item), and per-warehouse breakdown table showing received/issued/in-store quantities. Route: `/dashboard/aid-movement/item-detail`. Accessible to DG, Deputy DG, Director PEOD, and Logistics Manager roles.
-- **Funds Donations Report**: Read-only report for ODPEM Executives (DG, Deputy DG, Director PEOD) showing all FUNDS-type donations. Displays Received Date, Origin Country, Donation Amount, Currency, and Location (Account #). Includes filters for Origin Country, Received Date range, and Currency. Features pagination (25 per page), sorted by received date (most recent first). Route: `/reports/funds_donations`.
-- **Currency Conversion Service**: Cached exchange rate service for converting foreign currencies to JMD. Features:
-  - `currency_rate` table for caching exchange rates (additive, no existing tables modified)
-  - Service layer in `app/services/currency_service.py` with rate caching and conversion
-  - External API integration currently disabled - system operates with manual/cached rates only
-  - Rates can be inserted manually via `store_rate()` or `set_usd_jmd_rate()` methods
-  - Source column values: MANUAL (user-entered), LEGACY (historical imported rates), UNCONFIGURED (default)
-  - Display-only conversion - no stored values are modified
-  - Graceful degradation if rates unavailable
-  - Designed for easy integration with any future exchange rate API provider
+- **Role-Based Access Control (RBAC)**: Centralized feature registry, dynamic navigation, security decorators, smart routing, and a defined role hierarchy. Features secure user management with role assignment restrictions and both client-side and server-side validation. Role groups defined: `EXECUTIVE_ROLES`, `LOGISTICS_ROLES`, `AGENCY_ROLES`.
+- **Security Features**: Strict nonce-based Content Security Policy (CSP), comprehensive Flask-WTF Cross-Site Request Forgery (CSRF) Protection, secure cookie configuration, Subresource Integrity (SRI) for CDN assets, global no-cache headers, HTTP header sanitization, production-safe error handling, Log Forging prevention, Client Dangerous File Inclusion prevention, email obfuscation, query string protection, open redirect protection, and robust login authentication.
+- **API Security (OWASP API Top 10)**: Flask-Limiter rate limiting on all high-risk endpoints. CORS domain allowlisting for ODPEM/JAMICTA subdomains with credential support. SafeApiClient utility for external API consumption. Rate limit headers for client-side handling.
+- **Timezone Standardization**: All datetime operations and user-facing displays use Jamaica Standard Time (UTC-05:00).
+- **Key Features**: Universal visibility for approved relief requests, accurate inventory validation, batch-level reservation synchronization for draft packages, and automatic inventory table updates on dispatch. Relief package cancellation includes full reservation rollback using optimistic locking and transactional integrity. Implements robust relief request status management. Relief requests are restricted to GOODS items only.
+- **Relief Package Analytics Dashboard**: Executive-level analytics for dispatched relief packages (status 'D' and 'R'). Shows KPIs and interactive Chart.js charts. Accessible to DG, Deputy DG, Director PEOD, and Logistics Manager roles.
+- **Aid Movement Dashboard**: Read-only analytics dashboard showing aid received, issued, and in-store across warehouses. Features KPIs, filterable table with item search, warehouse selection, movement type filter, and date range filters. Accessible to DG, Deputy DG, Director PEOD, and Logistics Manager roles.
+- **Item Distribution Dashboard**: Sub-dashboard under Aid Movement for drilling down into a specific item's distribution across warehouses. Features category filter, item selection, warehouse filter, movement type filter, date range filters, summary KPIs, and per-warehouse breakdown table. Accessible to DG, Deputy DG, Director PEOD, and Logistics Manager roles.
+- **Funds Donations Report**: Read-only report for ODPEM Executives showing all FUNDS-type donations. Displays details, filters, and pagination.
+- **Currency Conversion Service**: Cached exchange rate service for converting foreign currencies to JMD. Uses a `currency_rate` table for caching. External API integration is currently disabled; system operates with manual/cached rates.
 - **Dynamic GOODS/FUNDS Donation Workflow**: Donation form dynamically adapts based on item category type (GOODS/FUNDS) via an API endpoint, automatically setting donation type and controlling field editability.
-- **Donation Validation Rules**:
-  - Total Donation Value is manually entered and validated against computed sum of line items (0.01 JMD tolerance). Mismatches are rejected with clear error messaging.
-  - Document uploads require UPLOAD_FOLDER configuration; system fails with rollback if documents are uploaded without valid upload folder.
-  - FUNDS items enforce quantity = 1.00 on both client-side and server-side.
-- **Donation Intake Two-Stage Workflow**: 
-  - **Workflow A (Entry)**: LOGISTICS_OFFICER creates/edits intakes. Selects verified donations (status='V'), filters only GOODS items. Creates dnintake with status 'I' (draft) or 'C' (submitted for verification). NO inventory/batch updates at this stage.
-  - **Workflow B (Verification)**: LOGISTICS_MANAGER reviews submitted intakes (status='C'). Can adjust defective/expired quantities, batch details. Upon verification, status changes to 'V', ItemBatch records are created/updated, Inventory totals are updated, and Donation status changes to 'P' (Processed). All operations in a single atomic transaction with optimistic locking.
+- **Donation Validation Rules**: Total Donation Value validated against computed sum of line items (0.01 JMD tolerance). Document uploads require `UPLOAD_FOLDER` configuration. FUNDS items enforce quantity = 1.00.
+- **Donation Intake Two-Stage Workflow**:
+    - **Workflow A (Entry)**: LOGISTICS_OFFICER creates/edits intakes (draft or submitted for verification). No inventory/batch updates.
+    - **Workflow B (Verification)**: LOGISTICS_MANAGER reviews submitted intakes, adjusts quantities, and verifies. Status changes to 'V', `ItemBatch` records and `Inventory` totals are updated, and `Donation` status changes to 'P' (Processed). All operations are atomic with optimistic locking.
 - **Relief Package Dispatch Workflow (Workflow C)**: LM Submit for Dispatch - Final dispatch operation when Logistics Manager submits a package:
-  - **Service Layer**: `app/services/dispatch_service.py` implements the core algorithm:
-    1. Undo LO reservations (from reliefpkg_item) in itembatch.reserved_qty and inventory.reserved_qty
-    2. Overwrite reliefpkg_item with LM's final allocation plan
-    3. Deplete usable stock in itembatch.usable_qty and inventory.usable_qty based on LM plan
-    4. Update reliefpkg header status to 'D' (Dispatched) with dispatch_dtime
-    5. Update reliefrqst_item.issue_qty with actual dispatched quantities
-  - **Route**: POST `/packaging/package/<reliefpkg_id>/submit-dispatch` - LM-only access
-  - **Data Integrity**: All operations execute in ONE atomic transaction with optimistic locking (version_nbr checks)
-  - **Error Handling**: On any failure (version conflict, insufficient stock, missing records), entire transaction rolls back with user-friendly error message
-  - **Isolation**: Does NOT modify Workflow A (LO packaging) or Workflow B (LM review) - only handles final dispatch step
-- **Last-Mile Distribution Foundation (Added 2025-12-22)**: Database foundation for HSA warehouse-to-beneficiary distribution:
-  - **Custodian Classification**: `custodian.org_type` column (LSA/HSA) to distinguish ODPEM custodians from Humanitarian Service Agencies
-  - **HSA Master Table**: `public.hsa` for tracking JDF, MLSS, Parish Councils with category and status
-  - **Warehouse Tiering**: `warehouse.warehouse_tier` (MAIN/LSA/HSA) and `warehouse.allows_donation_intake` (boolean) to enforce intake rules
-  - **Beneficiary Table**: `public.beneficiary` for INDIVIDUAL and SHELTER types, linked to HSA registration
-  - **Last-Mile Tables**: `lastmile_distribution`, `lastmile_distribution_item`, `lastmile_distribution_receipt`, `lastmile_distribution_doc` for HSA→beneficiary distribution workflow
-  - **Intake Restrictions**: MAIN-HUB and HSA warehouses allow donation intake; SUB-HUB (LSA) warehouses do NOT
-  - **Views**: `v_warehouse_intake_eligible`, `v_beneficiary_display`, `v_hsa_warehouses` for UI filtering
-  - **Migration**: `migrations/2025_12_22_lastmile_hsa_beneficiary_full.sql` (idempotent, additive, production-safe)
+    1. Undo LO reservations.
+    2. Overwrite `reliefpkg_item` with LM's final allocation plan.
+    3. Deplete usable stock in `itembatch.usable_qty` and `inventory.usable_qty`.
+    4. Update `reliefpkg` header status to 'D' (Dispatched).
+    5. Update `reliefrqst_item.issue_qty` with actual dispatched quantities.
+    All operations are atomic with optimistic locking and robust error handling.
+- **Last-Mile Distribution Foundation**: Database foundation for HSA warehouse-to-beneficiary distribution, including custodian classification, HSA master table, warehouse tiering, beneficiary table, and last-mile distribution tables. Intake is restricted for specific warehouse tiers.
+- **HSA CRUD Interface**: Complete CRUD for Humanitarian Service Agencies with search/filter, status toggle, linked custodian selection, and optimistic locking. Accessible to CUSTODIAN role.
+- **Beneficiary CRUD Interface**: Complete CRUD for beneficiaries (INDIVIDUAL, SHELTER types) with search/filter by type/HSA, location tracking, contact info, and HSA registration linkage. Accessible to CUSTODIAN role.
 
 ## External Dependencies
 
@@ -99,18 +78,16 @@ The application employs a modular blueprint architecture with a database-first a
 - Flatpickr
 
 ### DevSecOps Tools
-- **Bandit** - Python security linter (configured in `bandit.yml`)
-- **Semgrep** - Multi-language SAST scanner (configured in `semgrep.yml`)
-- **pip-audit** - Python dependency vulnerability scanner (PyPI advisory database)
-- **safety** - Python dependency checker (Safety DB)
-- **SAST Script** - `scripts/run_sast.sh` runs code scanners with severity gating
-- **Dependency Script** - `scripts/run_dep_scan.sh` runs dependency scanners with conservative severity classification
-- **GitHub Actions** - `.github/workflows/security-sast.yml` for CI/CD integration (SAST + dependency scans)
-- **Security Documentation** - `SECURITY.md` for vulnerability policy and local scan instructions
+- **Bandit** - Python security linter
+- **Semgrep** - Multi-language SAST scanner
+- **pip-audit** - Python dependency vulnerability scanner
+- **safety** - Python dependency checker
+- **SAST Script** - `scripts/run_sast.sh`
+- **Dependency Script** - `scripts/run_dep_scan.sh`
+- **GitHub Actions** - CI/CD integration for security scans
 
 ### Configuration & Deployment
-- **Configuration Module** - `settings.py` with environment-driven settings (DMIS_ prefix)
-- **Environment Template** - `.env.example` for local development setup
-- **NGINX Template** - `deploy/nginx.conf.example` for production reverse proxy
-- **Production-Safe Defaults** - DEBUG=false by default, SECRET_KEY required in production
-- **Environment Variables**: `DMIS_SECRET_KEY`, `DMIS_DATABASE_URL`, `DMIS_DEBUG`, `DMIS_TESTING`, `DMIS_UPLOAD_FOLDER`, `DMIS_LOG_TO_STDOUT` (legacy names supported for backward compatibility)
+- **Configuration Module** - `settings.py` with environment-driven settings
+- **Environment Template** - `.env.example`
+- **NGINX Template** - `deploy/nginx.conf.example`
+- **Environment Variables**: `DMIS_SECRET_KEY`, `DMIS_DATABASE_URL`, `DMIS_UPLOAD_FOLDER`, etc.

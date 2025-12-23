@@ -1474,3 +1474,59 @@ class Notification(db.Model):
     user = db.relationship('User', backref='notifications')
     warehouse = db.relationship('Warehouse', backref='notifications')
     relief_request = db.relationship('ReliefRqst', backref='notifications')
+
+
+class HSA(db.Model):
+    """Humanitarian Service Agency (JDF, MLSS, Parish Councils, etc.)"""
+    __tablename__ = 'hsa'
+    
+    hsa_id = db.Column(db.Integer, primary_key=True)
+    custodian_id = db.Column(db.Integer, db.ForeignKey('custodian.custodian_id'), nullable=False, unique=True)
+    hsa_code = db.Column(db.String(30), nullable=False, unique=True)
+    hsa_category = db.Column(db.String(30), nullable=False)
+    status_code = db.Column(db.CHAR(1), nullable=False, default='A')
+    notes = db.Column(db.Text)
+    create_by_id = db.Column(db.String(20), nullable=False, default='SYSTEM')
+    create_dtime = db.Column(db.DateTime, nullable=False, default=jamaica_now)
+    update_by_id = db.Column(db.String(20), nullable=False, default='SYSTEM')
+    update_dtime = db.Column(db.DateTime, nullable=False, default=jamaica_now)
+    version_nbr = db.Column(db.Integer, nullable=False, default=1)
+    
+    custodian = db.relationship('Custodian', backref='hsa', uselist=False)
+    
+    __mapper_args__ = {
+        'version_id_col': version_nbr
+    }
+
+
+class Beneficiary(db.Model):
+    """Beneficiary (Individual or Shelter) for last-mile distribution"""
+    __tablename__ = 'beneficiary'
+    
+    beneficiary_id = db.Column(db.Integer, primary_key=True)
+    beneficiary_type = db.Column(db.String(12), nullable=False)
+    beneficiary_name = db.Column(db.String(160), nullable=False)
+    given_name = db.Column(db.String(80))
+    family_name = db.Column(db.String(80))
+    phone_no = db.Column(db.String(20))
+    email_text = db.Column(db.String(100))
+    parish_code = db.Column(db.CHAR(2), db.ForeignKey('parish.parish_code'))
+    community_text = db.Column(db.String(120))
+    address1_text = db.Column(db.String(255))
+    address2_text = db.Column(db.String(255))
+    registered_hsa_id = db.Column(db.Integer, db.ForeignKey('hsa.hsa_id'))
+    shelter_agency_id = db.Column(db.Integer, db.ForeignKey('agency.agency_id'), unique=True)
+    status_code = db.Column(db.CHAR(1), nullable=False, default='A')
+    create_by_id = db.Column(db.String(20), nullable=False, default='SYSTEM')
+    create_dtime = db.Column(db.DateTime, nullable=False, default=jamaica_now)
+    update_by_id = db.Column(db.String(20), nullable=False, default='SYSTEM')
+    update_dtime = db.Column(db.DateTime, nullable=False, default=jamaica_now)
+    version_nbr = db.Column(db.Integer, nullable=False, default=1)
+    
+    parish = db.relationship('Parish', backref='beneficiaries')
+    registered_hsa = db.relationship('HSA', backref='beneficiaries')
+    shelter_agency = db.relationship('Agency', backref='beneficiary', uselist=False)
+    
+    __mapper_args__ = {
+        'version_id_col': version_nbr
+    }
