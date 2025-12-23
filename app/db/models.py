@@ -261,6 +261,41 @@ class Warehouse(db.Model):
                            secondaryjoin='User.user_id==UserWarehouse.user_id',
                            back_populates='warehouses')
 
+
+class Beneficiary(db.Model):
+    """Beneficiary for Last-Mile Distribution (INDIVIDUAL or SHELTER)"""
+    __tablename__ = 'beneficiary'
+    
+    beneficiary_id = db.Column(db.Integer, primary_key=True)
+    beneficiary_type = db.Column(db.String(15), nullable=False)  # INDIVIDUAL or SHELTER
+    beneficiary_name = db.Column(db.String(120), nullable=False)
+    given_name = db.Column(db.String(60))
+    family_name = db.Column(db.String(60))
+    phone_no = db.Column(db.String(20))
+    email_text = db.Column(db.String(100))
+    parish_code = db.Column(db.CHAR(2), db.ForeignKey('parish.parish_code'))
+    community_text = db.Column(db.String(100))
+    address1_text = db.Column(db.String(255))
+    address2_text = db.Column(db.String(255))
+    registered_hsa_id = db.Column(db.Integer, db.ForeignKey('warehouse.warehouse_id'))
+    shelter_agency_id = db.Column(db.Integer, db.ForeignKey('agency.agency_id'))
+    status_code = db.Column(db.CHAR(1), nullable=False, default='A')  # A=Active, I=Inactive
+    notes = db.Column(db.Text)
+    create_by_id = db.Column(db.String(20), nullable=False)
+    create_dtime = db.Column(db.DateTime, nullable=False)
+    update_by_id = db.Column(db.String(20), nullable=False)
+    update_dtime = db.Column(db.DateTime, nullable=False)
+    version_nbr = db.Column(db.Integer, nullable=False, default=1)
+    
+    parish = db.relationship('Parish', backref='beneficiaries')
+    registered_hsa = db.relationship('Warehouse', foreign_keys=[registered_hsa_id], backref='registered_beneficiaries')
+    shelter_agency = db.relationship('Agency', foreign_keys=[shelter_agency_id], backref='shelter_beneficiaries')
+    
+    __mapper_args__ = {
+        'version_id_col': version_nbr
+    }
+
+
 class Agency(db.Model):
     """Agency (Request-only locations)"""
     __tablename__ = 'agency'

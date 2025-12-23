@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/relief-requests-ui.css') }}">
+{% endblock %}
+
+{% block extra_scripts %}
+<script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/phone-mask.js') }}"></script>
+{% endblock %}
+
+{% block title %}Edit Beneficiary{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="mb-3">
+        <a href="{{ url_for('beneficiaries.view', beneficiary_id=beneficiary.beneficiary_id) }}" class="btn-back">
+            <i class="bi bi-arrow-left"></i> Back
+        </a>
+    </div>
+
+    <div class="page-header mb-4">
+        <div class="page-title">
+            <i class="bi bi-pencil page-title-icon"></i>
+            <h1 class="page-title-text">Edit Beneficiary</h1>
+        </div>
+        <p class="page-subtitle text-break">Update information for {{ beneficiary.beneficiary_name }}</p>
+    </div>
+
+    <div class="card">
+        <div class="card-header bg-light">
+            <h5 class="mb-0">Beneficiary Information</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" id="beneficiaryForm">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="version_nbr" value="{{ beneficiary.version_nbr }}">
+                
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="beneficiary_type" class="form-label">Beneficiary Type *</label>
+                        <select class="form-select" id="beneficiary_type" name="beneficiary_type" required>
+                            <option value="">Select type...</option>
+                            {% for type in beneficiary_types %}
+                            <option value="{{ type }}" {% if (form_data and form_data.get('beneficiary_type') == type) or (not form_data and beneficiary.beneficiary_type == type) %}selected{% endif %}>
+                                {{ type }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="beneficiary_name" class="form-label">Beneficiary Name *</label>
+                        <input type="text" class="form-control" id="beneficiary_name" name="beneficiary_name" 
+                               maxlength="120" required
+                               value="{{ form_data.get('beneficiary_name') if form_data else beneficiary.beneficiary_name }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="status_code" class="form-label">Status *</label>
+                        <select class="form-select" id="status_code" name="status_code" required>
+                            {% for code, label in status_codes %}
+                            <option value="{{ code }}" {% if (form_data and form_data.get('status_code') == code) or (not form_data and beneficiary.status_code == code) %}selected{% endif %}>
+                                {{ label }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4" id="individual-name-fields">
+                    <div class="col-md-6">
+                        <label for="given_name" class="form-label">Given Name</label>
+                        <input type="text" class="form-control" id="given_name" name="given_name" 
+                               maxlength="60"
+                               value="{{ form_data.get('given_name') if form_data else (beneficiary.given_name or '') }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="family_name" class="form-label">Family Name</label>
+                        <input type="text" class="form-control" id="family_name" name="family_name" 
+                               maxlength="60"
+                               value="{{ form_data.get('family_name') if form_data else (beneficiary.family_name or '') }}">
+                    </div>
+                </div>
+
+                <h6 class="border-bottom pb-2 mb-3">Location</h6>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="parish_code" class="form-label">Parish *</label>
+                        <select class="form-select" id="parish_code" name="parish_code" required>
+                            <option value="">Select parish...</option>
+                            {% for parish in parishes %}
+                            <option value="{{ parish.parish_code }}" {% if (form_data and form_data.get('parish_code') == parish.parish_code) or (not form_data and beneficiary.parish_code == parish.parish_code) %}selected{% endif %}>
+                                {{ parish.parish_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="community_text" class="form-label">Community</label>
+                        <input type="text" class="form-control" id="community_text" name="community_text" 
+                               maxlength="100"
+                               value="{{ form_data.get('community_text') if form_data else (beneficiary.community_text or '') }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="registered_hsa_id" class="form-label">Registered HSA</label>
+                        <select class="form-select" id="registered_hsa_id" name="registered_hsa_id">
+                            <option value="">None</option>
+                            {% for hsa in hsa_warehouses %}
+                            <option value="{{ hsa.warehouse_id }}" {% if (form_data and form_data.get('registered_hsa_id')|string == hsa.warehouse_id|string) or (not form_data and beneficiary.registered_hsa_id == hsa.warehouse_id) %}selected{% endif %}>
+                                {{ hsa.warehouse_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label for="address1_text" class="form-label">Address Line 1</label>
+                        <input type="text" class="form-control" id="address1_text" name="address1_text" 
+                               maxlength="255"
+                               value="{{ form_data.get('address1_text') if form_data else (beneficiary.address1_text or '') }}">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="address2_text" class="form-label">Address Line 2</label>
+                        <input type="text" class="form-control" id="address2_text" name="address2_text" 
+                               maxlength="255"
+                               value="{{ form_data.get('address2_text') if form_data else (beneficiary.address2_text or '') }}">
+                    </div>
+                </div>
+
+                <h6 class="border-bottom pb-2 mb-3">Contact Information</h6>
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <label for="phone_no" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control phone-number" id="phone_no" name="phone_no" 
+                               maxlength="20"
+                               value="{{ form_data.get('phone_no') if form_data else (beneficiary.phone_no or '') }}">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="email_text" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email_text" name="email_text" 
+                               maxlength="100"
+                               value="{{ form_data.get('email_text') if form_data else (beneficiary.email_text or '') }}">
+                    </div>
+                    <div class="col-md-4" id="shelter-agency-field">
+                        <label for="shelter_agency_id" class="form-label">Shelter Agency</label>
+                        <select class="form-select" id="shelter_agency_id" name="shelter_agency_id">
+                            <option value="">None</option>
+                            {% for agency in agencies %}
+                            <option value="{{ agency.agency_id }}" {% if (form_data and form_data.get('shelter_agency_id')|string == agency.agency_id|string) or (not form_data and beneficiary.shelter_agency_id == agency.agency_id) %}selected{% endif %}>
+                                {{ agency.agency_name }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <label for="notes" class="form-label">Notes</label>
+                        <textarea class="form-control" id="notes" name="notes" rows="3">{{ form_data.get('notes') if form_data else (beneficiary.notes or '') }}</textarea>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end gap-2">
+                    <a href="{{ url_for('beneficiaries.view', beneficiary_id=beneficiary.beneficiary_id) }}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-lg"></i> Save Changes
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script nonce="{{ csp_nonce() }}">
+document.getElementById('beneficiary_type').addEventListener('change', function() {
+    var isIndividual = this.value === 'INDIVIDUAL';
+    document.getElementById('individual-name-fields').style.display = isIndividual ? 'flex' : 'none';
+    document.getElementById('shelter-agency-field').style.display = isIndividual ? 'none' : 'block';
+});
+document.getElementById('beneficiary_type').dispatchEvent(new Event('change'));
+</script>
+{% endblock %}

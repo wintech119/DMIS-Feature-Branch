@@ -344,6 +344,22 @@ class FeatureRegistry:
             'navigation_group': 'master_data',
             'priority': 6
         },
+        
+        # =================================================================
+        # LAST-MILE DISTRIBUTION
+        # =================================================================
+        'lastmile_management': {
+            'name': 'Beneficiaries',
+            'description': 'Manage beneficiaries for last-mile aid distribution',
+            'roles': ['LOGISTICS_MANAGER', 'LOGISTICS_OFFICER'],
+            'route': 'beneficiaries.list_beneficiaries',
+            'url': '/lastmile/beneficiaries',
+            'icon': 'bi-people',
+            'category': 'lastmile',
+            'navigation_group': 'lastmile',
+            'priority': 1
+        },
+        
         'donation_management': {
             'name': 'Donations',
             'description': 'Accept and process donations',

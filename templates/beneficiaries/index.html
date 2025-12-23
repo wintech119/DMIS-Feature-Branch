@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block extra_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/relief-requests-ui.css') }}">
+{% endblock %}
+
+{% block title %}Beneficiaries{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+    <div class="page-header mb-4">
+        <div class="page-title">
+            <i class="bi bi-people page-title-icon"></i>
+            <h1 class="page-title-text">Beneficiaries</h1>
+        </div>
+        <p class="page-subtitle">Manage individuals and shelters for last-mile aid distribution</p>
+    </div>
+
+    <div class="summary-cards mb-4">
+        <div class="row g-3">
+            <div class="col-md-3 col-sm-6">
+                <div class="summary-card">
+                    <div class="summary-card-icon">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div class="summary-card-content">
+                        <div class="summary-card-value">{{ counts.total }}</div>
+                        <div class="summary-card-label">Total Beneficiaries</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="summary-card">
+                    <div class="summary-card-icon text-primary">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="summary-card-content">
+                        <div class="summary-card-value">{{ counts.individual }}</div>
+                        <div class="summary-card-label">Individuals</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="summary-card">
+                    <div class="summary-card-icon text-info">
+                        <i class="bi bi-house-fill"></i>
+                    </div>
+                    <div class="summary-card-content">
+                        <div class="summary-card-value">{{ counts.shelter }}</div>
+                        <div class="summary-card-label">Shelters</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="summary-card">
+                    <div class="summary-card-icon text-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <div class="summary-card-content">
+                        <div class="summary-card-value">{{ counts.active }}</div>
+                        <div class="summary-card-label">Active</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <ul class="nav nav-pills filter-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if filter_type == 'all' %}active{% endif %}" 
+                           href="{{ url_for('beneficiaries.list_beneficiaries', filter='all') }}">
+                            All <span class="badge bg-secondary ms-1">{{ counts.total }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if filter_type == 'individual' %}active{% endif %}" 
+                           href="{{ url_for('beneficiaries.list_beneficiaries', filter='individual') }}">
+                            Individuals <span class="badge bg-primary ms-1">{{ counts.individual }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if filter_type == 'shelter' %}active{% endif %}" 
+                           href="{{ url_for('beneficiaries.list_beneficiaries', filter='shelter') }}">
+                            Shelters <span class="badge bg-info ms-1">{{ counts.shelter }}</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link {% if filter_type == 'active' %}active{% endif %}" 
+                           href="{{ url_for('beneficiaries.list_beneficiaries', filter='active') }}">
+                            Active <span class="badge bg-success ms-1">{{ counts.active }}</span>
+                        </a>
+                    </li>
+                </ul>
+
+                <a href="{{ url_for('beneficiaries.create') }}" class="btn btn-primary">
+                    <i class="bi bi-plus-lg"></i> Add Beneficiary
+                </a>
+            </div>
+
+            <form method="GET" action="{{ url_for('beneficiaries.list_beneficiaries') }}" class="mb-3">
+                <input type="hidden" name="filter" value="{{ filter_type }}">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="search" 
+                           placeholder="Search by name, community..." 
+                           value="{{ search_query }}">
+                    <button class="btn btn-outline-secondary" type="submit">
+                        <i class="bi bi-search"></i> Search
+                    </button>
+                    {% if search_query %}
+                    <a href="{{ url_for('beneficiaries.list_beneficiaries', filter=filter_type) }}" 
+                       class="btn btn-outline-secondary">
+                        <i class="bi bi-x-lg"></i> Clear
+                    </a>
+                    {% endif %}
+                </div>
+            </form>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Parish</th>
+                            <th>Community</th>
+                            <th>HSA</th>
+                            <th>Status</th>
+                            <th class="text-end">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for b in beneficiaries %}
+                        <tr>
+                            <td>
+                                <a href="{{ url_for('beneficiaries.view', beneficiary_id=b.beneficiary_id) }}" 
+                                   class="text-decoration-none fw-medium">
+                                    {{ b.beneficiary_name }}
+                                </a>
+                                {% if b.given_name or b.family_name %}
+                                <br><small class="text-muted">{{ b.given_name or '' }} {{ b.family_name or '' }}</small>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if b.beneficiary_type == 'INDIVIDUAL' %}
+                                <span class="badge bg-primary">Individual</span>
+                                {% else %}
+                                <span class="badge bg-info">Shelter</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ b.parish.parish_name if b.parish else '-' }}</td>
+                            <td>{{ b.community_text or '-' }}</td>
+                            <td>{{ b.registered_hsa.warehouse_name if b.registered_hsa else '-' }}</td>
+                            <td>
+                                {% if b.status_code == 'A' %}
+                                <span class="badge bg-success">Active</span>
+                                {% else %}
+                                <span class="badge bg-secondary">Inactive</span>
+                                {% endif %}
+                            </td>
+                            <td class="text-end">
+                                <a href="{{ url_for('beneficiaries.view', beneficiary_id=b.beneficiary_id) }}" 
+                                   class="btn btn-sm btn-outline-primary" title="View">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ url_for('beneficiaries.edit', beneficiary_id=b.beneficiary_id) }}" 
+                                   class="btn btn-sm btn-outline-secondary" title="Edit">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4 text-muted">
+                                <i class="bi bi-inbox fs-1 d-block mb-2"></i>
+                                No beneficiaries found
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
