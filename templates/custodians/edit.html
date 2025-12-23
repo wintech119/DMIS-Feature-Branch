@@ -5,189 +5,201 @@
 {% endblock %}
 
 {% block extra_scripts %}
-<script  nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/phone-mask.js') }}"></script>
+<script nonce="{{ csp_nonce() }}" src="{{ url_for('static', filename='js/phone-mask.js') }}"></script>
 {% endblock %}
 
 {% block title %}Edit Custodian{% endblock %}
 
 {% block content %}
 <div class="container-fluid py-4">
-    <!-- Back Button -->
-    <div class="mb-3">
-        <a href="{{ url_for('custodians.view', custodian_id=custodian.custodian_id) }}" class="btn-back">
-            <i class="bi bi-arrow-left"></i>
-            Back
+    <!-- Page Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="page-header mb-0">
+            <div class="page-title">
+                <i class="bi bi-pencil-square page-title-icon"></i>
+                <h1 class="page-title-text">Edit Custodian</h1>
+            </div>
+        </div>
+        <a href="{{ url_for('custodians.view', custodian_id=custodian.custodian_id) }}" class="btn-relief-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Details
         </a>
     </div>
 
-    <!-- Page Header -->
-    <div class="page-header mb-4">
-        <div class="page-title">
-            <i class="bi bi-pencil page-title-icon"></i>
-            <h1 class="page-title-text">Edit Custodian</h1>
-        </div>
-        <p class="page-subtitle text-break">Update custodian information for {{ custodian.custodian_name }}</p>
-    </div>
-
     <!-- Form Card -->
-    <div class="card">
-        <div class="card-header bg-light">
-            <h5 class="mb-0">Custodian Information</h5>
-        </div>
-        <div class="card-body">
-            <form method="POST" id="custodianForm">
+    <div class="row">
+        <div class="col-lg-10 col-xl-8">
+            <div class="card">
+                <div class="card-body p-4">
+                    <form method="POST" id="custodianForm" novalidate>
                         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <!-- Hidden field for optimistic locking -->
-                <input type="hidden" name="version_nbr" value="{{ custodian.version_nbr }}">
-                
-                <!-- Row 1: Custodian Name and Type -->
-                <div class="row mb-4">
-                    <div class="col-md-8">
-                        <label for="custodian_name" class="form-label">Custodian Name *</label>
-                        <input type="text" 
-                               class="form-control" 
-                               id="custodian_name" 
-                               name="custodian_name" 
-                               maxlength="120"
-                               value="{{ form_data.get('custodian_name') if form_data else custodian.custodian_name }}"
-                               required 
-                               placeholder="e.g., Office of Disaster Preparedness and Emergency Management">
-                        <small class="text-muted">Will be converted to UPPERCASE. Must be unique.</small>
-                        {% if errors and errors.get('custodian_name') %}
-                        <div class="text-danger small mt-1">{{ errors.get('custodian_name') }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-4">
-                        <label for="custodian_kind" class="form-label">Custodian Type *</label>
-                        <select class="form-select" id="custodian_kind" name="custodian_kind" required>
-                            <option value="ODPEM" {% if (form_data and form_data.get('custodian_kind') == 'ODPEM') or (not form_data and custodian.custodian_kind == 'ODPEM') %}selected{% endif %}>
-                                ODPEM (Primary Custodian)
-                            </option>
-                            <option value="PARTNER" {% if (form_data and form_data.get('custodian_kind') == 'PARTNER') or (not form_data and custodian.custodian_kind == 'PARTNER') %}selected{% endif %}>
-                                PARTNER (External Agency)
-                            </option>
-                        </select>
-                        <small class="text-muted">ODPEM for main agency, PARTNER for external organizations like JDF, MLSS</small>
-                        {% if errors and errors.get('custodian_kind') %}
-                        <div class="text-danger small mt-1">{{ errors.get('custodian_kind') }}</div>
-                        {% endif %}
-                    </div>
-                </div>
+                        <input type="hidden" name="version_nbr" value="{{ custodian.version_nbr }}">
+                        
+                        <!-- Custodian Information Section -->
+                        <div class="mb-4">
+                            <h5 class="border-bottom pb-2 mb-3">
+                                <i class="bi bi-tag"></i> Custodian Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-8">
+                                    <label for="custodian_name" class="form-label">
+                                        Custodian Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="custodian_name" 
+                                           name="custodian_name" 
+                                           maxlength="120"
+                                           value="{{ form_data.get('custodian_name') if form_data else custodian.custodian_name }}"
+                                           required 
+                                           placeholder="e.g., Office of Disaster Preparedness and Emergency Management">
+                                    <small class="form-text text-muted">Max 120 characters, auto-converted to uppercase</small>
+                                    {% if errors and errors.get('custodian_name') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('custodian_name') }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="custodian_kind" class="form-label">
+                                        Custodian Type <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="custodian_kind" name="custodian_kind" required>
+                                        <option value="ODPEM" {% if (form_data and form_data.get('custodian_kind') == 'ODPEM') or (not form_data and custodian.custodian_kind == 'ODPEM') %}selected{% endif %}>
+                                            ODPEM (Primary)
+                                        </option>
+                                        <option value="PARTNER" {% if (form_data and form_data.get('custodian_kind') == 'PARTNER') or (not form_data and custodian.custodian_kind == 'PARTNER') %}selected{% endif %}>
+                                            PARTNER (External)
+                                        </option>
+                                    </select>
+                                    {% if errors and errors.get('custodian_kind') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('custodian_kind') }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Address Section -->
-                <h6 class="border-bottom pb-2 mb-3">Address Information</h6>
-                
-                <!-- Row 2: Address Lines -->
-                <div class="row mb-4">
-                    <div class="col-md-12 mb-3">
-                        <label for="address1_text" class="form-label">Address Line 1 *</label>
-                        <input type="text" 
-                               class="form-control" 
-                               id="address1_text" 
-                               name="address1_text" 
-                               maxlength="255" 
-                               value="{{ form_data.get('address1_text') if form_data else custodian.address1_text }}"
-                               required 
-                               placeholder="Street address, P.O. Box, Building Name">
-                        {% if errors and errors.get('address1_text') %}
-                        <div class="text-danger small mt-1">{{ errors.get('address1_text') }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-12 mb-3">
-                        <label for="address2_text" class="form-label">Address Line 2</label>
-                        <input type="text" 
-                               class="form-control" 
-                               id="address2_text" 
-                               name="address2_text" 
-                               maxlength="255"
-                               value="{{ form_data.get('address2_text') if form_data else (custodian.address2_text or '') }}"
-                               placeholder="Apartment, Suite, Unit, Building, Floor">
-                        {% if errors and errors.get('address2_text') %}
-                        <div class="text-danger small mt-1">{{ errors.get('address2_text') }}</div>
-                        {% endif %}
-                    </div>
-                </div>
+                        <!-- Address Information Section -->
+                        <div class="mb-4">
+                            <h5 class="border-bottom pb-2 mb-3">
+                                <i class="bi bi-geo-alt"></i> Address Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-12">
+                                    <label for="address1_text" class="form-label">
+                                        Address Line 1 <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="address1_text" 
+                                           name="address1_text" 
+                                           maxlength="255" 
+                                           value="{{ form_data.get('address1_text') if form_data else custodian.address1_text }}"
+                                           required 
+                                           placeholder="Street address, P.O. Box, Building Name">
+                                    {% if errors and errors.get('address1_text') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('address1_text') }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-12">
+                                    <label for="address2_text" class="form-label">Address Line 2</label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="address2_text" 
+                                           name="address2_text" 
+                                           maxlength="255"
+                                           value="{{ form_data.get('address2_text') if form_data else (custodian.address2_text or '') }}"
+                                           placeholder="Apartment, Suite, Unit, Building, Floor">
+                                    <small class="form-text text-muted">Optional. Max 255 characters</small>
+                                    {% if errors and errors.get('address2_text') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('address2_text') }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="parish_code" class="form-label">
+                                        Parish <span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-select" id="parish_code" name="parish_code" required>
+                                        <option value="">-- Select Parish --</option>
+                                        {% for parish in parishes %}
+                                        <option value="{{ parish.parish_code }}" 
+                                                {% if (form_data and form_data.get('parish_code') == parish.parish_code) or (not form_data and custodian.parish_code == parish.parish_code) %}selected{% endif %}>
+                                            {{ parish.parish_name }}
+                                        </option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if errors and errors.get('parish_code') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('parish_code') }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Row 3: Parish -->
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <label for="parish_code" class="form-label">Parish *</label>
-                        <select class="form-select" id="parish_code" name="parish_code" required>
-                            <option value="">Select parish...</option>
-                            {% for parish in parishes %}
-                            <option value="{{ parish.parish_code }}" 
-                                    {% if (form_data and form_data.get('parish_code') == parish.parish_code) or (not form_data and custodian.parish_code == parish.parish_code) %}selected{% endif %}>
-                                {{ parish.parish_name }}
-                            </option>
-                            {% endfor %}
-                        </select>
-                        {% if errors and errors.get('parish_code') %}
-                        <div class="text-danger small mt-1">{{ errors.get('parish_code') }}</div>
-                        {% endif %}
-                    </div>
-                </div>
+                        <!-- Contact Information Section -->
+                        <div class="mb-4">
+                            <h5 class="border-bottom pb-2 mb-3">
+                                <i class="bi bi-person-badge"></i> Contact Information
+                            </h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="contact_name" class="form-label">
+                                        Contact Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="contact_name" 
+                                           name="contact_name" 
+                                           maxlength="50"
+                                           value="{{ form_data.get('contact_name') if form_data else custodian.contact_name }}"
+                                           required 
+                                           placeholder="e.g., John Brown">
+                                    <small class="form-text text-muted">Max 50 characters, auto-converted to uppercase</small>
+                                    {% if errors and errors.get('contact_name') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('contact_name') }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="phone_no" class="form-label">
+                                        Phone Number <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="tel" 
+                                           class="form-control phone-mask" 
+                                           id="phone_no" 
+                                           name="phone_no" 
+                                           value="{{ form_data.get('phone_no') if form_data else custodian.phone_no }}"
+                                           required
+                                           placeholder="+1 (876) XXX-XXXX">
+                                    <small class="form-text text-muted">Format: +1 (XXX) XXX-XXXX</small>
+                                    {% if errors and errors.get('phone_no') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('phone_no') }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="email_text" class="form-label">Email Address</label>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email_text" 
+                                           name="email_text" 
+                                           maxlength="100"
+                                           value="{{ form_data.get('email_text') if form_data else (custodian.email_text or '') }}"
+                                           placeholder="email@example.com">
+                                    <small class="form-text text-muted">Optional. Max 100 characters</small>
+                                    {% if errors and errors.get('email_text') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('email_text') }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
 
-                <!-- Contact Information Section -->
-                <h6 class="border-bottom pb-2 mb-3">Contact Information</h6>
-                
-                <!-- Row 4: Contact Details -->
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <label for="contact_name" class="form-label">Contact Name *</label>
-                        <input type="text" 
-                               class="form-control" 
-                               id="contact_name" 
-                               name="contact_name" 
-                               maxlength="50"
-                               value="{{ form_data.get('contact_name') if form_data else custodian.contact_name }}"
-                               required 
-                               placeholder="Primary contact person name">
-                        <small class="text-muted">Will be converted to UPPERCASE</small>
-                        {% if errors and errors.get('contact_name') %}
-                        <div class="text-danger small mt-1">{{ errors.get('contact_name') }}</div>
-                        {% endif %}
-                    </div>
-                    <div class="col-md-6">
-                        <label for="phone_no" class="form-label">Phone Number *</label>
-                        <input type="tel" 
-                               class="form-control phone-mask" 
-                               id="phone_no" 
-                               name="phone_no" 
-                               value="{{ form_data.get('phone_no') if form_data else custodian.phone_no }}"
-                               required>
-                        <small class="text-muted">Format: +1 (XXX) XXX-XXXX</small>
-                        {% if errors and errors.get('phone_no') %}
-                        <div class="text-danger small mt-1">{{ errors.get('phone_no') }}</div>
-                        {% endif %}
-                    </div>
+                        <!-- Form Actions -->
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                            <a href="{{ url_for('custodians.view', custodian_id=custodian.custodian_id) }}" class="btn-relief-secondary">
+                                <i class="bi bi-x-circle"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn-relief-primary">
+                                <i class="bi bi-check-circle"></i> Save Changes
+                            </button>
+                        </div>
+                    </form>
                 </div>
-
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <label for="email_text" class="form-label">Email</label>
-                        <input type="email" 
-                               class="form-control" 
-                               id="email_text" 
-                               name="email_text" 
-                               maxlength="100"
-                               value="{{ form_data.get('email_text') if form_data else (custodian.email_text or '') }}"
-                               placeholder="email@example.com">
-                        {% if errors and errors.get('email_text') %}
-                        <div class="text-danger small mt-1">{{ errors.get('email_text') }}</div>
-                        {% endif %}
-                    </div>
-                </div>
-
-                <!-- Form Actions -->
-                <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                    <a href="{{ url_for('custodians.view', custodian_id=custodian.custodian_id) }}" class="btn-relief-secondary">
-                        <i class="bi bi-x-circle"></i> Cancel
-                    </a>
-                    <button type="submit" class="btn-relief-primary">
-                        <i class="bi bi-check-circle"></i> Update Custodian
-                    </button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
