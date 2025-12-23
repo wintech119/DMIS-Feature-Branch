@@ -58,18 +58,26 @@
                                     {% endif %}
                                 </div>
                                 <div class="col-md-6">
-                                    <label for="warehouse_type" class="form-label">
-                                        Warehouse Type <span class="text-danger">*</span>
+                                    <label for="tier_code" class="form-label">
+                                        Warehouse Tier <span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-select" id="warehouse_type" name="warehouse_type" required>
-                                        {% for type in warehouse_types %}
-                                        <option value="{{ type }}" {% if warehouse.warehouse_type == type %}selected{% endif %}>
-                                            {{ type }}
+                                    <select class="form-select" id="tier_code" name="tier_code" required>
+                                        <option value="">-- Select Tier --</option>
+                                        <option value="MAIN" {% if warehouse.tier_code == 'MAIN' %}selected{% endif %}>
+                                            MAIN (ODPEM Main Hub)
                                         </option>
-                                        {% endfor %}
+                                        <option value="LSA" {% if warehouse.tier_code == 'LSA' %}selected{% endif %}>
+                                            LSA (Local Sub-Agency Hub)
+                                        </option>
+                                        <option value="HSA" {% if warehouse.tier_code == 'HSA' %}selected{% endif %}>
+                                            HSA (Humanitarian Service Agency)
+                                        </option>
                                     </select>
-                                    {% if errors and errors.get('warehouse_type') %}
-                                    <div class="text-danger small mt-1">{{ errors.get('warehouse_type') }}</div>
+                                    <small class="form-text text-muted">
+                                        MAIN: Primary hub for donations | LSA: Sub-hub (no donation intake) | HSA: Partner agency for last-mile
+                                    </small>
+                                    {% if errors and errors.get('tier_code') %}
+                                    <div class="text-danger small mt-1">{{ errors.get('tier_code') }}</div>
                                     {% endif %}
                                 </div>
                             </div>

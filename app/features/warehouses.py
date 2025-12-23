@@ -39,6 +39,7 @@ warehouses_bp = Blueprint('warehouses', __name__, url_prefix='/warehouses')
 
 # Constants for validation
 WAREHOUSE_TYPES = ['MAIN-HUB', 'SUB-HUB']
+TIER_CODES = ['MAIN', 'LSA', 'HSA']
 STATUS_CODES = ['A', 'I']  # Active, Inactive
 
 def validate_email(email):
@@ -90,11 +91,12 @@ def validate_warehouse_data(form_data, is_update=False, warehouse_id=None):
         if query.first():
             errors['warehouse_name'] = 'A warehouse with this name already exists'
     
-    # Warehouse Type validation
-    if not warehouse_type:
-        errors['warehouse_type'] = 'Warehouse type is required'
-    elif warehouse_type not in WAREHOUSE_TYPES:
-        errors['warehouse_type'] = f'Warehouse type must be one of: {", ".join(WAREHOUSE_TYPES)}'
+    # Tier Code validation (replaces warehouse_type for new UI)
+    tier_code = form_data.get('tier_code', '').strip()
+    if not tier_code:
+        errors['tier_code'] = 'Warehouse tier is required'
+    elif tier_code not in TIER_CODES:
+        errors['tier_code'] = f'Warehouse tier must be one of: {", ".join(TIER_CODES)}'
     
     # Address validation
     if not address1_text:
@@ -246,7 +248,25 @@ def create_warehouse():
             # Create warehouse
             warehouse = Warehouse()
             warehouse.warehouse_name = request.form.get('warehouse_name').strip().upper()
-            warehouse.warehouse_type = request.form.get('warehouse_type').strip()
+            
+            # Get tier and auto-set warehouse_type and flags
+            tier_code = request.form.get('tier_code', '').strip()
+            warehouse.tier_code = tier_code
+            
+            # Auto-derive warehouse_type from tier
+            if tier_code == 'MAIN':
+                warehouse.warehouse_type = 'MAIN-HUB'
+                warehouse.allow_donation_intake = True
+                warehouse.allow_lastmile_issue = False
+            elif tier_code == 'LSA':
+                warehouse.warehouse_type = 'SUB-HUB'
+                warehouse.allow_donation_intake = False
+                warehouse.allow_lastmile_issue = False
+            elif tier_code == 'HSA':
+                warehouse.warehouse_type = 'SUB-HUB'
+                warehouse.allow_donation_intake = True
+                warehouse.allow_lastmile_issue = True
+            
             warehouse.address1_text = request.form.get('address1_text').strip()
             warehouse.address2_text = request.form.get('address2_text', '').strip() or None
             warehouse.parish_code = request.form.get('parish_code').strip()
@@ -349,7 +369,25 @@ def edit_warehouse(warehouse_id):
             
             # Update warehouse
             warehouse.warehouse_name = request.form.get('warehouse_name').strip().upper()
-            warehouse.warehouse_type = request.form.get('warehouse_type').strip()
+            
+            # Get tier and auto-set warehouse_type and flags
+            tier_code = request.form.get('tier_code', '').strip()
+            if tier_code:
+                warehouse.tier_code = tier_code
+                # Auto-derive warehouse_type from tier
+                if tier_code == 'MAIN':
+                    warehouse.warehouse_type = 'MAIN-HUB'
+                    warehouse.allow_donation_intake = True
+                    warehouse.allow_lastmile_issue = False
+                elif tier_code == 'LSA':
+                    warehouse.warehouse_type = 'SUB-HUB'
+                    warehouse.allow_donation_intake = False
+                    warehouse.allow_lastmile_issue = False
+                elif tier_code == 'HSA':
+                    warehouse.warehouse_type = 'SUB-HUB'
+                    warehouse.allow_donation_intake = True
+                    warehouse.allow_lastmile_issue = True
+            
             warehouse.address1_text = request.form.get('address1_text').strip()
             warehouse.address2_text = request.form.get('address2_text', '').strip() or None
             warehouse.parish_code = request.form.get('parish_code').strip()
