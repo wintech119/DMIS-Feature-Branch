@@ -64,6 +64,15 @@ The application employs a modular blueprint architecture with a database-first a
   - **Data Integrity**: All operations execute in ONE atomic transaction with optimistic locking (version_nbr checks)
   - **Error Handling**: On any failure (version conflict, insufficient stock, missing records), entire transaction rolls back with user-friendly error message
   - **Isolation**: Does NOT modify Workflow A (LO packaging) or Workflow B (LM review) - only handles final dispatch step
+- **Last-Mile Distribution Foundation (Added 2025-12-22)**: Database foundation for HSA warehouse-to-beneficiary distribution:
+  - **Custodian Classification**: `custodian.org_type` column (LSA/HSA) to distinguish ODPEM custodians from Humanitarian Service Agencies
+  - **HSA Master Table**: `public.hsa` for tracking JDF, MLSS, Parish Councils with category and status
+  - **Warehouse Tiering**: `warehouse.warehouse_tier` (MAIN/LSA/HSA) and `warehouse.allows_donation_intake` (boolean) to enforce intake rules
+  - **Beneficiary Table**: `public.beneficiary` for INDIVIDUAL and SHELTER types, linked to HSA registration
+  - **Last-Mile Tables**: `lastmile_distribution`, `lastmile_distribution_item`, `lastmile_distribution_receipt`, `lastmile_distribution_doc` for HSA→beneficiary distribution workflow
+  - **Intake Restrictions**: MAIN-HUB and HSA warehouses allow donation intake; SUB-HUB (LSA) warehouses do NOT
+  - **Views**: `v_warehouse_intake_eligible`, `v_beneficiary_display`, `v_hsa_warehouses` for UI filtering
+  - **Migration**: `migrations/2025_12_22_lastmile_hsa_beneficiary_full.sql` (idempotent, additive, production-safe)
 
 ## External Dependencies
 

@@ -182,7 +182,10 @@ def create_intake():
         Donation.received_date.desc()
     ).all()
     
-    warehouses = Warehouse.query.filter_by(status_code='A').order_by(
+    warehouses = Warehouse.query.filter_by(
+        status_code='A',
+        allows_donation_intake=True
+    ).order_by(
         Warehouse.warehouse_name
     ).all()
     
@@ -203,6 +206,10 @@ def intake_form(donation_id, inventory_id):
     """
     donation = Donation.query.get_or_404(donation_id)
     warehouse = Warehouse.query.get_or_404(inventory_id)
+    
+    if not warehouse.allows_donation_intake:
+        flash('This warehouse is not eligible for donation intake. Only MAIN-HUB and HSA warehouses accept donations.', 'danger')
+        return redirect(url_for('donation_intake.create_intake'))
     
     if donation.status_code != 'V':
         flash('Only verified donations can be intaken', 'danger')
